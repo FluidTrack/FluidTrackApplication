@@ -1,14 +1,20 @@
 <img src="https://github.com/FluidTrack/FluidTrackApplication/blob/master/ReadmeImg/Title.png?raw=true" width="50%" align="left">
 
+<br><br><br>
+
 # Fluid Track Project
 
 <img src="https://img.shields.io/github/license/FluidTrack/FluidTrackApplication" align="left">
 
+<br>
+
 <img src="https://img.shields.io/badge/Contact-dclab2011@gamil.com-blue?logo=gmail&logoColor=white" align="left">
+
+<br>
 
 <img src="https://img.shields.io/badge/Contact-Yonsei Univ. Dependable Computing Lab.-red?logo=safari&logoColor=white" align="left">
 
-
+<br><br>
 
 ## Development Environment
 
