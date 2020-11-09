@@ -1,4 +1,4 @@
-<img src="https://github.com/FluidTrack/FluidTrackApplication/blob/master/ReadmeImg/Title.png?raw=true" width="80%">
+<img src="https://github.com/FluidTrack/FluidTrackApplication/blob/master/ReadmeImg/Title.png?raw=true" width="50%">
 
 <h1> Fluid Track Project </h1>
 
