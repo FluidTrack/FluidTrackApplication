@@ -12,8 +12,8 @@
 
 | Environment          | Version                                                      |
 | -------------------- | ------------------------------------------------------------ |
-| Unity                | <img src="https://img.shields.io/badge/Version-2019.4.2f@gamil.com-orange" align="left"> |
-| JDK                  | <img src="https://img.shields.io/badge/Version-1.8.0_152@gamil.com-orange" align="left"> |
+| Unity                | <img src="https://img.shields.io/badge/Version-2019.4.2f-orange" align="left"> |
+| JDK                  | <img src="https://img.shields.io/badge/Version-1.8.0_152-orange" align="left"> |
 | Tablet PC Model      | 미정                                                         |
 | Tablet PC Android OS | 미정                                                         |
 
