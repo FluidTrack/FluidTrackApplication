@@ -1,6 +1,6 @@
-<img src="https://github.com/FluidTrack/FluidTrackApplication/blob/master/ReadmeImg/Title.png?raw=true" width="50%">
-
 <h1> Fluid Track Project </h1>
+
+<img src="https://github.com/FluidTrack/FluidTrackApplication/blob/master/ReadmeImg/Title.png?raw=true" width="50%">
 
 <a href="https://github.com/FluidTrack/FluidTrackApplication/blob/master/LICENSE"><img src="https://img.shields.io/github/license/FluidTrack/FluidTrackApplication"></a>
 
