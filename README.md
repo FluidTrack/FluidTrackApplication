@@ -14,7 +14,7 @@
 | -------------------- | ------------------------------------------------------------ |
 | Unity                | <img src="https://img.shields.io/badge/Version-2019.4.2f-orange" align="left"> |
 | JDK                  | <img src="https://img.shields.io/badge/Version-1.8.0_152-orange" align="left"> |
-| Tablet PC Model      | <img src="https://img.shields.io/badge/Model-GalaxyTabA" align="left">                                                         |
+| Tablet PC Model      | <img src="https://img.shields.io/badge/Model-GalaxyTabA-orange" align="left">                                                         |
 | Tablet PC Android OS | <img src="https://img.shields.io/badge/Version-10-orange" align="left">                                                         |
 
 
