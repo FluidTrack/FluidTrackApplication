@@ -3,7 +3,11 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - DataHandler
     - OpeningHandler
+    - TimerHandler
     - TotalManager
+    - WelcomHandler
+    - Welcome2Handler
+    - Welcome3Handler
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Tilemap.Editor.dll:
@@ -33,6 +37,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.InputField
     - UnityEngine.UI.Text
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
@@ -59,25 +64,35 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11180}
+      Script: {instanceID: 11170}
     - Class: 114
-      Script: {instanceID: 11468}
+      Script: {instanceID: 11458}
     - Class: 114
-      Script: {instanceID: 11522}
+      Script: {instanceID: 11512}
     - Class: 114
-      Script: {instanceID: 12182}
+      Script: {instanceID: 12172}
     - Class: 114
-      Script: {instanceID: 12880}
+      Script: {instanceID: 12308}
     - Class: 114
-      Script: {instanceID: 13636}
+      Script: {instanceID: 12872}
     - Class: 114
-      Script: {instanceID: 14246}
+      Script: {instanceID: 13160}
     - Class: 114
-      Script: {instanceID: 14960}
+      Script: {instanceID: 13628}
     - Class: 114
-      Script: {instanceID: 14974}
+      Script: {instanceID: 13802}
     - Class: 114
-      Script: {instanceID: 15290}
+      Script: {instanceID: 14152}
+    - Class: 114
+      Script: {instanceID: 14190}
+    - Class: 114
+      Script: {instanceID: 14244}
+    - Class: 114
+      Script: {instanceID: 15746}
+    - Class: 114
+      Script: {instanceID: 15790}
+    - Class: 114
+      Script: {instanceID: 21706}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -325,6 +340,12 @@ ScriptsOnlyBuild:
     className: Selectable
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DataHandler
+  - hash:
+      serializedVersion: 2
       Hash: b3ab2106268377ffe25dd18ac23dca28
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -469,6 +490,12 @@ ScriptsOnlyBuild:
     className: BeforeAfterTestCommandState
   - hash:
       serializedVersion: 2
+      Hash: 15bc37678cdeffcfcd6adb3053c99406
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TotalManager
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -511,6 +538,12 @@ ScriptsOnlyBuild:
     className: Outline
   - hash:
       serializedVersion: 2
+      Hash: 160c6d71870c1bfa83daed645985dcfc
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: OpeningHandler
+  - hash:
+      serializedVersion: 2
       Hash: a63fc1a3b035e5a0b5839cd7f7b3086e
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -521,6 +554,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SubMesh
+  - hash:
+      serializedVersion: 2
+      Hash: ae45a05f24fd614f67070ef5cf45bc3d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: WelcomHandler
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -577,22 +616,22 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   - hash:
       serializedVersion: 2
-      Hash: 3bbdd68040a6d1944ebcd2ecd171fb22
+      Hash: 307914cc286a79ca1f643e85c94aaa34
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: TotalManager
+    className: Welcome2Handler
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 538dc60592c3f1365ae6b01c74a67b07
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: DataHandler
+    className: TimerHandler
   - hash:
       serializedVersion: 2
-      Hash: 160c6d71870c1bfa83daed645985dcfc
+      Hash: 30e3c992e6472d95c74f9c66e5b40cdc
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: OpeningHandler
+    className: Welcome3Handler
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity

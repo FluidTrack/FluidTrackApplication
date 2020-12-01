@@ -52,15 +52,16 @@ public class OpeningHandler : MonoBehaviour
         bool flag = true;
         yield return 0;
         try {
-            FileStream fs = new FileStream(DataHandler.dataPath + "/userData", FileMode.Open);
+            FileStream fs = new FileStream(DataHandler.dataPath + "/userData.txt", FileMode.Open);
             StreamReader sr = new StreamReader(fs);
             Debug.Log(sr.ReadLine());
         } catch ( System.Exception e ) {
             Debug.Log(e.ToString());
             flag = false;
-            FileStream fs = new FileStream(DataHandler.dataPath + "/userData", FileMode.Create);
-            StreamWriter sw = new StreamWriter(fs);
-            sw.WriteLine("test");
+            //FileStream fs = new FileStream(DataHandler.dataPath + "/userData.txt", FileMode.Create);
+            //StreamWriter sw = new StreamWriter(fs);
+            //sw.Close();
+            //fs.Close();
         }
 
         if (flag) { 
@@ -71,6 +72,8 @@ public class OpeningHandler : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             ProgressLog.text = "초기화 실패";
             ProgressBar.sizeDelta = new Vector2(1800f, 58.3f);
+            TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME].SetActive(true);
+            this.gameObject.SetActive(false);
         }
     }
 }

@@ -6,6 +6,27 @@ public class DataHandler : MonoBehaviour
 {
     internal static string ServerAddress = "http://fluidtrack.site/";
     internal static string dataPath;
+    internal static int User_id;
+    internal static string User_name;
+    internal static string User_moa_band_name;
+    internal static int User_item_0;
+    internal static int User_item_1;
+    internal static int User_item_2;
+    internal static int User_item_3;
+    internal static int User_item_4;
+    internal static string User_morning_call_time;
+    internal static string User_breakfast_time;
+    internal static string User_lunch_time;
+    internal static string User_dinner_time;
+    internal static string User_school_time;
+    internal static string User_home_time;
+    internal static string User_water_skip;
+    internal static string User_drink_skip;
+    internal static string User_pee_skip;
+    internal static string User_poop_skip;
+    internal static string User_font_family;
+    internal static int User_font_size;
+
 
     public void Start() {
         dataPath = Application.dataPath;
