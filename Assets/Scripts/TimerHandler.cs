@@ -13,7 +13,8 @@ public class TimerHandler : MonoBehaviour
     public int Min = 0;
 
     public string getTime() {
-        return (Hour + ":" + Min);
+        return ( ( Hour / 10 ) + "" + ( Hour % 10 ) + ":"
+               + ( Min / 10 ) + "" + ( Min % 10 ) );
     }
 
     public void OnEnable() {

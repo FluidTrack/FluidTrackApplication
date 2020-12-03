@@ -54,7 +54,7 @@ public class OpeningHandler : MonoBehaviour
         try {
             FileStream fs = new FileStream(DataHandler.dataPath + "/userData.txt", FileMode.Open);
             StreamReader sr = new StreamReader(fs);
-            Debug.Log(sr.ReadLine());
+            DataHandler.User_id = int.Parse(sr.ReadLine());
         } catch ( System.Exception e ) {
             Debug.Log(e.ToString());
             flag = false;
@@ -68,6 +68,7 @@ public class OpeningHandler : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             ProgressLog.text = "초기화 완료";
             ProgressBar.sizeDelta = new Vector2(1800f, 58.3f);
+            StartCoroutine(DataHandler.read_users(DataHandler.User_id));
         } else {
             yield return new WaitForSeconds(0.5f);
             ProgressLog.text = "초기화 실패";

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Welcome2Handler : MonoBehaviour
 {
     public Text subtext;
-    public TimerHandler Breakfirst;
+    public TimerHandler Breakfast;
     public TimerHandler Lunch;
     public TimerHandler Dinner;
 
@@ -15,7 +15,7 @@ public class Welcome2Handler : MonoBehaviour
     }
 
     public void NextButton() {
-        DataHandler.User_breakfast_time = Breakfirst.getTime();
+        DataHandler.User_breakfast_time = Breakfast.getTime();
         DataHandler.User_lunch_time = Lunch.getTime();
         DataHandler.User_dinner_time = Dinner.getTime();
 

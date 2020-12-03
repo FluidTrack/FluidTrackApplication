@@ -22,6 +22,7 @@ public class TotalManager : MonoBehaviour
         WELCOME,
         WELCOME2,
         WELCOME3,
+        WELCOME4,
     }
 
     public void Start() {
