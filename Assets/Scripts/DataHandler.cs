@@ -7,6 +7,7 @@ using System.IO;
 public class DataHandler : MonoBehaviour
 {
     internal static string ServerAddress = "http://fluidtrack.site/";
+    internal static bool User_isDataLoaded = false;
     internal static string dataPath;
     internal static int User_id;
     internal static string User_name;
@@ -31,7 +32,7 @@ public class DataHandler : MonoBehaviour
 
 
     public void Start() {
-        dataPath = Application.dataPath;
+        dataPath = Application.persistentDataPath;
     }
 
     [System.Serializable]
@@ -158,9 +159,10 @@ public class DataHandler : MonoBehaviour
                 try {
                     User_id = int.Parse(request.downloadHandler.text);
                     FileStream fs =
-                        new FileStream(DataHandler.dataPath + "/userData.txt", FileMode.Create);
+                        new FileStream(dataPath + "/userData", FileMode.Create);
                     StreamWriter sw = new StreamWriter(fs);
                     sw.WriteLine(request.downloadHandler.text);
+                    User_isDataLoaded = true;
                     sw.Close();
                     fs.Close();
                 } catch (System.Exception e ) {
@@ -205,6 +207,7 @@ public class DataHandler : MonoBehaviour
                 User_poop_skip = data.UserLogs[0].poop_skip;
                 User_font_family = data.UserLogs[0].font_family;
                 User_font_size = data.UserLogs[0].font_size;
+                User_isDataLoaded = true;
             }
         }
     }

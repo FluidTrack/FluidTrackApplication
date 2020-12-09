@@ -63,15 +63,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\CanvasHandler\FlashHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\FooterBarHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\HomeHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\OpeningHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\WelcomHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Welcome2Handler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Welcome3Handler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Welcome4Handler.cs" />
     <Compile Include="Assets\Scripts\DataHandler.cs" />
-    <Compile Include="Assets\Scripts\OpeningHandler.cs" />
+    <Compile Include="Assets\Scripts\KoreanUnderChecker.cs" />
     <Compile Include="Assets\Scripts\TimerHandler.cs" />
     <Compile Include="Assets\Scripts\TimerHandler2.cs" />
     <Compile Include="Assets\Scripts\TotalManager.cs" />
-    <Compile Include="Assets\Scripts\WelcomHandler.cs" />
-    <Compile Include="Assets\Scripts\Welcome2Handler.cs" />
-    <Compile Include="Assets\Scripts\Welcome3Handler.cs" />
-    <Compile Include="Assets\Scripts\Welcome4Handler.cs" />
     <Compile Include="Assets\Shatalmic\Example\ArduinoHM10Test\ArduinoHM10Test.cs" />
     <Compile Include="Assets\Shatalmic\Example\MultipleLevels\DeviceObject.cs" />
     <Compile Include="Assets\Shatalmic\Example\MultipleLevels\FoundDeviceListScript.cs" />
