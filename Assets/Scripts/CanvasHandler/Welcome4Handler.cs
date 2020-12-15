@@ -23,7 +23,8 @@ public class Welcome4Handler : MonoBehaviour
             case 3: DataHandler.User_font_family = "D2코딩"; break;
         }
         DataHandler.User_font_size =  40;
-        StartCoroutine(DataHandler.Create_users());
+        DataHandler.User_creation_date = TimeHandler.GetCurrentTime();
+        StartCoroutine(DataHandler.CreateUsers());
         StartCoroutine(FinalCheck());
     }
 

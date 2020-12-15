@@ -64,7 +64,7 @@ public class OpeningHandler : MonoBehaviour
         if (flag) { 
             ProgressLog.text = "초기화 완료";
             ProgressBar.sizeDelta = new Vector2(1800f, 58.3f);
-            StartCoroutine(DataHandler.read_users(DataHandler.User_id));
+            StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
 
             while(true) {
                 yield return 0;
@@ -79,6 +79,7 @@ public class OpeningHandler : MonoBehaviour
             this.gameObject.SetActive(false);
 
         } else {
+            Debug.Log("초기화 실패");
             ProgressLog.text = "초기화 실패";
             ProgressBar.sizeDelta = new Vector2(1800f, 58.3f);
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME].SetActive(true);

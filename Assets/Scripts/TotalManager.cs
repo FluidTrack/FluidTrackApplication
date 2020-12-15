@@ -44,7 +44,7 @@ public class TotalManager : MonoBehaviour
                 DataHandler.User_id = 1;
             }
 
-            StartCoroutine(DataHandler.read_users(DataHandler.User_id));
+            StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
         }
     }
 

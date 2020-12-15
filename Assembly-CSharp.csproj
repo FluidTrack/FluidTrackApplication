@@ -66,13 +66,19 @@
     <Compile Include="Assets\Scripts\CanvasHandler\FlashHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\FooterBarHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\HomeHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\LogCanvasHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\LogSpriteHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\OpeningHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\ScrollViewHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\ScrollViewHandler2.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\SlotHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\WelcomHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome2Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome3Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome4Handler.cs" />
     <Compile Include="Assets\Scripts\DataHandler.cs" />
     <Compile Include="Assets\Scripts\KoreanUnderChecker.cs" />
+    <Compile Include="Assets\Scripts\TimeHandler.cs" />
     <Compile Include="Assets\Scripts\TimerHandler.cs" />
     <Compile Include="Assets\Scripts\TimerHandler2.cs" />
     <Compile Include="Assets\Scripts\TotalManager.cs" />
@@ -87,7 +93,6 @@
     <Compile Include="Assets\Shatalmic\Example\StartingExample\StartingExample.cs" />
     <Compile Include="Assets\Shatalmic\Example\iBeaconExample\iBeaconExampleScript.cs" />
     <Compile Include="Assets\Shatalmic\Example\iBeaconExample\iBeaconItemScript.cs" />
-    <None Include="Assets\userData.txt" />
     <None Include="Assets\Shatalmic\README.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
