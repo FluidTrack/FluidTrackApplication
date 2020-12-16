@@ -17,8 +17,10 @@ public class ScrollViewHandler : MonoBehaviour, IBeginDragHandler, IDragHandler 
     public float MaxMovement = 0f;
     public GameObject WaterLog;
     public GameObject PeeLog;
+    public GameObject DrinkLog;
     public Text WaterCount;
     public Text PeeCount;
+    public Text DrinkCount;
 
     public void OnEnable() {
         TimeHandler.GetCurrentTime();
@@ -106,17 +108,28 @@ public class ScrollViewHandler : MonoBehaviour, IBeginDragHandler, IDragHandler 
         DataHandler.WaterLog[] waterList = DataHandler.Water_logs.WaterLogs;
         DataHandler.PeeLog[] peeList = DataHandler.Pee_logs.PeeLogs;
         List<LogSpriteHandler.LogScript> logList = new List<LogSpriteHandler.LogScript>();
-        
+
+        int waterCountInt = 0,drinkCountInt = 0;
         for (int i = 0; i < waterList.Length; i++) {
             if (TimeHandler.DateTimeStamp.
                 CmpDateTimeStamp(waterList[i].timestamp,
                 stamp.ToString()) == 0)
-                logList.Add(new LogSpriteHandler.LogScript(waterList[i].timestamp,
-                                                 waterList[i].log_id,
-                                                 waterList[i].type,
-                                                 LogSpriteHandler.LOG.WATER));
+                if(waterList[i].type == 0) {
+                    logList.Add(new LogSpriteHandler.LogScript(waterList[i].timestamp,
+                                                     waterList[i].log_id,
+                                                     waterList[i].type,
+                                                     LogSpriteHandler.LOG.WATER));
+                    waterCountInt++;
+                } else {
+                    logList.Add(new LogSpriteHandler.LogScript(waterList[i].timestamp,
+                                                     waterList[i].log_id,
+                                                     waterList[i].type,
+                                                     LogSpriteHandler.LOG.DRINK));
+                    drinkCountInt++;
+                }
         }
-        WaterCount.text = logList.Count.ToString();
+        WaterCount.text = waterCountInt.ToString();
+        DrinkCount.text = drinkCountInt.ToString();
         int peeCountInt = 0;
         for (int i = 0; i < peeList.Length; i++) {
             if (TimeHandler.DateTimeStamp.
@@ -136,15 +149,17 @@ public class ScrollViewHandler : MonoBehaviour, IBeginDragHandler, IDragHandler 
             if (hour > 1 && hour < 5) continue;
             GameObject target = null;
             switch (logList[i].LogType) {
-                case LogSpriteHandler.LOG.WATER: 
+                case LogSpriteHandler.LOG.WATER:
                     target = AddElement(WaterLog, hour - 5);
-                    target.GetComponent<LogSpriteHandler>().
-                        SetData(logList[i]);
+                    target.GetComponent<LogSpriteHandler>().SetData(logList[i]);
+                break;
+                case LogSpriteHandler.LOG.DRINK:
+                    target = AddElement(DrinkLog, hour - 5);
+                    target.GetComponent<LogSpriteHandler>().SetData(logList[i]);
                 break;
                 case LogSpriteHandler.LOG.PEE:
                     target = AddElement(PeeLog, hour - 5);
-                    target.GetComponent<LogSpriteHandler>().
-                        SetData(logList[i]);
+                    target.GetComponent<LogSpriteHandler>().SetData(logList[i]);
                 break;
             }
         }

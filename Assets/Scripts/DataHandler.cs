@@ -16,16 +16,19 @@ public class DataHandler : MonoBehaviour
 
     internal static bool User_isGardenDataCreated = false;
     internal static bool User_isWaterDataCreated = false;
+    internal static bool User_isDrinkDataCreated = false;
     internal static bool User_isPooDataCreated = false;
     internal static bool User_isPeeDataCreated = false;
 
     internal static bool User_isDataUpdated = false;
     internal static bool User_isGardenDataUpdated = false;
     internal static bool User_isWaterDataUpdated = false;
+    internal static bool User_isDrinkDataUpdated = false;
     internal static bool User_isPooDataUpdated = false;
     internal static bool User_isPeeDataUpdated = false;
 
     internal static bool User_isWaterDataDeleted = false;
+    internal static bool User_isDrinkDataDeleted = false;
     internal static bool User_isPooDataDeleted = false;
     internal static bool User_isPeeDataDeleted = false;
 
@@ -345,7 +348,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_garden_logs";
         url += "?id=" + log.id;
-        url += "&timestamp" + log.timestamp;
+        url += "&timestamp=" + log.timestamp;
         url += "&flower=" + log.flower;
         url += "&item_0=" + log.item_0;
         url += "&item_1=" + log.item_1;
@@ -403,7 +406,7 @@ public class DataHandler : MonoBehaviour
         string url = "update_garden_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
-        url += "&timestamp" + log.timestamp;
+        url += "&timestamp=" + log.timestamp;
         url += "&flower=" + log.flower;
         url += "&item_0=" + log.item_0;
         url += "&item_1=" + log.item_1;
@@ -445,7 +448,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_water_logs";
         url += "?id=" + log.id;
-        url += "&timestamp" + log.timestamp;
+        url += "&timestamp=" + log.timestamp;
         url += "&type=" + log.type;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
@@ -498,7 +501,7 @@ public class DataHandler : MonoBehaviour
         string url = "update_water_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
-        url += "&timestamp" + log.timestamp;
+        url += "&timestamp=" + log.timestamp;
         url += "&type=" + log.type;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
@@ -555,7 +558,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_poop_logs";
         url += "?id=" + log.id;
-        url += "&timestamp" + log.timestamp;
+        url += "&timestamp=" + log.timestamp;
         url += "&type=" + log.type;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
@@ -608,7 +611,7 @@ public class DataHandler : MonoBehaviour
         string url = "update_poop_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
-        url += "&timestamp" + log.timestamp;
+        url += "&timestamp=" + log.timestamp;
         url += "&type=" + log.type;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
@@ -664,7 +667,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_pee_logs";
         url += "?id=" + log.id;
-        url += "&timestamp" + log.timestamp;
+        url += "&timestamp=" + log.timestamp;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
@@ -716,7 +719,7 @@ public class DataHandler : MonoBehaviour
         string url = "update_pee_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
-        url += "&timestamp" + log.timestamp;
+        url += "&timestamp=" + log.timestamp;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
@@ -747,7 +750,7 @@ public class DataHandler : MonoBehaviour
             }
         }
     }
-
+        
 
     static public void QuitApplication() {
         Debug.Log("Quit");

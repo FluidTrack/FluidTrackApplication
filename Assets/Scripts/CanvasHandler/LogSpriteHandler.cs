@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 
 public class LogSpriteHandler : MonoBehaviour, IPointerClickHandler
 {
-    public enum LOG { WATER, POO, PEE, };
+    public enum LOG { WATER, POO, PEE, DRINK};
+    private LogCanvasHandler handler;
 
     public class LogScript {
         public LOG LogType = LOG.WATER;
@@ -45,7 +46,13 @@ public class LogSpriteHandler : MonoBehaviour, IPointerClickHandler
     
     public int Index = 0;
     public LogScript log;
-    
+
+
+    private void OnEnable() {
+        handler =
+            TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].
+            GetComponent<LogCanvasHandler>();
+    }
 
     public void SetData(LogScript target) {
         this.log = new LogScript(target.TimeStamp, target.Log_id,
@@ -53,9 +60,15 @@ public class LogSpriteHandler : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData) {
-        Debug.Log(log.Log_id);
-        Debug.Log(log.TimeStamp);
-        Debug.Log(log.LogType);
-        Debug.Log(log.Type);
+
+        if(!handler.WaterButtonClicked &&
+           !handler.DrinkButtonClicked &&
+           !handler.PooButtonClicked &&
+           !handler.PeeButtonClicked) {
+            Debug.Log(log.Log_id);
+            Debug.Log(log.TimeStamp);
+            Debug.Log(log.LogType);
+            Debug.Log(log.Type);
+        }
     }
 }
