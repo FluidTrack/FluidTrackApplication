@@ -22,9 +22,9 @@ public class TotalManager : MonoBehaviour
 
     public enum CANVAS {
         NAVI_BAR,
-        WELCOME, WELCOME2, WELCOME3, WELCOME4,
+        WELCOME, WELCOME2, WELCOME3, WELCOME4, WELCOME5,
         HOME, FOOTER_BAR,
-        LOG,FLOWER,TABLE,CALENDAR,
+        LOG,FLOWER,TABLE,CALENDAR,BLIND_CON,
     }
 
 
@@ -86,5 +86,17 @@ public class TotalManager : MonoBehaviour
             if (i != (int)can)
                 OtherCanvas[i].SetActive(false);
         }
+    }
+
+    public void BlindControl(bool value) {
+        OtherCanvas[(int)CANVAS.BLIND_CON].SetActive(value);
+    }
+
+    public void Connect() {
+
+    }
+
+    public void Disconnect() {
+
     }
 }

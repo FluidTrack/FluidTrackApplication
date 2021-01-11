@@ -49,7 +49,6 @@ public class HomeHandler : MonoBehaviour
                         //Draw i-th garden spot
                         GrassSpots[i].sprite = Grass;
                         GardenSpots[i].sprite = Flowers[logs[j].flower];
-                        Debug.Log("flower : " + logs[j].flower);
                         next = j + 1;
                         flag = true;
                     }
@@ -58,25 +57,21 @@ public class HomeHandler : MonoBehaviour
                     // Draw i-th garden is empty
                     GrassSpots[i].sprite = empty;
                     GardenSpots[i].sprite = Flowers[0];
-                    Debug.Log("empty " + target);
                 }
             } else {
                 if(next >= logs.Length) {
                     // Draww i-th garden is empty
                     GrassSpots[i].sprite = empty;
                     GardenSpots[i].sprite = Flowers[0];
-                    Debug.Log("empty " + target);
                 }else if (target == logs[next].timestamp.Split(' ')[0]) {
                     //Draw i-th garden spot
                     GrassSpots[i].sprite = Grass;
                     GardenSpots[i].sprite = Flowers[logs[next].flower];
-                    Debug.Log("flower : " + logs[next].flower);
                     next += 1;
                 } else {
                     // Draww i-th garden is empty
                     GrassSpots[i].sprite = empty;
                     GardenSpots[i].sprite = Flowers[0];
-                    Debug.Log("empty " + target);
                 }
             }
         }
@@ -159,6 +154,7 @@ public class HomeHandler : MonoBehaviour
         if (DataHandler.User_isDataLoaded) {
             StartCoroutine(GetGardenLogList());
         }
+        StartCoroutine(FetchData());
     }
 
     IEnumerator GetGardenLogList() {
@@ -198,7 +194,8 @@ public class HomeHandler : MonoBehaviour
         while (true) {
             yield return 0;
             if (DataHandler.User_isWaterDataLoaded &&
-               DataHandler.User_isPeeDataLoaded) {
+               DataHandler.User_isPeeDataLoaded &&
+               DataHandler.User_isPooDataLoaded) {
                 DataHandler.User_isPeeDataLoaded = false;
                 DataHandler.User_isWaterDataLoaded = false;
                 DataHandler.User_isPooDataLoaded = false;
@@ -244,5 +241,6 @@ public class HomeHandler : MonoBehaviour
                 pooCountInt++;
         }
         PooLogText.text = pooCountInt.ToString();
+        Debug.Log("Done");
     }
 }

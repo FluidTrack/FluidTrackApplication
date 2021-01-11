@@ -755,7 +755,7 @@ public class DataHandler : MonoBehaviour
     static public void QuitApplication() {
         Debug.Log("Quit");
         #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
         #else
              Application.Quit();
         #endif

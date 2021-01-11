@@ -64,12 +64,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BluetoothManager.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\AlertHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\DeviceListHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\FlashHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\FooterBarHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\HomeHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\LogCanvasHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\LogSpriteHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\OpeningHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\ScanPanelHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\ScrollViewHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\ScrollViewHandler2.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\SlotHandler.cs" />
@@ -77,8 +81,11 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome2Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome3Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome4Handler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Welcome5Handler.cs" />
     <Compile Include="Assets\Scripts\DataHandler.cs" />
     <Compile Include="Assets\Scripts\KoreanUnderChecker.cs" />
+    <Compile Include="Assets\Scripts\PopUpHandler\PopUpHandler.cs" />
+    <Compile Include="Assets\Scripts\ProtocolHandler.cs" />
     <Compile Include="Assets\Scripts\TimeHandler.cs" />
     <Compile Include="Assets\Scripts\TimerHandler.cs" />
     <Compile Include="Assets\Scripts\TimerHandler2.cs" />

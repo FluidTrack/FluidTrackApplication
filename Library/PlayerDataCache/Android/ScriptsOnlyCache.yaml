@@ -104,41 +104,41 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12554}
     - Class: 114
-      Script: {instanceID: 12692}
+      Script: {instanceID: 12632}
     - Class: 114
-      Script: {instanceID: 12908}
+      Script: {instanceID: 12694}
     - Class: 114
-      Script: {instanceID: 13016}
+      Script: {instanceID: 12910}
     - Class: 114
-      Script: {instanceID: 13202}
+      Script: {instanceID: 13018}
     - Class: 114
-      Script: {instanceID: 13568}
+      Script: {instanceID: 13204}
     - Class: 114
-      Script: {instanceID: 13682}
+      Script: {instanceID: 13570}
     - Class: 114
-      Script: {instanceID: 13858}
+      Script: {instanceID: 13684}
     - Class: 114
-      Script: {instanceID: 13866}
+      Script: {instanceID: 13860}
     - Class: 114
-      Script: {instanceID: 14212}
+      Script: {instanceID: 13868}
     - Class: 114
-      Script: {instanceID: 14252}
+      Script: {instanceID: 14214}
     - Class: 114
-      Script: {instanceID: 14256}
+      Script: {instanceID: 14254}
     - Class: 114
-      Script: {instanceID: 14278}
+      Script: {instanceID: 14258}
     - Class: 114
-      Script: {instanceID: 14310}
+      Script: {instanceID: 14280}
     - Class: 114
       Script: {instanceID: 14312}
     - Class: 114
-      Script: {instanceID: 14332}
+      Script: {instanceID: 14314}
     - Class: 114
       Script: {instanceID: 14334}
     - Class: 114
-      Script: {instanceID: 14358}
+      Script: {instanceID: 14336}
     - Class: 114
-      Script: {instanceID: 74596}
+      Script: {instanceID: 14360}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -374,7 +374,7 @@ ScriptsOnlyBuild:
     className: PixelPerfectCamera
   - hash:
       serializedVersion: 2
-      Hash: d10395ad31524f46c8102a2fae7b02e5
+      Hash: 5f3256acb9bc384ad7b4215e137ce356
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogCanvasHandler
@@ -468,6 +468,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 16210933b55d2b147a1f8cf28d8da20b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SlotHandler
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -764,7 +770,7 @@ ScriptsOnlyBuild:
     className: StandaloneInputModule
   - hash:
       serializedVersion: 2
-      Hash: c732c8074d6354295df0d7824481a2e6
+      Hash: 0725786e1c619b4558ae3c0ab76f542b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ScrollViewHandler
@@ -776,7 +782,7 @@ ScriptsOnlyBuild:
     className: Toggle
   - hash:
       serializedVersion: 2
-      Hash: d0196439cdeb940226974f20b717cff2
+      Hash: 54bf039006772df37b22aa7dcaaba25d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: HomeHandler
@@ -810,12 +816,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: aecd8413eb72057703084a2faed3199f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: SlotHandler
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
