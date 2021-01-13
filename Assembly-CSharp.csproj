@@ -83,6 +83,10 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome4Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome5Handler.cs" />
     <Compile Include="Assets\Scripts\DataHandler.cs" />
+    <Compile Include="Assets\Scripts\HSY_Script\CalendarWaterLogHandler.cs" />
+    <Compile Include="Assets\Scripts\HSY_Script\TestButtonHandler_HSY.cs" />
+    <Compile Include="Assets\Scripts\KDH_Script\PeeScriptHandler.cs" />
+    <Compile Include="Assets\Scripts\KDH_Script\TestButtonHandler_KDH.cs" />
     <Compile Include="Assets\Scripts\KoreanUnderChecker.cs" />
     <Compile Include="Assets\Scripts\PopUpHandler\PopUpHandler.cs" />
     <Compile Include="Assets\Scripts\ProtocolHandler.cs" />
