@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TimeHandler : MonoBehaviour
-{
+public class TimeHandler : MonoBehaviour {
     public class DateTimeStamp {
-        static public int[] NormalYearDaysList = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-        static public int[] LeafYearDaysList   = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+        static public int[] NormalYearDaysList = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        static public int[] LeafYearDaysList = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         static public string[] DateList = { "월요일","화요일","수요일","목요일",
                                             "금요일","토요일","일요일"};
         public static bool isLeafYear(int year) {
@@ -27,8 +26,8 @@ public class TimeHandler : MonoBehaviour
         public int Minutes;
         public int Seconds;
         public int Date;
-        
-        public DateTimeStamp(int yyyy, int mm, int dd, 
+
+        public DateTimeStamp(int yyyy, int mm, int dd,
                         int hh, int MM, int ss) {
             this.Years = yyyy; this.Months = mm; this.Days = dd;
             this.Hours = hh; this.Minutes = MM; this.Seconds = ss;
@@ -46,13 +45,13 @@ public class TimeHandler : MonoBehaviour
             this.Days = datetime.Day; this.Hours = datetime.Hour;
             this.Minutes = datetime.Minute; this.Seconds = datetime.Second;
             switch (datetime.DayOfWeek) {
-                case DayOfWeek.Monday:    this.Date = 0; break;
-                case DayOfWeek.Tuesday:   this.Date = 1; break;
+                case DayOfWeek.Monday: this.Date = 0; break;
+                case DayOfWeek.Tuesday: this.Date = 1; break;
                 case DayOfWeek.Wednesday: this.Date = 2; break;
-                case DayOfWeek.Thursday:  this.Date = 3; break;
-                case DayOfWeek.Friday:    this.Date = 4; break;
-                case DayOfWeek.Saturday:  this.Date = 5; break;
-                case DayOfWeek.Sunday:    this.Date = 6; break;
+                case DayOfWeek.Thursday: this.Date = 3; break;
+                case DayOfWeek.Friday: this.Date = 4; break;
+                case DayOfWeek.Saturday: this.Date = 5; break;
+                case DayOfWeek.Sunday: this.Date = 6; break;
             }
         }
 
@@ -61,10 +60,10 @@ public class TimeHandler : MonoBehaviour
                 string[] str = datetimeString.Split(' ');
                 string[] date_string = str[0].Split('-');
                 string[] time_string = str[1].Split(':');
-                this.Years   = int.Parse(date_string[0]);
-                this.Months  = int.Parse(date_string[1]);
-                this.Days    = int.Parse(date_string[2]);
-                this.Hours   = int.Parse(time_string[0]);
+                this.Years = int.Parse(date_string[0]);
+                this.Months = int.Parse(date_string[1]);
+                this.Days = int.Parse(date_string[2]);
+                this.Hours = int.Parse(time_string[0]);
                 this.Minutes = int.Parse(time_string[1]);
                 this.Seconds = int.Parse(time_string[2]);
             } catch (System.Exception e) {
@@ -88,14 +87,14 @@ public class TimeHandler : MonoBehaviour
         }
 
         public static int CmpDateTimeStamp(DateTimeStamp a, DateTimeStamp b) {
-            if (a.Years > b.Years)              return  1;
-            else if ( a.Years < b.Years )       return -1;
+            if (a.Years > b.Years) return 1;
+            else if (a.Years < b.Years) return -1;
             else {
-                if (a.Months > b.Months)        return 1;
-                else if ( a.Months < b.Months ) return -1;
+                if (a.Months > b.Months) return 1;
+                else if (a.Months < b.Months) return -1;
                 else {
-                    if (a.Days > b.Days)        return 1;
-                    else if ( a.Days < b.Days ) return -1;
+                    if (a.Days > b.Days) return 1;
+                    else if (a.Days < b.Days) return -1;
                     else return 0;
                 }
             }
@@ -129,14 +128,14 @@ public class TimeHandler : MonoBehaviour
             result.Date += dateOffset;
             result.Date = ( result.Date >= 7 ) ? result.Date % 7 : result.Date;
 
-            for(int i = 0; i < offset; i ++) {
+            for (int i = 0; i < offset; i++) {
                 int[] daysList = ( isLeafYear(result.Years) ) ?
                                     LeafYearDaysList : NormalYearDaysList;
                 result.Days++;
-                if ( result.Days> daysList[result.Months -1]) {
+                if (result.Days > daysList[result.Months - 1]) {
                     result.Months++;
                     result.Days = 1;
-                    if(result.Months > 12) {
+                    if (result.Months > 12) {
                         result.Months = 1;
                         result.Years++;
                     }
@@ -163,7 +162,7 @@ public class TimeHandler : MonoBehaviour
                         daysList = ( isLeafYear(result.Years) ) ?
                                     LeafYearDaysList : NormalYearDaysList;
                     }
-                    result.Days = daysList[result.Months-1];
+                    result.Days = daysList[result.Months - 1];
                 }
             }
             return result;
@@ -173,7 +172,7 @@ public class TimeHandler : MonoBehaviour
     public static DateTimeStamp CreateNewStamp(string str) {
         return new DateTimeStamp(str);
     }
-    
+
     public static DateTimeStamp CurrentTime;
     public static DateTimeStamp CreationTime;
     public static DateTimeStamp HomeCanvasTime;

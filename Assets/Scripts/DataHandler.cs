@@ -760,4 +760,59 @@ public class DataHandler : MonoBehaviour
              Application.Quit();
         #endif
     }
+
+
+    static public PeeLog[] GetTempPeeData() {
+        PeeLog[] returnArray = new PeeLog[100];
+
+        for (int i = 0; i < 100; i ++) {
+            returnArray[i].id = 0;
+            returnArray[i].log_id = i;
+        }
+
+        for (int i = 0; i < 10; i++)
+            returnArray[i].timestamp = "2021-01-01 12:0:0";
+        for (int i = 10; i < 12; i++)
+            returnArray[i].timestamp = "2021-01-02 12:0:0";
+        for (int i = 12; i < 30; i++)
+            returnArray[i].timestamp = "2021-01-03 12:0:0";
+        for (int i = 30; i < 60; i++)
+            returnArray[i].timestamp = "2021-01-04 12:0:0";
+        for (int i = 60; i < 80; i++)
+            returnArray[i].timestamp = "2021-01-05 12:0:0";
+        for (int i = 80; i < 85; i++)
+            returnArray[i].timestamp = "2021-01-06 12:0:0";
+        for (int i = 85; i < 100; i++)
+            returnArray[i].timestamp = "2021-01-07 12:0:0";
+
+        return returnArray;
+    }
+
+
+    static public WaterLog[] GetTempWaterData() {
+        WaterLog[] returnArray = new WaterLog[40];
+
+        for (int i = 0; i < 40; i++) {
+            returnArray[i].id = 0;
+            returnArray[i].log_id = i;
+            returnArray[i].type = 0;
+        }
+
+        for (int i = 0; i < 2; i++)
+            returnArray[i].timestamp = "2021-01-01 12:0:0";
+        for (int i = 2; i < 5; i++)
+            returnArray[i].timestamp = "2021-01-02 12:0:0";
+        for (int i = 5; i < 10; i++)
+            returnArray[i].timestamp = "2021-01-03 12:0:0";
+        for (int i = 10; i < 20; i++)
+            returnArray[i].timestamp = "2021-01-04 12:0:0";
+        for (int i = 20; i < 30; i++)
+            returnArray[i].timestamp = "2021-01-05 12:0:0";
+        for (int i = 30; i < 32; i++)
+            returnArray[i].timestamp = "2021-01-06 12:0:0";
+        for (int i = 32; i < 40; i++)
+            returnArray[i].timestamp = "2021-01-07 12:0:0";
+
+        return returnArray;
+    }
 }
