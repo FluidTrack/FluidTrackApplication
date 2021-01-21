@@ -766,6 +766,7 @@ public class DataHandler : MonoBehaviour
         PeeLog[] returnArray = new PeeLog[100];
 
         for (int i = 0; i < 100; i ++) {
+            returnArray[i] = new PeeLog();
             returnArray[i].id = 0;
             returnArray[i].log_id = i;
         }
@@ -793,6 +794,7 @@ public class DataHandler : MonoBehaviour
         WaterLog[] returnArray = new WaterLog[40];
 
         for (int i = 0; i < 40; i++) {
+            returnArray[i] = new WaterLog();
             returnArray[i].id = 0;
             returnArray[i].log_id = i;
             returnArray[i].type = 0;
