@@ -772,19 +772,19 @@ public class DataHandler : MonoBehaviour
         }
 
         for (int i = 0; i < 10; i++)
-            returnArray[i].timestamp = "2021-01-01 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-01");
         for (int i = 10; i < 12; i++)
-            returnArray[i].timestamp = "2021-01-02 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-02");
         for (int i = 12; i < 30; i++)
-            returnArray[i].timestamp = "2021-01-03 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-03");
         for (int i = 30; i < 60; i++)
-            returnArray[i].timestamp = "2021-01-04 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-04");
         for (int i = 60; i < 80; i++)
-            returnArray[i].timestamp = "2021-01-05 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-05");
         for (int i = 80; i < 85; i++)
-            returnArray[i].timestamp = "2021-01-06 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-06");
         for (int i = 85; i < 100; i++)
-            returnArray[i].timestamp = "2021-01-07 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-07");
 
         return returnArray;
     }
@@ -801,20 +801,29 @@ public class DataHandler : MonoBehaviour
         }
 
         for (int i = 0; i < 2; i++)
-            returnArray[i].timestamp = "2021-01-01 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-01");
         for (int i = 2; i < 5; i++)
-            returnArray[i].timestamp = "2021-01-02 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-02");
         for (int i = 5; i < 10; i++)
-            returnArray[i].timestamp = "2021-01-03 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-03");
         for (int i = 10; i < 20; i++)
-            returnArray[i].timestamp = "2021-01-04 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-04");
         for (int i = 20; i < 30; i++)
-            returnArray[i].timestamp = "2021-01-05 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-05");
         for (int i = 30; i < 32; i++)
-            returnArray[i].timestamp = "2021-01-06 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-06");
         for (int i = 32; i < 40; i++)
-            returnArray[i].timestamp = "2021-01-07 12:0:0";
+            returnArray[i].timestamp = RandomTimeStamp("2021-01-07");
 
         return returnArray;
+    }
+
+    static public string RandomTimeStamp(string str) {
+        string output = str;
+        str += " " + Random.Range(0, 24);
+        str += ":" + Random.Range(0, 60);
+        str += ":" + Random.Range(0, 60);
+
+        return output;
     }
 }

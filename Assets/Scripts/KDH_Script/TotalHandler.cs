@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TotalHandler : MonoBehaviour
 {
-  DataHandler.PeeLog[] logs = DataHandler.GetTempPeeData();
+  DataHandler.PeeLog[] logs;
 
   public Image[] BeginImages = new Image[7];
   public Text[] BeginTexts = new Text[7];
@@ -60,18 +60,10 @@ public class TotalHandler : MonoBehaviour
 
   }*/
 
-
-
-
-
-
-
-
-
-
     // Start is called before the first frame update
     void Start()
     {
+      logs = DataHandler.GetTempPeeData();
       ChangeText_TH();
       ChangeGauge_TH();
     }
