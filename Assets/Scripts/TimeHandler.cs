@@ -122,6 +122,12 @@ public class TimeHandler : MonoBehaviour {
             return CmpDateTimeStamp(_a, _b);
         }
 
+        public static int CmpDateTimeStampDetail(string a, string b) {
+            DateTimeStamp _a = new DateTimeStamp(a);
+            DateTimeStamp _b = new DateTimeStamp(b);
+            return CmpDateTimeStampDetail(_a, _b);
+        }
+
         public static DateTimeStamp operator +(DateTimeStamp stamp, int offset) {
             DateTimeStamp result = new DateTimeStamp(stamp);
             int dateOffset = offset % 7;

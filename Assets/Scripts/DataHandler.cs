@@ -826,4 +826,19 @@ public class DataHandler : MonoBehaviour
 
         return output;
     }
+
+    static public PeeLog[] GetTempRandomPeeData() {
+        PeeLog[] returnArray = new PeeLog[100];
+
+        for (int i = 0; i < 100; i++) {
+            returnArray[i] = new PeeLog();
+            returnArray[i].id = 0;
+            returnArray[i].log_id = i;
+        }
+
+        for (int i = 0; i < 100; i++)
+            returnArray[i].timestamp = RandomTimeStamp("2020-01-0" + Random.Range(1, 8));
+
+        return returnArray;
+    }
 }
