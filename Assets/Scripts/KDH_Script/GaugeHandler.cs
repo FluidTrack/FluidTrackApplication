@@ -6,33 +6,37 @@ using UnityEngine.UI;
 public class GaugeHandler : MonoBehaviour
 {
     public InputField inputField;
-    public Image beforeImage;
-    public Sprite sprite1;
-    public Sprite sprite2;
-    public Sprite sprite3;
-    public Sprite sprite4;
-    public Sprite sprite5;
+    public Image BeforeImage;
+    public Sprite Sprite1;
+    public Sprite Sprite2;
+    public Sprite Sprite3;
+    public Sprite Sprite4;
+    public Sprite Sprite5;
+    public int Boundary1;
+    public int Boundary2;
+    public int Boundary3;
+    public int Boundary4;
 
     public void ChangeGauge() {
-      if (int.Parse(inputField.text) <= 0)
+      if (int.Parse(inputField.text) <= Boundary1)
       {
-        beforeImage.sprite = sprite1;
+        BeforeImage.sprite = Sprite1;
       }
-      else if (int.Parse(inputField.text) <= 2)
+      else if (int.Parse(inputField.text) <= Boundary2)
       {
-        beforeImage.sprite = sprite2;
+        BeforeImage.sprite = Sprite2;
       }
-      else if (int.Parse(inputField.text) <= 10)
+      else if (int.Parse(inputField.text) <= Boundary3)
       {
-        beforeImage.sprite = sprite3;
+        BeforeImage.sprite = Sprite3;
       }
-      else if (int.Parse(inputField.text) <= 30)
+      else if (int.Parse(inputField.text) <= Boundary4)
       {
-        beforeImage.sprite = sprite4;
+        BeforeImage.sprite = Sprite4;
       }
       else
       {
-        beforeImage.sprite = sprite5;
+        BeforeImage.sprite = Sprite5;
       }
     }
 
