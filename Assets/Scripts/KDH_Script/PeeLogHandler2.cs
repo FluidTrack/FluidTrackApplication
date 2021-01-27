@@ -77,29 +77,39 @@ public class PeeLogHandler2 : MonoBehaviour
     //}
 
     //추가미션 _ Sorting By timestamp
-    void Start() {
-        logs2 = DataHandler.GetTempRandomPeeData();
-        logs = logs2;
+    //void Start() {
+    //    logs2 = DataHandler.GetTempRandomPeeData();
+    //    logs = logs2;
 
-        Debug.Log(logs[0].timestamp);
-        Debug.Log(logs[1].timestamp);
-        Debug.Log(logs[2].timestamp);
-        Debug.Log(logs[3].timestamp);
+    //    Array.Sort(logs, delegate (DataHandler.PeeLog x, DataHandler.PeeLog y) {
+    //        return TimeHandler.DateTimeStamp.CmpDateTimeStampDetail(x.timestamp, y.timestamp);
+    //    });
 
-        Array.Sort(logs, delegate (DataHandler.PeeLog x, DataHandler.PeeLog y) {
-            return TimeHandler.DateTimeStamp.CmpDateTimeStampDetail(x.timestamp, y.timestamp);
-        });
+    //    ChangeText_TH();
+    //    ChangeGauge_TH();
+    //}
 
-        Debug.Log("gg");
-        Debug.Log(logs[0].timestamp);
-        Debug.Log(logs[1].timestamp);
-        Debug.Log(logs[2].timestamp);
-        Debug.Log(logs[3].timestamp);
 
-        ChangeText_TH();
-        ChangeGauge_TH();
+    private void Start() {
+        //Debug.Log(DataHandler.User_creation_date);
+        StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
+        StartCoroutine(CheckLoad());
+
+        StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
+        StartCoroutine(CheckLoad2());
     }
 
+    IEnumerator CheckLoad() {
+        while (!DataHandler.User_isDataLoaded)
+            yield return 0;
+        DataHandler.User_isDataLoaded = false;
+        Debug.Log(DataHandler.User_creation_date);
+    }
 
-
+    IEnumerator CheckLoad2() {
+        while (!DataHandler.User_isPeeDataLoaded)
+            yield return 0;
+        DataHandler.User_isPeeDataLoaded = false;
+        Debug.Log(DataHandler.Pee_logs.PeeLogs.Length);
+    }
 }

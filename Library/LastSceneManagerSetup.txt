@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/TestScene_KDH.unity
+- path: Assets/Scenes/CalendarScene.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

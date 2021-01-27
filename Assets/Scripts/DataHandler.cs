@@ -755,7 +755,7 @@ public class DataHandler : MonoBehaviour
     static public void QuitApplication() {
         Debug.Log("Quit");
         #if UNITY_EDITOR
-            //UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
         #else
              Application.Quit();
         #endif
@@ -837,7 +837,7 @@ public class DataHandler : MonoBehaviour
         }
 
         for (int i = 0; i < 100; i++) {
-            string test = RandomTimeStamp("2020-01-0" + Random.Range(1, 8));
+            string test = RandomTimeStamp("2021-01-0" + Random.Range(1, 8));
             returnArray[i].timestamp = test;
         }
         

@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4706352127801253131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4706352127801253174}
+  - component: {fileID: 4706352127801253129}
+  - component: {fileID: 4706352127801253128}
+  - component: {fileID: 4706352127801253173}
+  - component: {fileID: 4706352127801253172}
+  - component: {fileID: 4706352127801253170}
+  m_Layer: 0
+  m_Name: Total Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4706352127801253174
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706352127801253131}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 674.2184, y: 297.16568, z: -37.298416}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4706352127801253129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706352127801253131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6aa698564e34c94e80d1989638ccab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4706352127801253128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706352127801253131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8119383d478e0274395cc06ce2cb1ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OpeningCanvas: {fileID: 0}
+  OtherCanvas:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  fonts:
+  - {fileID: 12800000, guid: c627c43f7c76a8b41ba3ec646e485e4f, type: 3}
+  - {fileID: 12800000, guid: 477c047eddff2f444a961c9bf84a3f53, type: 3}
+  - {fileID: 12800000, guid: d37f3b1257d29994786bde3f0ec15211, type: 3}
+  - {fileID: 12800000, guid: 3b25bfad9eb2b63469e977d0c06746f7, type: 3}
+  SkipOpening: 1
+  FlashEffect: {fileID: 1144130668433697756, guid: 9956d44bcac90044593df5f97e8161a3,
+    type: 3}
+--- !u!114 &4706352127801253173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706352127801253131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5de6b3dddacf247af254be68f81e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeviceName: TouchW32_9E
+  MacAddress: 
+  ServiceUUID: 6e400001-b5a3-f393-e0a9-e50e24dcca9e
+  SendUUID: 6e400002-b5a3-f393-e0a9-e50e24dcca9e
+  ReceiveUUID: 6e400003-b5a3-f393-e0a9-e50e24dcca9e
+  Protocol: {fileID: 4706352127801253172}
+  DebugText: {fileID: 0}
+--- !u!114 &4706352127801253172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706352127801253131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02b2d474e5282946898c6333f56e504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BT: {fileID: 4706352127801253173}
+  Main: {fileID: 4706352127801253128}
+  DebugText: {fileID: 0}
+--- !u!114 &4706352127801253170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706352127801253131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227b9c40e04fd7c4eb422707dd87f57f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Popup:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  LOW_BAT: {fileID: 0}
+  CHARGE_BAT: {fileID: 0}
+  BAT_INFO: {fileID: 0}
+  CON: {fileID: 0}
+  ALERT: {fileID: 0}
+  ERROR: {fileID: 0}
+  DISCON: {fileID: 0}
+  MSG: {fileID: 0}
+  isPopped: 0
