@@ -70,24 +70,35 @@ public class PeeLogHandler2 : MonoBehaviour
     }
   }
     // 미션 2 _ 향상된 CountPeeByTime
-    void Start()
-    {
-      logs = DataHandler.GetTempPeeData();
-      ChangeText_TH();
-      ChangeGauge_TH();
-    }
+    //void Start() {
+    //    logs = DataHandler.GetTempPeeData();
+    //    ChangeText_TH();
+    //    ChangeGauge_TH();
+    //}
 
-    // 추가미션 _ Sorting By timestamp
-    // void Start()
-    // {
-    //   logs2 = DataHandler.GetTempRandomPeeData();
-    //   logs = logs2;
-    //   Array.Sort(logs, delegate (DataHandler.PeeLog x, DataHandler.PeeLog y) {
-    //     return TimeHandler.DateTimeStamp.CmpDateTimeStampDetail(x.timestamp, y.timestamp);
-    //     });
-    //   ChangeText_TH();
-    //   ChangeGauge_TH();
-    // }
+    //추가미션 _ Sorting By timestamp
+    void Start() {
+        logs2 = DataHandler.GetTempRandomPeeData();
+        logs = logs2;
+
+        Debug.Log(logs[0].timestamp);
+        Debug.Log(logs[1].timestamp);
+        Debug.Log(logs[2].timestamp);
+        Debug.Log(logs[3].timestamp);
+
+        Array.Sort(logs, delegate (DataHandler.PeeLog x, DataHandler.PeeLog y) {
+            return TimeHandler.DateTimeStamp.CmpDateTimeStampDetail(x.timestamp, y.timestamp);
+        });
+
+        Debug.Log("gg");
+        Debug.Log(logs[0].timestamp);
+        Debug.Log(logs[1].timestamp);
+        Debug.Log(logs[2].timestamp);
+        Debug.Log(logs[3].timestamp);
+
+        ChangeText_TH();
+        ChangeGauge_TH();
+    }
 
 
 

@@ -820,9 +820,9 @@ public class DataHandler : MonoBehaviour
 
     static public string RandomTimeStamp(string str) {
         string output = str;
-        str += " " + Random.Range(0, 24);
-        str += ":" + Random.Range(0, 60);
-        str += ":" + Random.Range(0, 60);
+        output += " " + Random.Range(0, 24);
+        output += ":" + Random.Range(0, 60);
+        output += ":" + Random.Range(0, 60);
 
         return output;
     }
@@ -836,9 +836,11 @@ public class DataHandler : MonoBehaviour
             returnArray[i].log_id = i;
         }
 
-        for (int i = 0; i < 100; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2020-01-0" + Random.Range(1, 8));
-
+        for (int i = 0; i < 100; i++) {
+            string test = RandomTimeStamp("2020-01-0" + Random.Range(1, 8));
+            returnArray[i].timestamp = test;
+        }
+        
         return returnArray;
     }
 }
