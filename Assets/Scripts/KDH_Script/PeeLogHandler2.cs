@@ -97,6 +97,11 @@ public class PeeLogHandler2 : MonoBehaviour
 
         StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
         StartCoroutine(CheckLoad2());
+
+        StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
+        StartCoroutine(CheckLoad3());
+
+
     }
 
     IEnumerator CheckLoad() {
@@ -111,5 +116,13 @@ public class PeeLogHandler2 : MonoBehaviour
             yield return 0;
         DataHandler.User_isPeeDataLoaded = false;
         Debug.Log(DataHandler.Pee_logs.PeeLogs.Length);
+    }
+
+    IEnumerator CheckLoad3() {
+      while (!DataHandler.User_isWaterDataLoaded) {
+        yield return 0;
+      }
+      DataHandler.User_isWaterDataLoaded = false;
+      Debug.Log(DataHandler.Water_logs.WaterLogs.Length);
     }
 }
