@@ -13,14 +13,14 @@ public class OpeningHandler : MonoBehaviour
 
     void Start() {
         ProgressLog.text = "어플리케이션 초기화 중";
-        ProgressBar.sizeDelta = new Vector2(80f,58.3f);
+        ProgressBar.sizeDelta = new Vector2(230f * 0.2f,24f);
         StartCoroutine(CheckNetwork());
     }
 
     IEnumerator CheckNetwork() {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         ProgressLog.text = "네트워크 연결 확인 중";
-        ProgressBar.sizeDelta = new Vector2(500f, 58.3f);
+        ProgressBar.sizeDelta = new Vector2(230f * 0.4f, 24f);
         UnityWebRequest request = new UnityWebRequest();
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + "read_users")) {
@@ -33,7 +33,7 @@ public class OpeningHandler : MonoBehaviour
                 Debug.Log(request.downloadHandler.text);
                 yield return new WaitForSeconds(0.9f);
                 ProgressLog.text = "이전 데이터 확인 중";
-                ProgressBar.sizeDelta = new Vector2(1200f, 58.3f);
+                ProgressBar.sizeDelta = new Vector2(230f * 0.7f, 24f);
                 StartCoroutine(CheckUser());
             }
         }
@@ -63,7 +63,7 @@ public class OpeningHandler : MonoBehaviour
 
         if (flag) { 
             ProgressLog.text = "초기화 완료";
-            ProgressBar.sizeDelta = new Vector2(1800f, 58.3f);
+            ProgressBar.sizeDelta = new Vector2(230f, 24f);
             StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
 
             while(true) {
@@ -81,7 +81,7 @@ public class OpeningHandler : MonoBehaviour
         } else {
             Debug.Log("초기화 실패");
             ProgressLog.text = "초기화 실패";
-            ProgressBar.sizeDelta = new Vector2(1800f, 58.3f);
+            ProgressBar.sizeDelta = new Vector2(230f, 24f);
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME].SetActive(true);
             this.gameObject.SetActive(false);
         }
