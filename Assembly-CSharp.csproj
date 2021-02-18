@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\KoreanUnderChecker.cs" />
     <Compile Include="Assets\Scripts\PopUpHandler\PopUpHandler.cs" />
     <Compile Include="Assets\Scripts\ProtocolHandler.cs" />
+    <Compile Include="Assets\Scripts\SoundHandler.cs" />
     <Compile Include="Assets\Scripts\TimeHandler.cs" />
     <Compile Include="Assets\Scripts\TimerHandler.cs" />
     <Compile Include="Assets\Scripts\TimerHandler2.cs" />

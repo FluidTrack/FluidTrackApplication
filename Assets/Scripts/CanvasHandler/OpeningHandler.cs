@@ -18,7 +18,9 @@ public class OpeningHandler : MonoBehaviour
     }
 
     IEnumerator CheckNetwork() {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
+        SoundHandler.Instance.Play_Music(0);
+        yield return new WaitForSeconds(1.7f);
         ProgressLog.text = "네트워크 연결 확인 중";
         ProgressBar.sizeDelta = new Vector2(230f * 0.4f, 24f);
         UnityWebRequest request = new UnityWebRequest();

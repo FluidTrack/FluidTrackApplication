@@ -9,7 +9,7 @@ public class FooterBarHandler : MonoBehaviour
     public Color Active;
     public Color Inactive;
     public enum FOOTER_BTN {
-        HOME, LOG, FLOWER, TABLE, CALENDAR,
+        HOME, LOG, TABLE, CALENDAR,
     };
 
     public void Update() {
@@ -19,10 +19,6 @@ public class FooterBarHandler : MonoBehaviour
 
         Buttons[(int)FOOTER_BTN.LOG].color =
             ( TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].activeSelf ) ?
-            Active : Inactive;
-
-        Buttons[(int)FOOTER_BTN.FLOWER].color =
-            ( TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf ) ?
             Active : Inactive;
 
         Buttons[(int)FOOTER_BTN.TABLE].color =
@@ -38,7 +34,6 @@ public class FooterBarHandler : MonoBehaviour
         GameObject[] pages = {
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME],
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG],
-            TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER],
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE],
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR]
         };
