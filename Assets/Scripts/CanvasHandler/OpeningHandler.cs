@@ -73,7 +73,7 @@ public class OpeningHandler : MonoBehaviour
                 if(DataHandler.User_isDataLoaded) {
                     TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FOOTER_BAR].SetActive(true);
                     TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].SetActive(true);
-                    TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.NAVI_BAR].SetActive(true);
+                    //TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.NAVI_BAR].SetActive(true);
                     Instantiate(TotalManager.instance.FlashEffect);
                     break;
                 }
