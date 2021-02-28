@@ -5371,7 +5371,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 832844980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998251030}
+        m_MethodName: OnWeekChangeButton_UpClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &832844980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6722,7 +6733,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1000419473}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998251030}
+        m_MethodName: OnWeekChangeButton_DownClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1000419473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13924,8 +13946,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyUserId: 0
   MyCreationDate: 
+  MyRealCreationDate: 
   MyPeeLogs: []
   MyWaterLogs: []
+  MyPoopLogs: []
   MyDates:
   - 
   - 
@@ -14013,6 +14037,35 @@ MonoBehaviour:
   - {fileID: 1094000835}
   - {fileID: 516582479}
   - {fileID: 2033715817}
+  PoopGauges:
+  - {fileID: 1720371586}
+  - {fileID: 704176764}
+  - {fileID: 1782436343}
+  - {fileID: 840027502}
+  - {fileID: 976964571}
+  - {fileID: 1068178208}
+  - {fileID: 1584080115}
+  - {fileID: 568040242}
+  - {fileID: 2037632133}
+  - {fileID: 1383942029}
+  - {fileID: 161933777}
+  - {fileID: 1850634113}
+  - {fileID: 1546625532}
+  - {fileID: 768542056}
+  - {fileID: 1968181181}
+  - {fileID: 1367980813}
+  - {fileID: 914783648}
+  - {fileID: 1833762412}
+  - {fileID: 1034959852}
+  - {fileID: 1504934072}
+  - {fileID: 1024270118}
+  - {fileID: 222842437}
+  - {fileID: 521661417}
+  - {fileID: 1206853917}
+  - {fileID: 1126534138}
+  - {fileID: 1791763614}
+  - {fileID: 696072160}
+  - {fileID: 487741331}
   PeeGaugeTexts:
   - {fileID: 1248728564}
   - {fileID: 757310782}
@@ -14043,13 +14096,13 @@ MonoBehaviour:
   - {fileID: 1552746081}
   - {fileID: 2122630614}
   WaterGaugeTexts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1460546253}
+  - {fileID: 1300891958}
+  - {fileID: 1913896213}
+  - {fileID: 1215610640}
+  - {fileID: 996862612}
+  - {fileID: 29380485}
+  - {fileID: 1969467519}
   - {fileID: 1404789599}
   - {fileID: 2066710972}
   - {fileID: 486194609}
@@ -14072,20 +14125,54 @@ MonoBehaviour:
   - {fileID: 516245416}
   - {fileID: 1318708132}
   AfterPeeGauges:
-  - {fileID: 21300000, guid: f04fa0a6299e9eb4cafcf1e2e1a6dcd4, type: 3}
-  - {fileID: 21300000, guid: 4e936b104787e0b408aad178ad544a35, type: 3}
-  - {fileID: 21300000, guid: 46bf8e390dcb33740a6538351da82841, type: 3}
-  - {fileID: 21300000, guid: c1d3413dc5e6c754ba92b5d6881d0b16, type: 3}
-  - {fileID: 21300000, guid: c20a558a2a7dca74b9f43b795be0cab3, type: 3}
+  - {fileID: 21300000, guid: efe0ae1e292f6d649a63f1961a1bf12e, type: 3}
+  - {fileID: 21300000, guid: 68e366a08663f9a4f993857969960519, type: 3}
+  - {fileID: 21300000, guid: 0181029ac4b682f4b86f6d27fe551b7d, type: 3}
+  - {fileID: 21300000, guid: 5af38aa416cf9c940b48b29b0ed8ff2a, type: 3}
+  - {fileID: 21300000, guid: ded3bab1b7be0614a9d04d3c1e84caba, type: 3}
   AfterWaterGauges:
-  - {fileID: 21300000, guid: 9f901008d6661554b8bafc7e357cceb3, type: 3}
-  - {fileID: 21300000, guid: 38c60190008ea7748ba8178af92f91f3, type: 3}
-  - {fileID: 21300000, guid: b7be2124952b0ca43a39c36a34addbd4, type: 3}
-  - {fileID: 21300000, guid: 1755649c1fa81cb459612fed3292ba19, type: 3}
-  - {fileID: 21300000, guid: ec08b5d2cabc3604b93b65bd00ac4a72, type: 3}
-  - {fileID: 21300000, guid: 474d0b364e397ee428321ba15d27db83, type: 3}
-  PeeBoundary: 00000000020000000a0000001e000000
-  WaterBoundary: 000000000100000002000000030000000400000005000000
+  - {fileID: 21300000, guid: a7d3c3eb18678ef4c920f5cc74125e18, type: 3}
+  - {fileID: 21300000, guid: 92183940df6e7dd4eb6327d237d1c8da, type: 3}
+  - {fileID: 21300000, guid: 534e5b9e9cb60b64fa4cfa168c8ae376, type: 3}
+  - {fileID: 21300000, guid: 79487d96ff371f545a0fbcf32e5aed14, type: 3}
+  - {fileID: 21300000, guid: a78a291dff607d944bb70c18d79fb26f, type: 3}
+  - {fileID: 21300000, guid: 709bfc939ee28ee47abc251e0415b394, type: 3}
+  AfterPoopGauges:
+  - {fileID: 21300000, guid: 5fa47551dafb9684fa6f495af5d37435, type: 3}
+  - {fileID: 21300000, guid: 48758ac40ffcccc48b26ffa0de78eb83, type: 3}
+  PeeBoundary: 00000000030000000700000014000000
+  WaterBoundary: 0000000002000000050000000700000009000000
+  LeftLabelDates:
+  - {fileID: 1645041986}
+  - {fileID: 276827227}
+  - {fileID: 256009917}
+  - {fileID: 660833746}
+  - {fileID: 430557023}
+  - {fileID: 1459269462}
+  - {fileID: 1270485229}
+  RightLabelDates:
+  - {fileID: 1090407537}
+  - {fileID: 93032288}
+  - {fileID: 1603303598}
+  - {fileID: 96059672}
+  - {fileID: 507046466}
+  - {fileID: 517664297}
+  - {fileID: 1591204372}
+  WeekTexts:
+  - {fileID: 1730060694}
+  - {fileID: 2061299071}
+  - {fileID: 919068341}
+  - {fileID: 187601214}
+  WeekTextsList:
+  - "1\uC8FC"
+  - "2\uC8FC"
+  - "3\uC8FC"
+  - "4\uC8FC"
+  - "5\uC8FC"
+  - "6\uC8FC"
+  - "7\uC8FC"
+  - "8\uC8FC"
+  WeekMode: 0
 --- !u!1 &2003588730
 GameObject:
   m_ObjectHideFlags: 0
