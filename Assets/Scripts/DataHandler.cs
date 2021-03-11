@@ -54,6 +54,8 @@ public class DataHandler : MonoBehaviour
     internal static string User_font_family;
     internal static int User_font_size;
     internal static string User_creation_date;
+    internal static string User_birthday;
+    internal static string User_gender;
     internal static GardenLogsJson Garden_logs;
     internal static WaterLogsJson  Water_logs;
     internal static PoopLogsJson   Poop_logs;
@@ -86,6 +88,8 @@ public class DataHandler : MonoBehaviour
         public string font_family;
         public int font_size;
         public string creation_date;
+        public string birthday;
+        public string gender;
     }
 
     [System.Serializable]
@@ -213,6 +217,8 @@ public class DataHandler : MonoBehaviour
         url += "&font_family=" + User_font_family;
         url += "&font_size=" + User_font_size;
         url += "&creation_date=" + User_creation_date;
+        url += "&birthday=" + User_birthday;
+        url += "&gender=" + User_gender;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
@@ -276,6 +282,8 @@ public class DataHandler : MonoBehaviour
                 User_font_family = data.UserLogs[0].font_family;
                 User_font_size = data.UserLogs[0].font_size;
                 User_creation_date = data.UserLogs[0].creation_date;
+                User_birthday = data.UserLogs[0].birthday;
+                User_gender = data.UserLogs[0].gender;
                 TimeHandler.CreationTime = new TimeHandler.DateTimeStamp(User_creation_date);
                 User_isDataLoaded = true;
             }
@@ -306,6 +314,8 @@ public class DataHandler : MonoBehaviour
         url += "&font_family=" + User_font_family;
         url += "&font_size=" + User_font_size;
         url += "&creation_date=" + User_creation_date;
+        url += "&birthday=" + User_birthday;
+        url += "&gender=" + User_gender;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();

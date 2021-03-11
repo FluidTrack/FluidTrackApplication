@@ -1,17 +1,27 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - AlertHandler
+    - BluetoothManager
     - DataHandler
+    - DeviceListHandler
     - FlashHandler
     - FooterBarHandler
+    - FoundDeviceListScript
     - HomeHandler
+    - Level1Script
+    - Level2Script
     - LogCanvasHandler
     - LogSpriteHandler
+    - MissionCanvasHandler
     - OpeningHandler
+    - PopUpHandler
+    - ProtocolHandler
+    - ScanPanelHandler
     - ScrollViewHandler
     - ScrollViewHandler2
     - SlotHandler
-    - TimeHandler
+    - SoundHandler
     - TimerHandler
     - TimerHandler2
     - TotalManager
@@ -19,6 +29,7 @@ ScriptsOnlyBuild:
     - Welcome2Handler
     - Welcome3Handler
     - Welcome4Handler
+    - Welcome5Handler
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Tilemap.Editor.dll:
@@ -29,12 +40,6 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.TileDragAndDropManager
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
-    UnityEditor.Graphs.dll:
-    - UnityEditor.Graphs.AnimationBlendTree.Graph
-    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.Graph
-    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -42,6 +47,7 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.EventSystems.TouchInputModule
     - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.Dropdown
@@ -54,7 +60,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Text
     - UnityEngine.UI.Toggle
   sceneClasses:
-    Assets/Scenes/SampleScene.unity:
+    Assets/Scenes/MainScene.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -71,6 +77,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 91
       Script: {instanceID: 0}
     - Class: 95
@@ -80,66 +90,192 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11158}
     - Class: 114
-      Script: {instanceID: 11180}
+      Script: {instanceID: 11160}
     - Class: 114
-      Script: {instanceID: 11318}
+      Script: {instanceID: 11162}
     - Class: 114
-      Script: {instanceID: 11482}
+      Script: {instanceID: 11164}
     - Class: 114
-      Script: {instanceID: 11484}
+      Script: {instanceID: 11330}
     - Class: 114
-      Script: {instanceID: 11534}
+      Script: {instanceID: 11428}
     - Class: 114
-      Script: {instanceID: 11776}
+      Script: {instanceID: 11594}
     - Class: 114
-      Script: {instanceID: 11952}
+      Script: {instanceID: 11596}
     - Class: 114
-      Script: {instanceID: 12030}
+      Script: {instanceID: 11644}
     - Class: 114
-      Script: {instanceID: 12202}
+      Script: {instanceID: 12054}
     - Class: 114
-      Script: {instanceID: 12338}
+      Script: {instanceID: 12068}
     - Class: 114
-      Script: {instanceID: 12406}
+      Script: {instanceID: 12146}
     - Class: 114
-      Script: {instanceID: 12554}
+      Script: {instanceID: 12284}
     - Class: 114
-      Script: {instanceID: 12632}
+      Script: {instanceID: 12300}
     - Class: 114
-      Script: {instanceID: 12694}
+      Script: {instanceID: 12322}
     - Class: 114
-      Script: {instanceID: 12910}
+      Script: {instanceID: 12460}
     - Class: 114
-      Script: {instanceID: 13018}
+      Script: {instanceID: 12528}
     - Class: 114
-      Script: {instanceID: 13204}
+      Script: {instanceID: 12544}
     - Class: 114
-      Script: {instanceID: 13570}
+      Script: {instanceID: 12678}
     - Class: 114
-      Script: {instanceID: 13684}
+      Script: {instanceID: 12758}
     - Class: 114
-      Script: {instanceID: 13860}
+      Script: {instanceID: 12784}
     - Class: 114
-      Script: {instanceID: 13868}
+      Script: {instanceID: 12822}
     - Class: 114
-      Script: {instanceID: 14214}
+      Script: {instanceID: 13146}
     - Class: 114
-      Script: {instanceID: 14254}
+      Script: {instanceID: 13332}
     - Class: 114
-      Script: {instanceID: 14258}
+      Script: {instanceID: 13696}
     - Class: 114
-      Script: {instanceID: 14280}
+      Script: {instanceID: 13780}
     - Class: 114
-      Script: {instanceID: 14312}
+      Script: {instanceID: 13812}
     - Class: 114
-      Script: {instanceID: 14314}
+      Script: {instanceID: 13988}
     - Class: 114
-      Script: {instanceID: 14334}
+      Script: {instanceID: 13996}
     - Class: 114
-      Script: {instanceID: 14336}
+      Script: {instanceID: 14278}
     - Class: 114
-      Script: {instanceID: 14360}
+      Script: {instanceID: 14346}
+    - Class: 114
+      Script: {instanceID: 14386}
+    - Class: 114
+      Script: {instanceID: 14390}
+    - Class: 114
+      Script: {instanceID: 14412}
+    - Class: 114
+      Script: {instanceID: 14444}
+    - Class: 114
+      Script: {instanceID: 14446}
+    - Class: 114
+      Script: {instanceID: 14466}
+    - Class: 114
+      Script: {instanceID: 14468}
+    - Class: 114
+      Script: {instanceID: 14492}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Shatalmic/Example/MultipleLevels/Level1.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 11158}
+    - Class: 114
+      Script: {instanceID: 11160}
+    - Class: 114
+      Script: {instanceID: 11162}
+    - Class: 114
+      Script: {instanceID: 11164}
+    - Class: 114
+      Script: {instanceID: 11634}
+    - Class: 114
+      Script: {instanceID: 12322}
+    - Class: 114
+      Script: {instanceID: 13158}
+    - Class: 114
+      Script: {instanceID: 13770}
+    - Class: 114
+      Script: {instanceID: 13812}
+    - Class: 114
+      Script: {instanceID: 14444}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 124
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Shatalmic/Example/MultipleLevels/Level2.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 11158}
+    - Class: 114
+      Script: {instanceID: 11160}
+    - Class: 114
+      Script: {instanceID: 11162}
+    - Class: 114
+      Script: {instanceID: 11164}
+    - Class: 114
+      Script: {instanceID: 11634}
+    - Class: 114
+      Script: {instanceID: 12322}
+    - Class: 114
+      Script: {instanceID: 13158}
+    - Class: 114
+      Script: {instanceID: 13550}
+    - Class: 114
+      Script: {instanceID: 13812}
+    - Class: 114
+      Script: {instanceID: 14444}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 124
       Script: {instanceID: 0}
     - Class: 128
       Script: {instanceID: 0}
@@ -158,10 +294,16 @@ ScriptsOnlyBuild:
   scriptHashData:
   - hash:
       serializedVersion: 2
-      Hash: aeb62f729c52c814dec86c47dcac1471
+      Hash: 89f9a1b4c64db9559e39f4a2e3bfaadd
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
-    className: Text
+    className: Image
+  - hash:
+      serializedVersion: 2
+      Hash: 5f1752ed2092162f016c19510c28a8b9
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Button
   - hash:
       serializedVersion: 2
       Hash: 4bc4346a71a8df53a6b106f68ef3a190
@@ -170,10 +312,22 @@ ScriptsOnlyBuild:
     className: CanvasScaler
   - hash:
       serializedVersion: 2
+      Hash: aeb62f729c52c814dec86c47dcac1471
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Text
+  - hash:
+      serializedVersion: 2
       Hash: c42672c997f8be6b1aa86a927ebea785
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SelectionCaret
+  - hash:
+      serializedVersion: 2
+      Hash: 38afd37bd18dc5ffd0e91ad57202160d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AlertHandler
   - hash:
       serializedVersion: 2
       Hash: 87ff43d2baf3385cba327d8f803a4ebb
@@ -218,6 +372,12 @@ ScriptsOnlyBuild:
     className: PlayerQuitHandler
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TimeHandler
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -254,16 +414,22 @@ ScriptsOnlyBuild:
     className: PositionAsUV1
   - hash:
       serializedVersion: 2
+      Hash: f2e20f6e97c966a8960423013405c65b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: InputFieldHandler
+  - hash:
+      serializedVersion: 2
       Hash: abf1930d8126d0b2e00e9449129a0190
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: TouchInputModule
   - hash:
       serializedVersion: 2
-      Hash: 89f9a1b4c64db9559e39f4a2e3bfaadd
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Image
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Welcome5Handler
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -326,12 +492,6 @@ ScriptsOnlyBuild:
     className: PhysicsRaycaster
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: TimeHandler
-  - hash:
-      serializedVersion: 2
       Hash: bd3cf68c8964d3c66d1c43f4f98508c9
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -356,6 +516,12 @@ ScriptsOnlyBuild:
     className: CinemachinePixelPerfect
   - hash:
       serializedVersion: 2
+      Hash: 1f9208a15b1bf67b5cc0e84fed94e797
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PeeLogHandler2
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -372,6 +538,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.PixelPerfect.dll
     namespaceName: UnityEngine.U2D
     className: PixelPerfectCamera
+  - hash:
+      serializedVersion: 2
+      Hash: 58e3d0fa30ba555240577a2836472f43
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BluetoothManager
   - hash:
       serializedVersion: 2
       Hash: 5f3256acb9bc384ad7b4215e137ce356
@@ -396,6 +568,18 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Shadow
+  - hash:
+      serializedVersion: 2
+      Hash: d12fba5cf1fb8b69d7126a978e70013b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ScanPanelHandler
+  - hash:
+      serializedVersion: 2
+      Hash: 69a2ed69b7c50fd84c6fa91b082bf1d9
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PopUpHandler
   - hash:
       serializedVersion: 2
       Hash: cc4274b586df3c02688bac01b88bd16c
@@ -428,6 +612,12 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAsset
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: KYC_Test
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -452,6 +642,12 @@ ScriptsOnlyBuild:
     className: Welcome4Handler
   - hash:
       serializedVersion: 2
+      Hash: 1127db9425738ce04f0ce1b20f2ab6eb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MissionCanvasHandler
+  - hash:
+      serializedVersion: 2
       Hash: b3ab2106268377ffe25dd18ac23dca28
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -470,6 +666,12 @@ ScriptsOnlyBuild:
     className: SignalTrack
   - hash:
       serializedVersion: 2
+      Hash: a7c402d79cb2efe620f8909b4e311641
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CalendarHandler
+  - hash:
+      serializedVersion: 2
       Hash: 16210933b55d2b147a1f8cf28d8da20b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -480,6 +682,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.Animation.Runtime.dll
     namespaceName: UnityEngine.U2D.Animation
     className: SpriteSkinEntity
+  - hash:
+      serializedVersion: 2
+      Hash: 42bbe165238ac51c2475028b079e398c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ProtocolHandler
   - hash:
       serializedVersion: 2
       Hash: 07c76131298427ba48cba994986e3476
@@ -506,16 +714,16 @@ ScriptsOnlyBuild:
     className: RemoteTestResultSender
   - hash:
       serializedVersion: 2
+      Hash: 0b69eeeea51cdede3e8bebb8c47d1fc6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CalendarWaterLogHandler
+  - hash:
+      serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextContainer
-  - hash:
-      serializedVersion: 2
-      Hash: 5f1752ed2092162f016c19510c28a8b9
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Button
   - hash:
       serializedVersion: 2
       Hash: f84d945e5e1ca985698660fc26e9657f
@@ -638,6 +846,12 @@ ScriptsOnlyBuild:
     className: Level1Script
   - hash:
       serializedVersion: 2
+      Hash: c4d91e1a9c9c9f9d9604f79b3012081d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DeviceListHandler
+  - hash:
+      serializedVersion: 2
       Hash: f336e086360abe49a3323e5f1583c35a
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -668,6 +882,12 @@ ScriptsOnlyBuild:
     className: FlashHandler
   - hash:
       serializedVersion: 2
+      Hash: ac319b946d17fce6e0ec59875c6f88b9
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TestButtonHandler_HSY
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -690,6 +910,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_ColorGradient
+  - hash:
+      serializedVersion: 2
+      Hash: 6e20f0f6b446bdf45e18f8f11347992f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SoundHandler
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -812,11 +1038,19 @@ ScriptsOnlyBuild:
     className: ToggleGroup
   - hash:
       serializedVersion: 2
+      Hash: 457ce066c6dc6c1035f3189583fa259e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GaugeHandler
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
   platform: 13
   scenePathNames:
-  - Assets/Scenes/SampleScene.unity
+  - Assets/Scenes/MainScene.unity
+  - Assets/Shatalmic/Example/MultipleLevels/Level1.unity
+  - Assets/Shatalmic/Example/MultipleLevels/Level2.unity
   playerPath: C:/Users/movie/Desktop/test.apk
