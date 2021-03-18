@@ -59,13 +59,20 @@ public class TimeHandler : MonoBehaviour {
             try {
                 string[] str = datetimeString.Split(' ');
                 string[] date_string = str[0].Split('-');
-                string[] time_string = str[1].Split(':');
                 this.Years = int.Parse(date_string[0]);
                 this.Months = int.Parse(date_string[1]);
                 this.Days = int.Parse(date_string[2]);
-                this.Hours = int.Parse(time_string[0]);
-                this.Minutes = int.Parse(time_string[1]);
-                this.Seconds = int.Parse(time_string[2]);
+                try {
+                    string[] time_string = str[1].Split(':');
+                    this.Hours = int.Parse(time_string[0]);
+                    this.Minutes = int.Parse(time_string[1]);
+                    this.Seconds = int.Parse(time_string[2]);
+                } catch(System.Exception e) {
+                    e.ToString();
+                    this.Hours = 0;
+                    this.Minutes = 0;
+                    this.Seconds = 0;
+                }
             } catch (System.Exception e) {
                 Debug.LogWarning(e.ToString());
                 Debug.Log(datetimeString);

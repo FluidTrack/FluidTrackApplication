@@ -11,6 +11,7 @@ public class DataHandler : MonoBehaviour
     internal static bool User_isDataLoaded = false;
     internal static bool User_isGardenDataLoaded = false;
     internal static bool User_isWaterDataLoaded = false;
+    internal static bool User_isDrinkDataLoaded = false;
     internal static bool User_isPooDataLoaded = false;
     internal static bool User_isPeeDataLoaded = false;
 
@@ -58,6 +59,7 @@ public class DataHandler : MonoBehaviour
     internal static string User_gender;
     internal static GardenLogsJson Garden_logs;
     internal static WaterLogsJson  Water_logs;
+    internal static DrinkLogsJson  Drink_logs;
     internal static PoopLogsJson   Poop_logs;
     internal static PeeLogsJson    Pee_logs;
 
@@ -129,6 +131,20 @@ public class DataHandler : MonoBehaviour
     }
 
     [System.Serializable]
+    public class DrinkLog {
+        public int log_id;
+        public int id;
+        public string timestamp;
+        public int type;
+        public int volume;
+    }
+
+    [System.Serializable]
+    public class DrinkLogsJson {
+        public DrinkLog[] DrinkLogs;
+    }
+
+    [System.Serializable]
     public class PoopLog {
         public int log_id;
         public int id;
@@ -191,6 +207,8 @@ public class DataHandler : MonoBehaviour
         | font_family       | char(20) | YES  |     | NULL    |                |
         | font_size         | int(11)  | YES  |     | NULL    |                |
         | creation_date     | datetime | YES  |     | NULL    |                |
+        | birthday          | datetime | YES  |     | NULL    |                |
+        | gender            | char(8)  | YES  |     | NULL    |                |
         +-------------------+----------+------+-----+---------+----------------+
     */
     //
@@ -373,7 +391,6 @@ public class DataHandler : MonoBehaviour
             else {
                 User_isGardenDataCreated = true;
             }
-
         }
     }
 
@@ -397,9 +414,9 @@ public class DataHandler : MonoBehaviour
                     Garden_logs = JsonParsing<GardenLogsJson>(jsonString);
                     User_isGardenDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.LogWarning(e.ToString());
+                    Debug.Log(e.ToString());
                     Garden_logs = new GardenLogsJson();
-                    Garden_logs.GardenLogs = null;
+                    Garden_logs.GardenLogs = new GardenLog[0];
                     User_isGardenDataLoaded = true;
                 }
             }
@@ -492,7 +509,7 @@ public class DataHandler : MonoBehaviour
                     Water_logs = JsonParsing<WaterLogsJson>(jsonString);
                     User_isWaterDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.LogError(e.ToString());
+                    Debug.Log(e.ToString());
                     Water_logs = new WaterLogsJson();
                     Water_logs.WaterLogs = new WaterLog[0];
                     User_isWaterDataLoaded = true;
@@ -504,7 +521,7 @@ public class DataHandler : MonoBehaviour
     //=====================================================================================================================================
     //  ▶ update_water_logs
     //=====================================================================================================================================
-    static public IEnumerator UpdateGardenLogs(WaterLog log) {
+    static public IEnumerator UpdateWaterLogs(WaterLog log) {
         yield return 0;
 
         UnityWebRequest request = new UnityWebRequest();
@@ -540,6 +557,119 @@ public class DataHandler : MonoBehaviour
                 QuitApplication();
             else {
                 User_isWaterDataDeleted = true;
+            }
+        }
+    }
+
+    //=====================================================================================================================================
+    //
+    //  DRINK LOGS TABLE CRUD (Create, Read, Update, Delete)
+    //  @ 2021.03.16 KimYC1223
+    //
+    /*
+        +-----------+----------+------+-----+---------+----------------+
+        | Field     | Type     | Null | Key | Default | Extra          |
+        +-----------+----------+------+-----+---------+----------------+
+        | log_id    | int(11)  | NO   | PRI | NULL    | auto_increment |
+        | id        | int(11)  | YES  |     | NULL    |                |
+        | timestamp | datetime | YES  |     | NULL    |                |
+        | type      | int(11)  | YES  |     | NULL    |                |
+        | volume    | int(11)  | YES  |     | NULL    |                |
+        +-----------+----------+------+-----+---------+----------------+
+    */
+    //
+    //=====================================================================================================================================
+    //  ▶ create_drink_logs
+    //=====================================================================================================================================
+    static public IEnumerator CreateDrinklogs(DrinkLog log) {
+        yield return 0;
+        UnityWebRequest request = new UnityWebRequest();
+        string url = "create_drink_logs";
+        url += "?id=" + log.id;
+        url += "&timestamp=" + log.timestamp;
+        url += "&type=" + log.type;
+        url += "&volume=" + log.volume;
+
+        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
+            yield return request.SendWebRequest();
+            if (request.isNetworkError)
+                QuitApplication();
+            else {
+                User_isDrinkDataCreated = true;
+            }
+
+        }
+    }
+
+    //=====================================================================================================================================
+    //  ▶ read_drink_logs
+    //=====================================================================================================================================
+    static public IEnumerator ReadDrinkLogs(int target_id) {
+        yield return 0;
+
+        UnityWebRequest request = new UnityWebRequest();
+        string url = "read_drink_logs";
+        url += "?id=" + target_id;
+
+        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
+            yield return request.SendWebRequest();
+            if (request.isNetworkError)
+                QuitApplication();
+            else {
+                try {
+                    string jsonString = request.downloadHandler.text;
+                    Drink_logs = JsonParsing<DrinkLogsJson>(jsonString);
+                    User_isDrinkDataLoaded = true;
+                } catch (System.Exception e) {
+                    Debug.Log(e.ToString());
+                    Drink_logs = new DrinkLogsJson();
+                    Drink_logs.DrinkLogs = new DrinkLog[0];
+                    User_isDrinkDataLoaded = true;
+                }
+            }
+        }
+    }
+
+    //=====================================================================================================================================
+    //  ▶ update_drink_logs
+    //=====================================================================================================================================
+    static public IEnumerator UpdateDrinkLogs(DrinkLog log) {
+        yield return 0;
+
+        UnityWebRequest request = new UnityWebRequest();
+        string url = "update_drink_logs";
+        url += "?log_id=" + log.log_id;
+        url += "&id=" + log.id;
+        url += "&timestamp=" + log.timestamp;
+        url += "&type=" + log.type;
+        url += "&volume=" + log.volume;
+
+        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
+            yield return request.SendWebRequest();
+            if (request.isNetworkError)
+                QuitApplication();
+            else {
+                User_isDrinkDataUpdated = true;
+            }
+        }
+    }
+
+    //=====================================================================================================================================
+    //  ▶ delete_drink_logs
+    //=====================================================================================================================================
+    static public IEnumerator DeleteDrinkLogs(int target_id) {
+        yield return 0;
+
+        UnityWebRequest request = new UnityWebRequest();
+        string url = "delete_drink_logs";
+        url += "?log_id=" + target_id;
+
+        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
+            yield return request.SendWebRequest();
+            if (request.isNetworkError)
+                QuitApplication();
+            else {
+                User_isDrinkDataDeleted = true;
             }
         }
     }
@@ -602,7 +732,7 @@ public class DataHandler : MonoBehaviour
                     Poop_logs = JsonParsing<PoopLogsJson>(jsonString);
                     User_isPooDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.LogError(e.ToString());
+                    Debug.Log(e.ToString());
                     Poop_logs = new PoopLogsJson();
                     Poop_logs.PoopLogs = new PoopLog[0];
                     User_isPooDataLoaded = true;
@@ -710,7 +840,7 @@ public class DataHandler : MonoBehaviour
                     Pee_logs = JsonParsing<PeeLogsJson>(jsonString);
                     User_isPeeDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.LogError(e.ToString());
+                    Debug.Log(e.ToString());
                     Pee_logs = new PeeLogsJson();
                     Pee_logs.PeeLogs = new PeeLog[0];
                     User_isPeeDataLoaded = true;

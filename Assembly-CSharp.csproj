@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome5Handler.cs" />
     <Compile Include="Assets\Scripts\DataHandler.cs" />
     <Compile Include="Assets\Scripts\HSY_Script\CalendarWaterLogHandler.cs" />
+    <Compile Include="Assets\Scripts\HSY_Script\FlowerPageHandler.cs" />
     <Compile Include="Assets\Scripts\HSY_Script\TestButtonHandler_HSY.cs" />
     <Compile Include="Assets\Scripts\KDH_Script\CalendarHandler.cs" />
     <Compile Include="Assets\Scripts\KDH_Script\GaugeHandler.cs" />

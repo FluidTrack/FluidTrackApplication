@@ -42,7 +42,7 @@ public class MissionCanvasHandler : MonoBehaviour
     }
 
     public void OnEnable() {
-        //StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
+        StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
         StartCoroutine(FetchCheck_User());
     }
 
