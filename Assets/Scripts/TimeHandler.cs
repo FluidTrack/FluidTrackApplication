@@ -9,6 +9,7 @@ public class TimeHandler : MonoBehaviour {
         static public int[] LeafYearDaysList = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         static public string[] DateList = { "월요일","화요일","수요일","목요일",
                                             "금요일","토요일","일요일"};
+        public enum DATE { MON, TUE, WED, THU, FRI, SAT, SUN, NULL }; 
         public static bool isLeafYear(int year) {
             if (( year % 4 ) == 0) {
                 if (( year % 100 ) == 0) {

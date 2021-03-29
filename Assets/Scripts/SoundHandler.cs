@@ -9,6 +9,14 @@ public class SoundHandler : MonoBehaviour
     public AudioClip SFX_Clicked;
     public AudioClip SFX_Poped;
     public AudioClip SFX_Poped2;
+    public AudioClip SFX_Congratulation1;
+    public AudioClip SFX_Congratulation2;
+    public AudioClip SFX_Tada1;
+    public AudioClip SFX_Tada2;
+    public AudioClip SFX_Yeah;
+    public AudioClip SFX_Scan;
+    public AudioClip SFX_Connect;
+    public AudioClip SFX_Disconnect;
 
     public AudioSource SFXSource;
     public AudioSource SFXSource2;
@@ -21,7 +29,8 @@ public class SoundHandler : MonoBehaviour
     }
 
     public enum SFX {
-        CLICKED, POPED, POPED2
+        CLICKED, POPED, POPED2, CONGRATULATION1, CONGRATULATION2,
+        TADA1, TADA2, YEAH, SCAN, CONNECT, DISCONNECT
     }
 
     public enum MUSIC {
@@ -38,6 +47,30 @@ public class SoundHandler : MonoBehaviour
                 break;
             case SFX.POPED2:
                 SFXSource2.PlayOneShot(SFX_Poped2);
+                break;
+            case SFX.CONGRATULATION1:
+                SFXSource2.PlayOneShot(SFX_Congratulation1);
+                break;
+            case SFX.CONGRATULATION2:
+                SFXSource2.PlayOneShot(SFX_Congratulation2);
+                break;
+            case SFX.TADA1:
+                SFXSource2.PlayOneShot(SFX_Tada1);
+                break;
+            case SFX.TADA2:
+                SFXSource2.PlayOneShot(SFX_Tada2);
+                break;
+            case SFX.YEAH:
+                SFXSource2.PlayOneShot(SFX_Yeah);
+                break;
+            case SFX.SCAN:
+                SFXSource2.PlayOneShot(SFX_Scan);
+                break;
+            case SFX.CONNECT:
+                SFXSource2.PlayOneShot(SFX_Connect);
+                break;
+            case SFX.DISCONNECT:
+                SFXSource2.PlayOneShot(SFX_Disconnect);
                 break;
         }
     }

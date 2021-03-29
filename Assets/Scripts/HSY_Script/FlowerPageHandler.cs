@@ -36,8 +36,9 @@ public class FlowerPageHandler : MonoBehaviour
         for (int i = 0; i < logsGarden.Length; i++)
         {
                 loopDate = new TimeHandler.DateTimeStamp(logsGarden[i].timestamp);
+                Debug.Log(">> " + loopDate.ToDateString());
                 if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(targetDate, loopDate) == 0)
-                {
+                {  
                     Debug.Log(logsGarden[i].timestamp);
                     Debug.Log(logsGarden[i].flower);
                     Debug.Log(logsGarden[i].item_0);
