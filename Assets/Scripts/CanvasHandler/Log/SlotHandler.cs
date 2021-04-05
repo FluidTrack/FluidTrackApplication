@@ -10,10 +10,11 @@ public class SlotHandler : MonoBehaviour {
     public int PeeCount = 0;
     public int PooCount = 0;
     public bool isMeal = false;
-    public LogSpriteHandler.LogScript WaterTop;
-    public LogSpriteHandler.LogScript DrinkTop;
-    public LogSpriteHandler.LogScript PeeTop;
-    public LogSpriteHandler.LogScript PooTop;
+    public bool isPooNoType = false;
+    public LogSpriteHandler WaterTop;
+    public LogSpriteHandler DrinkTop;
+    public LogSpriteHandler PeeTop;
+    public LogSpriteHandler PooTop;
 
     public void Clear() {
         WaterCount = 0;

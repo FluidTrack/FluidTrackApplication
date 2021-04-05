@@ -11,6 +11,7 @@ public class SoundHandler : MonoBehaviour
     public AudioClip Music_Prize;
     public AudioClip SFX_Clicked;
     public AudioClip SFX_Clicked2;
+    public AudioClip SFX_Clicked3;
     public AudioClip SFX_Poped;
     public AudioClip SFX_Poped2;
     public AudioClip SFX_Congratulation1;
@@ -43,8 +44,9 @@ public class SoundHandler : MonoBehaviour
 
     public enum SFX {
         CLICKED, POPED, POPED2, CONGRATULATION1, CONGRATULATION2,
-        TADA1, TADA2, TADA3, YEAH, SCAN, CONNECT, DISCONNECT,
-        COIN, BACK, SMALL_PING, ERROR, CLICKED2,
+        TADA1, TADA2, TADA3, YEAH, SCAN,
+        CONNECT, DISCONNECT, COIN, BACK, SMALL_PING,
+        ERROR, CLICKED2, CLICKED3,
     }
 
     public enum MUSIC {
@@ -63,6 +65,8 @@ public class SoundHandler : MonoBehaviour
                 SFXSource.PlayOneShot(SFX_Clicked); break;
             case SFX.CLICKED2:
                 SFXSource.PlayOneShot(SFX_Clicked2); break;
+            case SFX.CLICKED3:
+                SFXSource.PlayOneShot(SFX_Clicked3); break;
             case SFX.POPED:
                 SFXSource2.PlayOneShot(SFX_Poped);
                 break;

@@ -46,10 +46,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -470,7 +468,7 @@ ScriptsOnlyBuild:
     className: BluetoothManager
   - hash:
       serializedVersion: 2
-      Hash: 58e82e50c25e2c70c596508407ef24aa
+      Hash: 6694292da0704c8a0f9e6d79159db08a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogCanvasHandler
@@ -602,7 +600,7 @@ ScriptsOnlyBuild:
     className: CalendarHandler
   - hash:
       serializedVersion: 2
-      Hash: c97aa1142354b918356b7014f5cc204d
+      Hash: 37cd3e20752e21794fb1bad17ed1eb22
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SlotHandler
@@ -842,7 +840,7 @@ ScriptsOnlyBuild:
     className: TMP_ColorGradient
   - hash:
       serializedVersion: 2
-      Hash: e0e5644b47fa2fbee16fd0dc958c6bc5
+      Hash: 98967d52e90ed7d313762037850e12f4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SoundHandler
