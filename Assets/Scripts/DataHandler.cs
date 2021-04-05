@@ -21,6 +21,10 @@ public class DataHandler : MonoBehaviour
     internal static bool User_isPooDataCreated = false;
     internal static bool User_isPeeDataCreated = false;
 
+    internal static bool User_isScreenDataCreated = false;
+    internal static bool User_isMoabandDataCreated = false;
+    internal static bool User_isErrorDataCreated = false;
+
     internal static bool User_isDataUpdated = false;
     internal static bool User_isGardenDataUpdated = false;
     internal static bool User_isWaterDataUpdated = false;
@@ -32,6 +36,8 @@ public class DataHandler : MonoBehaviour
     internal static bool User_isDrinkDataDeleted = false;
     internal static bool User_isPooDataDeleted = false;
     internal static bool User_isPeeDataDeleted = false;
+
+
 
     internal static string dataPath;
     internal static int User_id;
@@ -57,6 +63,7 @@ public class DataHandler : MonoBehaviour
     internal static string User_creation_date;
     internal static string User_birthday;
     internal static string User_gender;
+    internal static int User_periode;
     internal static GardenLogsJson Garden_logs;
     internal static WaterLogsJson  Water_logs;
     internal static DrinkLogsJson  Drink_logs;
@@ -92,6 +99,7 @@ public class DataHandler : MonoBehaviour
         public string creation_date;
         public string birthday;
         public string gender;
+        public int periode;
     }
 
     [System.Serializable]
@@ -105,6 +113,9 @@ public class DataHandler : MonoBehaviour
         public int id;
         public string timestamp;
         public int flower;
+        public int log_water;
+        public int log_poop;
+        public int log_pee;
         public int item_0;
         public int item_1;
         public int item_2;
@@ -122,6 +133,7 @@ public class DataHandler : MonoBehaviour
         public int log_id;
         public int id;
         public string timestamp;
+        public int auto;
         public int type;
     }
 
@@ -135,6 +147,7 @@ public class DataHandler : MonoBehaviour
         public int log_id;
         public int id;
         public string timestamp;
+        public int auto;
         public int type;
         public int volume;
     }
@@ -149,6 +162,7 @@ public class DataHandler : MonoBehaviour
         public int log_id;
         public int id;
         public string timestamp;
+        public int auto;
         public int type;
     }
 
@@ -162,11 +176,48 @@ public class DataHandler : MonoBehaviour
         public int log_id;
         public int id;
         public string timestamp;
+        public int auto;
     }
 
     [System.Serializable]
     public class PeeLogsJson {
         public PeeLog[] PeeLogs;
+    }
+
+    [System.Serializable]
+    public class ScreenLog {
+        public int log_id;
+        public int id;
+        public int screen_num;
+        public string start_time;
+        public string end_time;
+        public uint second;
+    }
+
+    [System.Serializable]
+    public class MoabandLog {
+        public int log_id;
+        public int id;
+        public string timestamp;
+        public int auto;
+        public int log_count;
+        public int battery_tablet;
+        public int battery_moaband;
+    }
+
+    [System.Serializable]
+    public class ErrorLogs {
+        public int log_id;
+        public int id;
+        public string timestamp;
+        public string message;
+
+        public ErrorLogs(string msg) {
+            log_id = 0;
+            id = User_id;
+            timestamp = TimeHandler.GetCurrentTime();
+            message = msg;
+        }
     }
 
     static public T JsonParsing <T>(string jsondata) {
@@ -182,6 +233,7 @@ public class DataHandler : MonoBehaviour
     //
     //  USER TABLE CRUD (Create, Read, Update, Delete)
     //  @ 2020.12.13 KimYC1223
+    //  @ 2021.04.04 KimYC1223
     /*
         +-------------------+----------+------+-----+---------+----------------+
         | Field             | Type     | Null | Key | Default | Extra          |
@@ -209,6 +261,7 @@ public class DataHandler : MonoBehaviour
         | creation_date     | datetime | YES  |     | NULL    |                |
         | birthday          | datetime | YES  |     | NULL    |                |
         | gender            | char(8)  | YES  |     | NULL    |                |
+        | periode           | int(11)  | YES  |     | NULL    |                |
         +-------------------+----------+------+-----+---------+----------------+
     */
     //
@@ -216,7 +269,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ create_users
     //=====================================================================================================================================
     static public IEnumerator CreateUsers () {
-        yield return 0;
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_users";
         url += "?name=" + User_name;
@@ -237,6 +289,7 @@ public class DataHandler : MonoBehaviour
         url += "&creation_date=" + User_creation_date;
         url += "&birthday=" + User_birthday;
         url += "&gender=" + User_gender;
+        url += "&periode=4";
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
@@ -266,8 +319,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ read_users
     //=====================================================================================================================================
     static public IEnumerator ReadUsers(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_users";
         url += "?id=" + target_id;
@@ -279,7 +330,7 @@ public class DataHandler : MonoBehaviour
             else {
                 string jsonString = request.downloadHandler.text;
                 UserLogsJson data = JsonParsing<UserLogsJson>(jsonString);
-                Debug.Log(data.UserLogs[0].name);
+                //Debug.Log(data.UserLogs[0].name);
                 User_name = data.UserLogs[0].name;
                 User_moa_band_name = data.UserLogs[0].moa_band_name;
                 User_item_0 = data.UserLogs[0].item_0;
@@ -302,6 +353,7 @@ public class DataHandler : MonoBehaviour
                 User_creation_date = data.UserLogs[0].creation_date;
                 User_birthday = data.UserLogs[0].birthday;
                 User_gender = data.UserLogs[0].gender;
+                User_periode = data.UserLogs[0].periode;
                 TimeHandler.CreationTime = new TimeHandler.DateTimeStamp(User_creation_date);
                 User_isDataLoaded = true;
             }
@@ -312,8 +364,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ update_users
     //=====================================================================================================================================
     static public IEnumerator UpdateUsers(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "update_users";
         url += "?name=" + User_name;
@@ -334,6 +384,7 @@ public class DataHandler : MonoBehaviour
         url += "&creation_date=" + User_creation_date;
         url += "&birthday=" + User_birthday;
         url += "&gender=" + User_gender;
+        url += "&periode=" + User_periode;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
@@ -351,6 +402,7 @@ public class DataHandler : MonoBehaviour
     //
     //  GARDEN LOGS TABLE CRUD (Create, Read, Update, Delete)
     //  @ 2020.12.13 KimYC1223
+    //  @ 2021.04.04 KimYC1223
     //
     /*
         +-----------+----------+------+-----+---------+----------------+
@@ -365,19 +417,25 @@ public class DataHandler : MonoBehaviour
         | item_2    | int(11)  | YES  |     | NULL    |                |
         | item_3    | int(11)  | YES  |     | NULL    |                |
         | item_4    | int(11)  | YES  |     | NULL    |                |
+        | log_water | int(11)  | YES  |     | NULL    |                |
+        | log_poop  | int(11)  | YES  |     | NULL    |                |
+        | log_pee   | int(11)  | YES  |     | NULL    |                |
         +-----------+----------+------+-----+---------+----------------+
+
     */
     //
     //=====================================================================================================================================
     //  ▶ create_garden_logs
     //=====================================================================================================================================
     static public IEnumerator CreateGardenlogs(GardenLog log) {
-        yield return 0;
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_garden_logs";
         url += "?id=" + log.id;
         url += "&timestamp=" + log.timestamp;
         url += "&flower=" + log.flower;
+        url += "&log_water=" + log.log_water;
+        url += "&log_poop=" + log.log_poop;
+        url += "&log_pee=" + log.log_pee;
         url += "&item_0=" + log.item_0;
         url += "&item_1=" + log.item_1;
         url += "&item_2=" + log.item_2;
@@ -398,8 +456,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ read_garden_logs
     //=====================================================================================================================================
     static public IEnumerator ReadGardenLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_garden_logs";
         url += "?id=" + target_id;
@@ -414,7 +470,8 @@ public class DataHandler : MonoBehaviour
                     Garden_logs = JsonParsing<GardenLogsJson>(jsonString);
                     User_isGardenDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.Log(e.ToString());
+                    if(request.downloadHandler.text != "null")
+                        Debug.Log(e.ToString());
                     Garden_logs = new GardenLogsJson();
                     Garden_logs.GardenLogs = new GardenLog[0];
                     User_isGardenDataLoaded = true;
@@ -427,14 +484,15 @@ public class DataHandler : MonoBehaviour
     //  ▶ update_garden_logs
     //=====================================================================================================================================
     static public IEnumerator UpdateGardenLogs(GardenLog log) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "update_garden_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
         url += "&timestamp=" + log.timestamp;
         url += "&flower=" + log.flower;
+        url += "&log_water=" + log.log_water;
+        url += "&log_poop=" + log.log_poop;
+        url += "&log_pee=" + log.log_pee;
         url += "&item_0=" + log.item_0;
         url += "&item_1=" + log.item_1;
         url += "&item_2=" + log.item_2;
@@ -455,6 +513,7 @@ public class DataHandler : MonoBehaviour
     //
     //  WATER LOGS TABLE CRUD (Create, Read, Update, Delete)
     //  @ 2020.12.13 KimYC1223
+    //  @ 2020.04.04 KimYC1223
     //
     /*
         +-----------+----------+------+-----+---------+----------------+
@@ -464,6 +523,7 @@ public class DataHandler : MonoBehaviour
         | id        | int(11)  | YES  |     | NULL    |                |
         | timestamp | datetime | YES  |     | NULL    |                |
         | type      | int(11)  | YES  |     | NULL    |                |
+        | auto      | int(11)  | YES  |     | NULL    |                |
         +-----------+----------+------+-----+---------+----------------+
     */
     //
@@ -471,11 +531,11 @@ public class DataHandler : MonoBehaviour
     //  ▶ create_water_logs
     //=====================================================================================================================================
     static public IEnumerator CreateWaterlogs(WaterLog log) {
-        yield return 0;
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_water_logs";
         url += "?id=" + log.id;
         url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
         url += "&type=" + log.type;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
@@ -493,8 +553,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ read_water_logs
     //=====================================================================================================================================
     static public IEnumerator ReadWaterLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_water_logs";
         url += "?id=" + target_id;
@@ -509,7 +567,8 @@ public class DataHandler : MonoBehaviour
                     Water_logs = JsonParsing<WaterLogsJson>(jsonString);
                     User_isWaterDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.Log(e.ToString());
+                    if(request.downloadHandler.text != "null")
+                        Debug.Log(e.ToString());
                     Water_logs = new WaterLogsJson();
                     Water_logs.WaterLogs = new WaterLog[0];
                     User_isWaterDataLoaded = true;
@@ -522,13 +581,12 @@ public class DataHandler : MonoBehaviour
     //  ▶ update_water_logs
     //=====================================================================================================================================
     static public IEnumerator UpdateWaterLogs(WaterLog log) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "update_water_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
         url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
         url += "&type=" + log.type;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
@@ -545,8 +603,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ delete_water_logs
     //=====================================================================================================================================
     static public IEnumerator DeleteWaterLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "delete_water_logs";
         url += "?log_id=" + target_id;
@@ -565,6 +621,7 @@ public class DataHandler : MonoBehaviour
     //
     //  DRINK LOGS TABLE CRUD (Create, Read, Update, Delete)
     //  @ 2021.03.16 KimYC1223
+    //  @ 2021.04.04 KimYC1223
     //
     /*
         +-----------+----------+------+-----+---------+----------------+
@@ -573,6 +630,7 @@ public class DataHandler : MonoBehaviour
         | log_id    | int(11)  | NO   | PRI | NULL    | auto_increment |
         | id        | int(11)  | YES  |     | NULL    |                |
         | timestamp | datetime | YES  |     | NULL    |                |
+        | auto      | int(11)  | YES  |     | NULL    |                |    
         | type      | int(11)  | YES  |     | NULL    |                |
         | volume    | int(11)  | YES  |     | NULL    |                |
         +-----------+----------+------+-----+---------+----------------+
@@ -582,11 +640,11 @@ public class DataHandler : MonoBehaviour
     //  ▶ create_drink_logs
     //=====================================================================================================================================
     static public IEnumerator CreateDrinklogs(DrinkLog log) {
-        yield return 0;
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_drink_logs";
         url += "?id=" + log.id;
         url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
         url += "&type=" + log.type;
         url += "&volume=" + log.volume;
 
@@ -605,8 +663,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ read_drink_logs
     //=====================================================================================================================================
     static public IEnumerator ReadDrinkLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_drink_logs";
         url += "?id=" + target_id;
@@ -621,7 +677,8 @@ public class DataHandler : MonoBehaviour
                     Drink_logs = JsonParsing<DrinkLogsJson>(jsonString);
                     User_isDrinkDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.Log(e.ToString());
+                    if(request.downloadHandler.text != "null")
+                        Debug.Log(e.ToString());
                     Drink_logs = new DrinkLogsJson();
                     Drink_logs.DrinkLogs = new DrinkLog[0];
                     User_isDrinkDataLoaded = true;
@@ -634,13 +691,12 @@ public class DataHandler : MonoBehaviour
     //  ▶ update_drink_logs
     //=====================================================================================================================================
     static public IEnumerator UpdateDrinkLogs(DrinkLog log) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "update_drink_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
         url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
         url += "&type=" + log.type;
         url += "&volume=" + log.volume;
 
@@ -658,8 +714,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ delete_drink_logs
     //=====================================================================================================================================
     static public IEnumerator DeleteDrinkLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "delete_drink_logs";
         url += "?log_id=" + target_id;
@@ -678,6 +732,7 @@ public class DataHandler : MonoBehaviour
     //
     //  POOP LOGS TABLE CRUD (Create, Read, Update, Delete)
     //  @ 2020.12.13 KimYC1223
+    //  @ 2021.04.04 KimYC1223
     //
     /*
         +-----------+----------+------+-----+---------+----------------+
@@ -686,6 +741,7 @@ public class DataHandler : MonoBehaviour
         | log_id    | int(11)  | NO   | PRI | NULL    | auto_increment |
         | id        | int(11)  | YES  |     | NULL    |                |
         | timestamp | datetime | YES  |     | NULL    |                |
+        | auto      | int(11)  | YES  |     | NULL    |                |
         | type      | int(11)  | YES  |     | NULL    |                |
         +-----------+----------+------+-----+---------+----------------+
     */
@@ -694,11 +750,11 @@ public class DataHandler : MonoBehaviour
     //  ▶ create_poop_logs
     //=====================================================================================================================================
     static public IEnumerator CreatePooplogs(PoopLog log) {
-        yield return 0;
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_poop_logs";
         url += "?id=" + log.id;
         url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
         url += "&type=" + log.type;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
@@ -716,8 +772,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ read_poop_logs
     //=====================================================================================================================================
     static public IEnumerator ReadPoopLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_poop_logs";
         url += "?id=" + target_id;
@@ -732,7 +786,8 @@ public class DataHandler : MonoBehaviour
                     Poop_logs = JsonParsing<PoopLogsJson>(jsonString);
                     User_isPooDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.Log(e.ToString());
+                    if(request.downloadHandler.text != "null")
+                        Debug.Log(e.ToString());
                     Poop_logs = new PoopLogsJson();
                     Poop_logs.PoopLogs = new PoopLog[0];
                     User_isPooDataLoaded = true;
@@ -745,13 +800,12 @@ public class DataHandler : MonoBehaviour
     //  ▶ update_poop_logs
     //=====================================================================================================================================
     static public IEnumerator UpdatePoopLogs(PoopLog log) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "update_poop_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
         url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
         url += "&type=" + log.type;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
@@ -768,8 +822,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ delete_poop_logs
     //=====================================================================================================================================
     static public IEnumerator DeletePoopLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "delete_poop_logs";
         url += "?log_id=" + target_id;
@@ -788,6 +840,7 @@ public class DataHandler : MonoBehaviour
     //
     //  PEE LOGS TABLE CRUD (Create, Read, Update, Delete)
     //  @ 2020.12.13 KimYC1223
+    //  @ 2021.04.04 KimYC1223
     //
     /*
         +-----------+----------+------+-----+---------+----------------+
@@ -796,6 +849,7 @@ public class DataHandler : MonoBehaviour
         | log_id    | int(11)  | NO   | PRI | NULL    | auto_increment |
         | id        | int(11)  | YES  |     | NULL    |                |
         | timestamp | datetime | YES  |     | NULL    |                |
+        | auto      | int(11)  | YES  |     | NULL    |                |
         +-----------+----------+------+-----+---------+----------------+
     */
     //
@@ -803,11 +857,11 @@ public class DataHandler : MonoBehaviour
     //  ▶ create_pee_logs
     //=====================================================================================================================================
     static public IEnumerator CreatePeelogs(PeeLog log) {
-        yield return 0;
         UnityWebRequest request = new UnityWebRequest();
         string url = "create_pee_logs";
         url += "?id=" + log.id;
         url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
@@ -824,8 +878,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ read_pee_logs
     //=====================================================================================================================================
     static public IEnumerator ReadPeeLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_pee_logs";
         url += "?id=" + target_id;
@@ -840,7 +892,8 @@ public class DataHandler : MonoBehaviour
                     Pee_logs = JsonParsing<PeeLogsJson>(jsonString);
                     User_isPeeDataLoaded = true;
                 } catch (System.Exception e) {
-                    Debug.Log(e.ToString());
+                    if(request.downloadHandler.text != "null")
+                        Debug.Log(e.ToString());
                     Pee_logs = new PeeLogsJson();
                     Pee_logs.PeeLogs = new PeeLog[0];
                     User_isPeeDataLoaded = true;
@@ -853,13 +906,12 @@ public class DataHandler : MonoBehaviour
     //  ▶ update_pee_logs
     //=====================================================================================================================================
     static public IEnumerator UpdatePeeLogs(PeeLog log) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "update_pee_logs";
         url += "?log_id=" + log.log_id;
         url += "&id=" + log.id;
         url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
 
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
@@ -875,8 +927,6 @@ public class DataHandler : MonoBehaviour
     //  ▶ delete_pee_logs
     //=====================================================================================================================================
     static public IEnumerator DeletePeeLogs(int target_id) {
-        yield return 0;
-
         UnityWebRequest request = new UnityWebRequest();
         string url = "delete_pee_logs";
         url += "?log_id=" + target_id;
@@ -890,7 +940,128 @@ public class DataHandler : MonoBehaviour
             }
         }
     }
+
+
+    //=====================================================================================================================================
+    //
+    //  SCREEN LOGS TABLE C (Create)
+    //  @ 2021.04.04 KimYC1223
+    //
+    /*
+        +------------+------------------+------+-----+---------+----------------+
+        | Field      | Type             | Null | Key | Default | Extra          |
+        +------------+------------------+------+-----+---------+----------------+
+        | log_id     | int(11)          | NO   | PRI | NULL    | auto_increment |
+        | id         | int(11)          | YES  |     | NULL    |                |
+        | screen_num | int(11)          | YES  |     | NULL    |                |
+        | start_time | datetime         | YES  |     | NULL    |                |
+        | end_time   | datetime         | YES  |     | NULL    |                |
+        | second     | int(11) unsigned | YES  |     | NULL    |                |
+        +------------+------------------+------+-----+---------+----------------+
+    */
+    //
+    //=====================================================================================================================================
+    //  ▶ create_screen_logs
+    //=====================================================================================================================================
+    static public IEnumerator CreateScreenlogs(ScreenLog log) {
+        UnityWebRequest request = new UnityWebRequest();
+        string url = "create_screen_logs";
+        url += "?id=" + log.id;
+        url += "&screen_num=" + log.screen_num;
+        url += "&start_time=" + log.start_time;
+        url += "&end_time=" + log.end_time;
+        url += "&second=" + log.second;
+
+        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
+            yield return request.SendWebRequest();
+            if (request.isNetworkError)
+                QuitApplication();
+            else {
+                User_isScreenDataCreated = true;
+            }
+        }
+    }
+
+    //=====================================================================================================================================
+    //
+    //  MOABAND LOGS TABLE C (Create)
+    //  @ 2021.04.04 KimYC1223
+    //
+    /*
+        +-----------------+----------+------+-----+---------+----------------+
+        | Field           | Type     | Null | Key | Default | Extra          |
+        +-----------------+----------+------+-----+---------+----------------+
+        | log_id          | int(11)  | NO   | PRI | NULL    | auto_increment |
+        | id              | int(11)  | YES  |     | NULL    |                |
+        | timestamp       | datetime | YES  |     | NULL    |                |
+        | auto            | int(11)  | YES  |     | NULL    |                |
+        | log_count       | int(11)  | YES  |     | NULL    |                |
+        | battery_tablet  | int(11)  | YES  |     | NULL    |                |
+        | battery_moaband | int(11)  | YES  |     | NULL    |                |
+        +-----------------+----------+------+-----+---------+----------------+
+
+    */
+    //
+    //=====================================================================================================================================
+    //  ▶ create_moaband_logs
+    //=====================================================================================================================================
+    static public IEnumerator CreateMoabandlogs(MoabandLog log) {
+        UnityWebRequest request = new UnityWebRequest();
+        string url = "create_moaband_logs";
+        url += "?id=" + log.id;
+        url += "&timestamp=" + log.timestamp;
+        url += "&auto=" + log.auto;
+        url += "&log_count=" + log.log_count;
+        url += "&battery_tablet=" + log.battery_tablet;
+        url += "&battery_moaband=" + log.battery_moaband;
+
+        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
+            yield return request.SendWebRequest();
+            if (request.isNetworkError)
+                QuitApplication();
+            else {
+                User_isMoabandDataCreated = true;
+            }
+        }
+    }
+
+    //=====================================================================================================================================
+    //
+    //  ERROR LOGS TABLE C (Create)
+    //  @ 2021.04.04 KimYC1223
+    //
+    /*
+        +-----------+----------+------+-----+---------+----------------+
+        | Field     | Type     | Null | Key | Default | Extra          |
+        +-----------+----------+------+-----+---------+----------------+
+        | log_id    | int(11)  | NO   | PRI | NULL    | auto_increment |
+        | id        | int(11)  | YES  |     | NULL    |                |
+        | timestamp | datetime | YES  |     | NULL    |                |
+        | message   | text     | YES  |     | NULL    |                |
+        +-----------+----------+------+-----+---------+----------------+
+
+    */
+    //
+    //=====================================================================================================================================
+    //  ▶ create_error_logs
+    //=====================================================================================================================================
+    static public IEnumerator CreateErrorlogs(ErrorLogs log) {
+        UnityWebRequest request = new UnityWebRequest();
+        string url = "create_error_logs";
+        url += "?id=" + log.id;
+        url += "&timestamp=" + log.timestamp;
+        url += "&message=" + log.message;
+        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
+            yield return request.SendWebRequest();
+            if (request.isNetworkError)
+                QuitApplication();
+            else {
+                User_isErrorDataCreated = true;
+            }
+        }
         
+    }
+
 
     static public void QuitApplication() {
         Debug.Log("Quit");
@@ -901,86 +1072,4 @@ public class DataHandler : MonoBehaviour
         #endif
     }
 
-
-    static public PeeLog[] GetTempPeeData() {
-        PeeLog[] returnArray = new PeeLog[100];
-
-        for (int i = 0; i < 100; i ++) {
-            returnArray[i] = new PeeLog();
-            returnArray[i].id = 0;
-            returnArray[i].log_id = i;
-        }
-
-        for (int i = 0; i < 10; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-01");
-        for (int i = 10; i < 12; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-02");
-        for (int i = 12; i < 30; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-03");
-        for (int i = 30; i < 60; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-04");
-        for (int i = 60; i < 80; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-05");
-        for (int i = 80; i < 85; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-06");
-        for (int i = 85; i < 100; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-07");
-
-        return returnArray;
-    }
-
-
-    static public WaterLog[] GetTempWaterData() {
-        WaterLog[] returnArray = new WaterLog[40];
-
-        for (int i = 0; i < 40; i++) {
-            returnArray[i] = new WaterLog();
-            returnArray[i].id = 0;
-            returnArray[i].log_id = i;
-            returnArray[i].type = 0;
-        }
-
-        for (int i = 0; i < 2; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-01");
-        for (int i = 2; i < 5; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-02");
-        for (int i = 5; i < 10; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-03");
-        for (int i = 10; i < 20; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-04");
-        for (int i = 20; i < 30; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-05");
-        for (int i = 30; i < 32; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-06");
-        for (int i = 32; i < 40; i++)
-            returnArray[i].timestamp = RandomTimeStamp("2021-01-07");
-
-        return returnArray;
-    }
-
-    static public string RandomTimeStamp(string str) {
-        string output = str;
-        output += " " + Random.Range(0, 24);
-        output += ":" + Random.Range(0, 60);
-        output += ":" + Random.Range(0, 60);
-
-        return output;
-    }
-
-    static public PeeLog[] GetTempRandomPeeData() {
-        PeeLog[] returnArray = new PeeLog[100];
-
-        for (int i = 0; i < 100; i++) {
-            returnArray[i] = new PeeLog();
-            returnArray[i].id = 0;
-            returnArray[i].log_id = i;
-        }
-
-        for (int i = 0; i < 100; i++) {
-            string test = RandomTimeStamp("2021-01-0" + Random.Range(1, 8));
-            returnArray[i].timestamp = test;
-        }
-        
-        return returnArray;
-    }
 }

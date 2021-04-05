@@ -28,10 +28,32 @@ public class TimeHandler : MonoBehaviour {
         public int Seconds;
         public int Date;
 
+        public DateTimeStamp() {
+            try {
+                DateTimeStamp stamp = CurrentTime;
+                this.Years = stamp.Years; this.Months = stamp.Months;
+                this.Days = stamp.Days; this.Hours = stamp.Hours;
+                this.Minutes = stamp.Minutes; this.Seconds = stamp.Seconds;
+                this.Date = stamp.Date;
+            } catch(System.Exception e) {
+                Debug.LogError(e.ToString());
+            }
+        }
+
         public DateTimeStamp(int yyyy, int mm, int dd,
                         int hh, int MM, int ss) {
             this.Years = yyyy; this.Months = mm; this.Days = dd;
             this.Hours = hh; this.Minutes = MM; this.Seconds = ss;
+            DateTime currentTime = new DateTime(this.Years, this.Months, this.Days);
+            switch (currentTime.DayOfWeek) {
+                case DayOfWeek.Monday: this.Date = 0; break;
+                case DayOfWeek.Tuesday: this.Date = 1; break;
+                case DayOfWeek.Wednesday: this.Date = 2; break;
+                case DayOfWeek.Thursday: this.Date = 3; break;
+                case DayOfWeek.Friday: this.Date = 4; break;
+                case DayOfWeek.Saturday: this.Date = 5; break;
+                case DayOfWeek.Sunday: this.Date = 6; break;
+            }
         }
 
         public DateTimeStamp(DateTimeStamp stamp) {
@@ -82,6 +104,16 @@ public class TimeHandler : MonoBehaviour {
                 this.Years = datetime.Year; this.Months = datetime.Month;
                 this.Days = datetime.Day; this.Hours = datetime.Hour;
                 this.Minutes = datetime.Minute; this.Seconds = datetime.Second;
+            }
+            DateTime currentTime = new DateTime(this.Years, this.Months, this.Days);
+            switch (currentTime.DayOfWeek) {
+                case DayOfWeek.Monday: this.Date = 0; break;
+                case DayOfWeek.Tuesday: this.Date = 1; break;
+                case DayOfWeek.Wednesday: this.Date = 2; break;
+                case DayOfWeek.Thursday: this.Date = 3; break;
+                case DayOfWeek.Friday: this.Date = 4; break;
+                case DayOfWeek.Saturday: this.Date = 5; break;
+                case DayOfWeek.Sunday: this.Date = 6; break;
             }
         }
 

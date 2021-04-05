@@ -4,314 +4,440 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CalendarHandler : MonoBehaviour
-{
-  public int MyUserId;
-  public string MyCreationDate;
-  public string MyRealCreationDate;
-  public static string MyCurrentDate;
-  public DataHandler.PeeLog[] MyPeeLogs;
-  public DataHandler.WaterLog[] MyWaterLogs;
-  public DataHandler.PoopLog[] MyPoopLogs;
+public class CalendarHandler : MonoBehaviour {
+    public static CalendarHandler Instance;
 
-  public string[] MyDates = new string[28];
-  public Image[] PeeGauges = new Image[28];
-  public Image[] WaterGauges = new Image[28];
-  public Image[] PoopGauges = new Image[28];
-  public Text[] PeeGaugeTexts = new Text[28];
-  public Text[] WaterGaugeTexts = new Text[28];
-  public Sprite[] AfterPeeGauges = new Sprite[5];
-  public Sprite[] AfterWaterGauges = new Sprite[6];
-  public Sprite[] AfterPoopGauges = new Sprite[2];
-  public int[] PeeBoundary = new int[4];
-  public int[] WaterBoundary = new int[5];
-  public Text[] LeftLabelDates = new Text[7];
-  public Text[] RightLabelDates = new Text[7];
-  public Text[] WeekTexts = new Text[4];
-  public String[] WeekTextsList = {"1주", "2주", "3주", "4주", "5주", "6주", "7주", "8주"};
-  public int WeekMode = 0;
+    public Image[] PeeGauges = new Image[28];
+    public Image[] WaterGauges = new Image[28];
+    public Image[] PoopGauges = new Image[28];
+    public Text[] PeeGaugeTexts = new Text[28];
+    public Text[] WaterGaugeTexts = new Text[28];
+    public Sprite[] AfterPeeGauges = new Sprite[5];
+    public Sprite[] AfterWaterGauges = new Sprite[10];
+    public Sprite[] AfterPoopGauges = new Sprite[2];
+    public int[] PeeBoundary = new int[4];
+    public int[] WaterBoundary = new int[10];
+    public Text[] LeftLabelDates = new Text[7];
+    public Text[] RightLabelDates = new Text[7];
+    public Text[] WeekTexts = new Text[4];
+    public Sprite WaterEmptyGauges;
+    public String[] WeekTextsList = { "1주", "2주", "3주", "4주", "5주", "6주", "7주", "8주" };
+
+    public GameObject UpButton;
+    public GameObject DownButton;
+    public RectTransform TodayMark_Water;
+    public RectTransform TodayMark_Pee;
+    public Text DebugText;
+    public Text DebugTextLabel;
+
+    public SoundHandler.SFX WaterIconSFX;
+    public SoundHandler.SFX PeeIconSFX;
+    public SoundHandler.SFX PoopIconSFX;
+
+    private Dictionary<string, int> waterDictionary;
+    private Dictionary<string, int> peeDictionary;
+    private Dictionary<string, int> pooDictionary;
+    private int weekData = 0;
+    private int[,] stairs = new int[10,4]{
+        { 0,-1,-1,-1}, { 1, 7,-1,-1},
+        { 2, 8,14,-1}, { 3, 9,15,21},
+        { 4,10,16,22}, { 5,11,17,23},
+        { 6,12,18,24}, {13,19,25,-1},
+        {20,26,-1,-1}, {27,-1,-1,-1},
+    };
+    private int[,] stairs2 = new int[10, 4]{
+        {-1,-1,-1, 6}, {-1,-1,13, 5},
+        {-1,20,12, 4}, {27,19,11, 3},
+        {26,18,10, 2}, {25,17, 9, 1},
+        {24,16, 8, 0}, {23,15, 7,-1},
+        {22,14,-1,-1}, {21,-1,-1,-1},
+    };
 
 
-  public int CountPee(DataHandler.PeeLog[] logs, string Date) {
-    int Count = 0;
-    int Current = 0;
-    // if (logs[Current].timestamp.Substring(0, 10) > Date) {
-    //   return 0;
-    // }
-    TimeHandler.DateTimeStamp CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
-    while (CurrentLogTime.ToDateString() != Date) {
-    // 또는
-    // string OnlyDateNoTime[] = logs[k].timestamp.Split(new string[] {" "}, StringSplitOptions.None);
-      Current++;
-      if (Current == logs.Length) {
-        return 0;
-      }
-      CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
-    }
-    while (CurrentLogTime.ToDateString() == Date) {
-      Count++;
-      Current++;
-      if (Current == logs.Length) {
-        break;
-      }
-      CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
-    }
-    return Count;
-
-  }
-
-  public int CountWater(DataHandler.WaterLog[] logs, string Date) {
-    int Count = 0;
-    int Current = 0;
-
-    TimeHandler.DateTimeStamp CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
-    while (CurrentLogTime.ToDateString() != Date) {
-    //while (logs[Current].timestamp.Substring(0, 10) != Date) {
-      Current++;
-      if (Current == logs.Length) {
-        return 0;
-      }
-      CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
-    }
-    while (CurrentLogTime.ToDateString() == Date) {
-    //while (logs[Current].timestamp.Substring(0, 10) == Date) {
-      Count++;
-      Current++;
-      if (Current == logs.Length) {
-        break;
-      }
-      CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
-    }
-    return Count;
-  }
-
-  public bool FindGoodPooDay (DataHandler.PoopLog[] logs, string Date) {
-    int Current = 0;
-    TimeHandler.DateTimeStamp CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
-
-    while (CurrentLogTime.ToDateString() != Date) {
-      Current++;
-      if (Current == logs.Length) {
-        return false;
-      }
-      CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
-    }
-    while (CurrentLogTime.ToDateString() == Date) {
-      if ((logs[Current].type == 3)||(logs[Current].type == 4)) {
-        return true;
-      }
-      Current++;
-      if (Current == logs.Length) {
-        return false;
-      }
-      CurrentLogTime = new TimeHandler.DateTimeStamp(logs[Current].timestamp);
+    public void Awake() {
+        Instance = this;
     }
 
-    return false;
-
-  }
-
-  public void ChangePeeGaugeText(DataHandler.PeeLog[] logs, Text[] texts) {
-    for (int i = 0; i < texts.Length; i++) {
-      texts[i].text = CountPee(logs, MyDates[i]).ToString();
+    public void Start() {
+        waterDictionary = new Dictionary<string, int>();
+        peeDictionary = new Dictionary<string, int>();
+        pooDictionary = new Dictionary<string, int>();
+        DebugText.gameObject.SetActive(TotalManager.instance.isDebugMode);
+        DebugTextLabel.gameObject.SetActive(TotalManager.instance.isDebugMode);
     }
-  }
 
-  public void ChangeWaterGaugeText(DataHandler.WaterLog[] logs, Text[] texts) {
-    for (int i = 0; i < texts.Length; i++) {
-      texts[i].text = CountWater(logs, MyDates[i]).ToString();
+    private void OnDisable() {
+        waterDictionary.Clear();
+        peeDictionary.Clear();
+        pooDictionary.Clear();
+        foreach (Image img in PeeGauges) img.sprite = AfterPeeGauges[0];
+        foreach (Image img in PoopGauges) img.sprite = AfterPoopGauges[1];
+        foreach (Image img in WaterGauges) img.sprite = WaterEmptyGauges;
+        foreach (Text t in WaterGaugeTexts) t.text = "";
+        foreach (Text t in PeeGaugeTexts) t.text = "";
+        TodayMark_Pee.gameObject.SetActive(false);
+        TodayMark_Water.gameObject.SetActive(false);
+        isDataLoaded = false;
     }
-  }
 
-  public void ChangePeeGaugeImage (DataHandler.PeeLog[] logs, Image[] beforeImages, Sprite[] afterImages, int[] boundary) {
-    for (int i = 0; i < beforeImages.Length; i++) {
-      if (CountPee(logs, MyDates[i]) <= boundary[0]) {
-        beforeImages[i].sprite = afterImages[0];
-      }
-      else if (CountPee(logs, MyDates[i]) <= boundary[1]){
-        beforeImages[i].sprite = afterImages[1];
-      }
-      else if (CountPee(logs, MyDates[i]) <= boundary[2]){
-        beforeImages[i].sprite = afterImages[2];
-      }
-      else if (CountPee(logs, MyDates[i]) <= boundary[3]){
-        beforeImages[i].sprite = afterImages[3];
-      }
-      else {
-        beforeImages[i].sprite = afterImages[4];
-      }
+    private void OnEnable() {
+        TimeHandler.GetCurrentTime();
+        StartCoroutine(CheckLoadAndVisualize_1());
     }
-  }
-
-  public void ChangeWaterGaugeImage (DataHandler.WaterLog[] logs, Image[] beforeImages, Sprite[] afterImages, int[] boundary) {
-    for (int i = 0; i < beforeImages.Length; i++) {
-      if (CountWater(logs, MyDates[i]) <= boundary[0]) {
-        beforeImages[i].sprite = afterImages[0];
-      }
-      else if (CountWater(logs, MyDates[i]) <= boundary[1]){
-        beforeImages[i].sprite = afterImages[1];
-      }
-      else if (CountWater(logs, MyDates[i]) <= boundary[2]){
-        beforeImages[i].sprite = afterImages[2];
-      }
-      else if (CountWater(logs, MyDates[i]) <= boundary[3]){
-        beforeImages[i].sprite = afterImages[3];
-      }
-      else if (CountWater(logs, MyDates[i]) <= boundary[4]){
-        beforeImages[i].sprite = afterImages[4];
-      }
-      else {
-        beforeImages[i].sprite = afterImages[5];
-      }
-    }
-  }
-
-  public void ChangePoopGaugeImage (DataHandler.PoopLog[] logs, Image[] beforeImages, Sprite[] afterImages) {
-    for (int i = 0; i < beforeImages.Length; i++) {
-      if (FindGoodPooDay(logs, MyDates[i])) {
-        beforeImages[i].sprite = afterImages[0];
-      }
-      else {
-        beforeImages[i].sprite = afterImages[1];
-      }
-    }
-  }
-
-  public void FillDateFromCreation (string CreatingDate, string[] dates) {
-    TimeHandler.DateTimeStamp CreatingDateStamp = new TimeHandler.DateTimeStamp(CreatingDate);
-    for (int i = 0; i < dates.Length; i++) {
-      dates[i] = (CreatingDateStamp + i).ToDateString();
-    }
-  }
-
-  public void FillWeekText (Text[] WeekTexts, int WeekMode) {
-    for (int i = 0; i < 4; i++) {
-      WeekTexts[i].text = WeekTextsList[i + WeekMode];
-    }
-  }
-
-  public void SetDateLabel (string CreatingDate, Text[] right, Text[] left) {
-    TimeHandler.DateTimeStamp CreatingDateStamp = new TimeHandler.DateTimeStamp(CreatingDate);
-    int crt = CreatingDateStamp.Date;
-    right[0].text = TimeHandler.DateTimeStamp.DateList[crt];
-    left[0].text = TimeHandler.DateTimeStamp.DateList[crt];
-    for (int i = 1; i < 7; i++) {
-      crt++;
-      right[i].text = TimeHandler.DateTimeStamp.DateList[crt % 7];
-      left[i].text = TimeHandler.DateTimeStamp.DateList[crt % 7];
-    }
-  }
-
-  public void OnWeekChangeButton_UpClicked() {
-    Debug.Log(MyRealCreationDate);
-    TimeHandler.DateTimeStamp mrcdts2 = new TimeHandler.DateTimeStamp(MyRealCreationDate);
-    string MyRealCreationDate2 = mrcdts2.ToString();
-    if (MyCreationDate == MyRealCreationDate2) {
-      Debug.Log("wrong");
-    }
-    else {
-      WeekMode--;
-      for (int i = 0; i < 4; i++) {
-        WeekTexts[i].text = WeekTextsList[i + WeekMode];
-      }
-      TimeHandler.DateTimeStamp mcdts = new TimeHandler.DateTimeStamp(MyCreationDate);
-      mcdts = mcdts - 7;
-      MyCreationDate = mcdts.ToString();
-
-      //test
-      FillDateFromCreation(MyCreationDate, MyDates);
-      ChangePeeGaugeText(MyPeeLogs, PeeGaugeTexts);
-      ChangeWaterGaugeText(MyWaterLogs, WaterGaugeTexts);
-      ChangePeeGaugeImage(MyPeeLogs, PeeGauges, AfterPeeGauges, PeeBoundary);
-      ChangeWaterGaugeImage(MyWaterLogs, WaterGauges, AfterWaterGauges, WaterBoundary);
-      ChangePoopGaugeImage(MyPoopLogs, PoopGauges, AfterPoopGauges);
-    }
-    Debug.Log(MyCreationDate + "&" + MyRealCreationDate);
-  }
-
-  public void OnWeekChangeButton_DownClicked() {
-    TimeHandler.DateTimeStamp mrcdts = new TimeHandler.DateTimeStamp(MyRealCreationDate);
-    mrcdts = mrcdts + 28;
-    string MyRealCreationDate2 = mrcdts.ToString();
-    if (MyCreationDate == MyRealCreationDate2) {
-
-    }
-    else {
-      WeekMode++;
-      for (int i = 0; i < 4; i++) {
-        WeekTexts[i].text = WeekTextsList[i + WeekMode];
-      }
-      TimeHandler.DateTimeStamp mcdts = new TimeHandler.DateTimeStamp(MyCreationDate);
-      mcdts = mcdts + 7;
-      MyCreationDate = mcdts.ToString();
-
-      //test
-      FillDateFromCreation(MyCreationDate, MyDates);
-      ChangePeeGaugeText(MyPeeLogs, PeeGaugeTexts);
-      ChangeWaterGaugeText(MyWaterLogs, WaterGaugeTexts);
-      ChangePeeGaugeImage(MyPeeLogs, PeeGauges, AfterPeeGauges, PeeBoundary);
-      ChangeWaterGaugeImage(MyWaterLogs, WaterGauges, AfterWaterGauges, WaterBoundary);
-      ChangePoopGaugeImage(MyPoopLogs, PoopGauges, AfterPoopGauges);
-    }
-    Debug.Log(MyCreationDate + "&" + MyRealCreationDate);
-  }
-
-
-
-  IEnumerator CheckLoadAndVisualize() {
-    while (!DataHandler.User_isDataLoaded) {
+    private IEnumerator CheckLoadAndVisualize_1() {
         yield return 0;
-    }
-    DataHandler.User_isDataLoaded = false;
+        while (!DataHandler.User_isDataLoaded) {
+            yield return 0;
+        }
+        DataHandler.User_isDataLoaded = false;
+        StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
+        StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
+        StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
+        StartCoroutine(CheckLoadAndVisualize_2());
+        UpButton.SetActive(( DataHandler.User_periode != 4 ));
+        DownButton.SetActive(( DataHandler.User_periode != 4 ));
 
-    while (!DataHandler.User_isPeeDataLoaded) {
+
+    }
+
+    private IEnumerator CheckLoadAndVisualize_2() {
+        isDataLoaded = true;
         yield return 0;
+        while(!DataHandler.User_isWaterDataLoaded ||
+              !DataHandler.User_isPeeDataLoaded ||
+              !DataHandler.User_isPooDataLoaded) { yield return 0; }
+        DataHandler.User_isWaterDataLoaded = false;
+        DataHandler.User_isPeeDataLoaded = false;
+        DataHandler.User_isPooDataLoaded = false;
+
+        foreach(DataHandler.WaterLog log in DataHandler.Water_logs.WaterLogs) {
+            string timestamp = log.timestamp.Split(' ')[0];
+            try {
+                int num = waterDictionary[timestamp];
+                waterDictionary[timestamp] = num + 1;
+            } catch(Exception e) {
+                e.ToString();
+                waterDictionary.Add(timestamp, 1);
+            }
+        }
+
+        foreach (DataHandler.PeeLog log in DataHandler.Pee_logs.PeeLogs) {
+            string timestamp = log.timestamp.Split(' ')[0];
+            try {
+                int num = peeDictionary[timestamp];
+                peeDictionary[timestamp] = num + 1;
+            } catch (Exception e) {
+                e.ToString();
+                peeDictionary.Add(timestamp, 1);
+            }
+        }
+
+        foreach (DataHandler.PoopLog log in DataHandler.Poop_logs.PoopLogs) {
+            string timestamp = log.timestamp.Split(' ')[0];
+            if(log.type != 3 && log.type != 4) continue;
+            try {
+                int num = pooDictionary[timestamp];
+                pooDictionary[timestamp] = num + 1;
+            } catch (Exception e) {
+                e.ToString();
+                pooDictionary.Add(timestamp, 1);
+            }
+        }
+
+        TimeHandler.DateTimeStamp indexTime =
+             new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
+
+        for (int i = 0; i < 7; i++) {
+            TimeHandler.DateTimeStamp tempTime = indexTime + i;
+            RightLabelDates[i].text = TimeHandler.DateTimeStamp.DateList[tempTime.Date];
+            LeftLabelDates[i].text  = TimeHandler.DateTimeStamp.DateList[tempTime.Date];
+        }
+
+        bool flag = true;
+        for (int w = 1; (w < DataHandler.User_periode) && flag; w++) {
+            for(int i = 0; (i < 7) && flag; i ++) {
+                if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                    indexTime,TimeHandler.CalendarCanvasTime
+                    ) == 0) {
+                    if (w <= 4) weekData = 4;
+                    else weekData = w;
+                    flag = false;
+                }
+                indexTime = indexTime + 1;
+            }
+        }
+        if(flag) {
+            DebugText.text = "Can't find Week Data!";
+            Debug.LogError("Can't find Week Data!");
+        } else { DebugText.text = "Today : " + TimeHandler.CalendarCanvasTime.ToDateString() + "\n" +
+                                  "weeks : " + weekData.ToString();
+        }
+
+         StartCoroutine(DrawCalendarAnimation());
     }
-    DataHandler.User_isPeeDataLoaded = false;
 
-    while (!DataHandler.User_isWaterDataLoaded) {
-      yield return 0;
+    private bool isDataLoaded = false;
+    private bool WaterIconDrawDone = false;
+    private bool PeeIconDrawDone = false;
+
+    public void UpButtonClick() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED2);
+        if (!isDataLoaded) return;
+        weekData = ( weekData <= 4 ) ? 4 : weekData - 1;
+        WeekTexts[0].text = WeekTextsList[weekData - 4];
+        WeekTexts[1].text = WeekTextsList[weekData - 3];
+        WeekTexts[2].text = WeekTextsList[weekData - 2];
+        WeekTexts[3].text = WeekTextsList[weekData - 1];
+        DrawCalendar();
     }
-    DataHandler.User_isWaterDataLoaded = false;
 
-    while (!DataHandler.User_isPooDataLoaded) {
-      yield return 0;
+    public void DownButtonClick() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED2);
+        if (!isDataLoaded) return;
+        weekData = ( weekData >= DataHandler.User_periode ) ? DataHandler.User_periode : weekData + 1;
+        WeekTexts[0].text = WeekTextsList[weekData - 4];
+        WeekTexts[1].text = WeekTextsList[weekData - 3];
+        WeekTexts[2].text = WeekTextsList[weekData - 2];
+        WeekTexts[3].text = WeekTextsList[weekData - 1];
+        DrawCalendar();
     }
-    DataHandler.User_isPooDataLoaded = false;
-
-    MyUserId = DataHandler.User_id;
-    MyCreationDate = DataHandler.User_creation_date;
-    MyRealCreationDate = MyCreationDate;
-    MyPeeLogs = DataHandler.Pee_logs.PeeLogs;
-    MyWaterLogs = DataHandler.Water_logs.WaterLogs;
-    MyPoopLogs = DataHandler.Poop_logs.PoopLogs;
-
-    FillDateFromCreation(MyCreationDate, MyDates);
-    FillWeekText(WeekTexts, WeekMode);
-    SetDateLabel(MyCreationDate, RightLabelDates, LeftLabelDates);
-
-    ChangePeeGaugeText(MyPeeLogs, PeeGaugeTexts);
-    ChangeWaterGaugeText(MyWaterLogs, WaterGaugeTexts);
-    ChangePeeGaugeImage(MyPeeLogs, PeeGauges, AfterPeeGauges, PeeBoundary);
-    ChangeWaterGaugeImage(MyWaterLogs, WaterGauges, AfterWaterGauges, WaterBoundary);
-    ChangePoopGaugeImage(MyPoopLogs, PoopGauges, AfterPoopGauges);
-  }
 
 
-  private void Start() {
+    private IEnumerator DrawCalendarAnimation() {
+        TimeHandler.DateTimeStamp indexTime =
+            new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
+        indexTime = indexTime + ( ( weekData - 4 ) * 7 );
 
-      StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(DrawWaterLogAnimation(indexTime));
+        StartCoroutine(DrawPeeLogAnimation(indexTime));
+        WaterIconDrawDone = false;
+        PeeIconDrawDone = false;
+        while (!WaterIconDrawDone || !PeeIconDrawDone) { yield return 0; }
+        yield return new WaitForSeconds(0.3f);
 
-      StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
+        int todayIndex = -1;
+        for (int j = 0; j < 10; j++) {
+            bool flag = false;
+            for (int i = 0; i < 4; i++) {
+                if (stairs2[j, i] == -1) continue;
+                try {
+                    string indexString = ( indexTime + stairs2[j, i] ).ToDateString();
+                    if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                        ( indexTime + stairs2[j, i] ), TimeHandler.CalendarCanvasTime) == 0)
+                        todayIndex = stairs2[j, i];
+                    int num = pooDictionary[indexString];
+                    PoopGauges[stairs2[j, i]].sprite = AfterPoopGauges[0];
+                    PoopGauges[stairs2[j, i]].GetComponent<Animator>().SetTrigger("Poped");
+                    flag = true;
+                } catch (Exception e) {
+                    e.ToString();
+                    PoopGauges[stairs2[j, i]].sprite = AfterPoopGauges[1];
+                }
+            }
+            if (flag) {
+                SoundHandler.Instance.Play_SFX(PoopIconSFX);
+                yield return new WaitForSeconds(0.13f);
+            }
+        }
 
-      StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
+        if(todayIndex != -1) {
+            yield return new WaitForSeconds(0.3f);
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.POPED);
+            TodayMark_Water.anchoredPosition =
+                WaterGauges[todayIndex].GetComponent<RectTransform>().anchoredPosition;
+            TodayMark_Water.gameObject.SetActive(true);
+            TodayMark_Pee.anchoredPosition =
+                new Vector2(PeeGauges[todayIndex].GetComponent<RectTransform>().anchoredPosition.x,
+                             227.5f - ((int)(todayIndex / 7))*165f );
+            TodayMark_Pee.gameObject.SetActive(true);
+        }
+    }
 
-      StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
+    public IEnumerator SetPeeText(int index,string str) {
+        yield return new WaitForSeconds(0.12f);
+        PeeGaugeTexts[index].text = str;
+    }
 
-      StartCoroutine(CheckLoadAndVisualize());
+    public IEnumerator DrawWaterLogAnimation(TimeHandler.DateTimeStamp indexTime) {
+        yield return new WaitForSeconds(0.12f);
+        for (int j = 0; j < 10; j++) {
+            bool flag = false;
+            for (int i = 0; i < 4; i++) {
+                if (stairs[j, i] == -1) continue;
+                try {
+                    string indexString = ( indexTime + stairs[j, i] ).ToDateString();
+                    int num = waterDictionary[indexString];
+                    int sprite_num = ( num > 10 ) ? 10 : num;
+                    WaterGauges[stairs[j, i]].sprite = AfterWaterGauges[sprite_num];
+                    WaterGaugeTexts[stairs[j, i]].text = num.ToString();
+                    WaterGauges[stairs[j, i]].GetComponent<Animator>().SetTrigger("Poped");
+                    flag = true;
+                } catch (Exception e) {
+                    e.ToString();
+                    int result =
+                        TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                            indexTime + stairs[j, i], TimeHandler.CalendarCanvasTime
+                        );
+                    if (result == 1) {
+                        WaterGauges[stairs[j, i]].sprite = WaterEmptyGauges;
+                        WaterGaugeTexts[stairs[j, i]].text = " ";
+                    } else {
+                        WaterGauges[stairs[j, i]].sprite = AfterWaterGauges[0];
+                        WaterGaugeTexts[stairs[j, i]].text = "0";
+                        WaterGauges[stairs[j, i]].GetComponent<Animator>().SetTrigger("Poped");
+                        flag = true;
+                    }
+                }
+            }
+            if (flag) {
+                yield return new WaitForSeconds(0.13f);
+            }
+        }
+        WaterIconDrawDone = true;
+    }
+
+    public IEnumerator DrawPeeLogAnimation(TimeHandler.DateTimeStamp indexTime) {
+        yield return new WaitForSeconds(0.12f);
+        for (int j = 0; j < 10; j++) {
+            bool flag = false;
+            for (int i = 0; i < 4; i++) {
+                string numberString = "";
+                if (stairs[j, i] == -1) continue;
+                try {
+                    string indexString = ( indexTime + stairs[j, i] ).ToDateString();
+                    int num = peeDictionary[indexString];
+                    bool peeFlag2 = false;
+                    for (int k = 0; k < PeeBoundary.Length; k++) {
+                        if (num <= PeeBoundary[k]) {
+                            PeeGauges[stairs[j, i]].sprite = AfterPeeGauges[k];
+                            peeFlag2 = true;
+                            break;
+                        }
+                    }
+                    if (!peeFlag2) PeeGauges[stairs[j, i]].sprite = AfterPeeGauges[4];
+                    PeeGauges[stairs[j, i]].GetComponent<Animator>().SetTrigger("Poped");
+                    numberString = num.ToString();
+                    StartCoroutine(SetPeeText(stairs[j, i], numberString));
+                    flag = true;
+                } catch (Exception e) {
+                    e.ToString();
+                    int result =
+                        TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                            indexTime + stairs[j, i], TimeHandler.CalendarCanvasTime
+                        );
+                    PeeGauges[stairs[j, i]].sprite = AfterPeeGauges[0];
+                    if (result == 1) {
+                        numberString = " ";
+                    } else {
+                        PeeGauges[stairs[j, i]].GetComponent<Animator>().SetTrigger("Poped");
+                        numberString = "0";
+                        flag = true;
+                        StartCoroutine(SetPeeText(stairs[j, i], numberString));
+                    }
+                }
+            }
+            if (flag) {
+                SoundHandler.Instance.Play_SFX(WaterIconSFX);
+                yield return new WaitForSeconds(0.13f);
+            }
+        }
+
+        PeeIconDrawDone = true;
+    }
 
 
-  }
+    //=======================================================================================================
+    // DRAW CALENDAR
+    //=======================================================================================================
+    private void DrawCalendar() {
+        TimeHandler.DateTimeStamp indexTime =
+            new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
+        indexTime = indexTime + ( ( weekData - 4 ) * 7 );
+        int todayIndex = -1;
+        for (int i = 0; i < 28; i++) {
+            string indexString = ( indexTime + i ).ToDateString();
+            if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                        ( indexTime + i ), TimeHandler.CalendarCanvasTime) == 0)
+                todayIndex = i;
 
+            //===============================================================================================
+            // PEE DRAW
+            //===============================================================================================
+            try {
+                int num = peeDictionary[indexString];
+                bool peeFlag = false;
+                for (int k = 0; k < PeeBoundary.Length; k++) {
+                    if (num <= PeeBoundary[k]) {
+                        PeeGauges[i].sprite = AfterPeeGauges[k];
+                        peeFlag = true; break;
+                    }
+                }
+                if (!peeFlag) PeeGauges[i].sprite = AfterPeeGauges[4];
+                PeeGaugeTexts[i].text = num.ToString();
+            } catch (Exception e) {
+                e.ToString();
+                int result =
+                    TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                        indexTime + i, TimeHandler.CalendarCanvasTime
+                    );
+                PeeGauges[i].sprite = AfterPeeGauges[0];
+                if (result == 1) PeeGaugeTexts[i].text = " ";
+                else PeeGaugeTexts[i].text = "0";
+            }
 
+            //===============================================================================================
+            // WATER DRAW
+            //===============================================================================================
+            try {
+                int num = waterDictionary[indexString];
+                bool waterFlag = false;
+                for (int k = 0; k < WaterBoundary.Length; k++) {
+                    if (num <= WaterBoundary[k]) {
+                        WaterGauges[i].sprite = AfterWaterGauges[k];
+                        waterFlag = true; break;
+                    }
+                }
+                if (!waterFlag) WaterGauges[i].sprite = AfterWaterGauges[10];
+                WaterGaugeTexts[i].text = num.ToString();
+            } catch (Exception e) {
+                e.ToString();
+                int result =
+                    TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                        indexTime + i, TimeHandler.CalendarCanvasTime
+                    );
+                if (result == 1) {
+                    WaterGauges[i].sprite = WaterEmptyGauges;
+                    WaterGaugeTexts[i].text = " ";
+                } else {
+                    WaterGauges[i].sprite = AfterWaterGauges[0];
+                    WaterGaugeTexts[i].text = "0";
+                }
+            }
+
+            //===============================================================================================
+            // POOP DRAW
+            //===============================================================================================
+            try {
+                int num = pooDictionary[indexString];
+                PoopGauges[i].sprite = AfterPoopGauges[0];
+            } catch (Exception e) {
+                e.ToString();
+                PoopGauges[i].sprite = AfterPoopGauges[1];
+            }
+        }
+
+        if (todayIndex != -1) {
+            TodayMark_Water.anchoredPosition =
+                WaterGauges[todayIndex].GetComponent<RectTransform>().anchoredPosition;
+            TodayMark_Water.gameObject.SetActive(true);
+            TodayMark_Pee.anchoredPosition =
+                new Vector2(PeeGauges[todayIndex].GetComponent<RectTransform>().anchoredPosition.x,
+                             227.5f - ( (int)( todayIndex / 7 ) ) * 165f);
+            TodayMark_Pee.gameObject.SetActive(true);
+        } else {
+            TodayMark_Water.gameObject.SetActive(false);
+            TodayMark_Pee.gameObject.SetActive(false);
+        }
+    }
 }

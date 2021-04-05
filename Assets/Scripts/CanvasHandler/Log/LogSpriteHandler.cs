@@ -8,6 +8,8 @@ public class LogSpriteHandler : MonoBehaviour, IPointerClickHandler
 {
     public enum LOG { WATER, POO, PEE, DRINK};
     private LogCanvasHandler handler;
+    public bool isTop = false;
+    public Text Number;
 
     public class LogScript {
         public LOG LogType = LOG.WATER;
@@ -44,7 +46,6 @@ public class LogSpriteHandler : MonoBehaviour, IPointerClickHandler
         }
     }
     
-    public int Index = 0;
     public LogScript log;
 
 
@@ -60,7 +61,7 @@ public class LogSpriteHandler : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData) {
-
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.COIN);
         if(!handler.WaterButtonClicked &&
            !handler.DrinkButtonClicked &&
            !handler.PooButtonClicked &&
@@ -69,6 +70,13 @@ public class LogSpriteHandler : MonoBehaviour, IPointerClickHandler
             Debug.Log(log.TimeStamp);
             Debug.Log(log.LogType);
             Debug.Log(log.Type);
+            handler.DebugText.text = "[ " + log.Log_id + "] : ";
+            handler.DebugText.text += "|" + log.TimeStamp + "| ";
+            handler.DebugText.text += log.LogType;
+            if (log.LogType == LOG.DRINK)
+                handler.DebugText.text += " / volume : " + log.Type;
+            else if (log.LogType == LOG.POO)
+                handler.DebugText.text += " / type : " + log.Type;
         }
     }
 }

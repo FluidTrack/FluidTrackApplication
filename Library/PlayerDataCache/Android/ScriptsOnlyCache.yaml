@@ -3,28 +3,31 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - AlertHandler
     - BluetoothManager
+    - CalendarHandler
+    - CanvasDisableAnimationContoller
     - DataHandler
     - DeviceListHandler
+    - ErrorOcurredWindowHandler
     - FlashHandler
+    - FlowerShapeHandler
     - FooterBarHandler
-    - FoundDeviceListScript
+    - GardenSpotHandler
     - HomeHandler
-    - Level1Script
-    - Level2Script
     - LogCanvasHandler
     - LogSpriteHandler
+    - MainPageHeaderHandler
     - MissionCanvasHandler
+    - NavigationHandler
     - OpeningHandler
     - PopUpHandler
     - ProtocolHandler
     - ScanPanelHandler
-    - ScrollViewHandler
-    - ScrollViewHandler2
     - SlotHandler
     - SoundHandler
     - TimerHandler
     - TimerHandler2
     - TotalManager
+    - TouchAndMouseManager
     - WelcomHandler
     - Welcome2Handler
     - Welcome3Handler
@@ -40,6 +43,14 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.TileDragAndDropManager
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    UnityEditor.Graphs.dll:
+    - UnityEditor.Graphs.AnimationBlendTree.Graph
+    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
+    - UnityEditor.Graphs.AnimationStateMachine.Graph
+    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
+    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -47,7 +58,6 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
-    - UnityEngine.EventSystems.TouchInputModule
     - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.Dropdown
@@ -96,186 +106,88 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11164}
     - Class: 114
-      Script: {instanceID: 11330}
+      Script: {instanceID: 11226}
     - Class: 114
-      Script: {instanceID: 11428}
+      Script: {instanceID: 11238}
     - Class: 114
-      Script: {instanceID: 11594}
+      Script: {instanceID: 11326}
     - Class: 114
-      Script: {instanceID: 11596}
+      Script: {instanceID: 11386}
     - Class: 114
-      Script: {instanceID: 11644}
+      Script: {instanceID: 11494}
     - Class: 114
-      Script: {instanceID: 12054}
+      Script: {instanceID: 11496}
     - Class: 114
-      Script: {instanceID: 12068}
+      Script: {instanceID: 11544}
     - Class: 114
-      Script: {instanceID: 12146}
+      Script: {instanceID: 11954}
     - Class: 114
-      Script: {instanceID: 12284}
+      Script: {instanceID: 11968}
     - Class: 114
-      Script: {instanceID: 12300}
+      Script: {instanceID: 12010}
     - Class: 114
-      Script: {instanceID: 12322}
+      Script: {instanceID: 12048}
     - Class: 114
-      Script: {instanceID: 12460}
+      Script: {instanceID: 12186}
     - Class: 114
-      Script: {instanceID: 12528}
+      Script: {instanceID: 12202}
     - Class: 114
-      Script: {instanceID: 12544}
+      Script: {instanceID: 12224}
     - Class: 114
-      Script: {instanceID: 12678}
+      Script: {instanceID: 12360}
     - Class: 114
-      Script: {instanceID: 12758}
+      Script: {instanceID: 12428}
     - Class: 114
-      Script: {instanceID: 12784}
+      Script: {instanceID: 12444}
     - Class: 114
-      Script: {instanceID: 12822}
+      Script: {instanceID: 12546}
     - Class: 114
-      Script: {instanceID: 13146}
+      Script: {instanceID: 12580}
     - Class: 114
-      Script: {instanceID: 13332}
+      Script: {instanceID: 12642}
     - Class: 114
-      Script: {instanceID: 13696}
+      Script: {instanceID: 12660}
     - Class: 114
-      Script: {instanceID: 13780}
+      Script: {instanceID: 12686}
     - Class: 114
-      Script: {instanceID: 13812}
+      Script: {instanceID: 12724}
     - Class: 114
-      Script: {instanceID: 13988}
+      Script: {instanceID: 13046}
     - Class: 114
-      Script: {instanceID: 13996}
+      Script: {instanceID: 13232}
     - Class: 114
-      Script: {instanceID: 14278}
+      Script: {instanceID: 13682}
     - Class: 114
-      Script: {instanceID: 14346}
+      Script: {instanceID: 13714}
     - Class: 114
-      Script: {instanceID: 14386}
+      Script: {instanceID: 13890}
     - Class: 114
-      Script: {instanceID: 14390}
+      Script: {instanceID: 13898}
     - Class: 114
-      Script: {instanceID: 14412}
+      Script: {instanceID: 13922}
     - Class: 114
-      Script: {instanceID: 14444}
+      Script: {instanceID: 13972}
     - Class: 114
-      Script: {instanceID: 14446}
+      Script: {instanceID: 14182}
     - Class: 114
-      Script: {instanceID: 14466}
+      Script: {instanceID: 14238}
     - Class: 114
-      Script: {instanceID: 14468}
+      Script: {instanceID: 14252}
     - Class: 114
-      Script: {instanceID: 14492}
+      Script: {instanceID: 14292}
+    - Class: 114
+      Script: {instanceID: 14296}
+    - Class: 114
+      Script: {instanceID: 14318}
+    - Class: 114
+      Script: {instanceID: 14350}
+    - Class: 114
+      Script: {instanceID: 14370}
+    - Class: 114
+      Script: {instanceID: 14372}
+    - Class: 114
+      Script: {instanceID: 14396}
     - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    Assets/Shatalmic/Example/MultipleLevels/Level1.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 11158}
-    - Class: 114
-      Script: {instanceID: 11160}
-    - Class: 114
-      Script: {instanceID: 11162}
-    - Class: 114
-      Script: {instanceID: 11164}
-    - Class: 114
-      Script: {instanceID: 11634}
-    - Class: 114
-      Script: {instanceID: 12322}
-    - Class: 114
-      Script: {instanceID: 13158}
-    - Class: 114
-      Script: {instanceID: 13770}
-    - Class: 114
-      Script: {instanceID: 13812}
-    - Class: 114
-      Script: {instanceID: 14444}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 124
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    Assets/Shatalmic/Example/MultipleLevels/Level2.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 11158}
-    - Class: 114
-      Script: {instanceID: 11160}
-    - Class: 114
-      Script: {instanceID: 11162}
-    - Class: 114
-      Script: {instanceID: 11164}
-    - Class: 114
-      Script: {instanceID: 11634}
-    - Class: 114
-      Script: {instanceID: 12322}
-    - Class: 114
-      Script: {instanceID: 13158}
-    - Class: 114
-      Script: {instanceID: 13550}
-    - Class: 114
-      Script: {instanceID: 13812}
-    - Class: 114
-      Script: {instanceID: 14444}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 124
       Script: {instanceID: 0}
     - Class: 128
       Script: {instanceID: 0}
@@ -330,6 +242,12 @@ ScriptsOnlyBuild:
     className: AlertHandler
   - hash:
       serializedVersion: 2
+      Hash: 4a11b3912647f089ceb01e41ddaeaab1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MainPageHeaderHandler
+  - hash:
+      serializedVersion: 2
       Hash: 87ff43d2baf3385cba327d8f803a4ebb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -354,7 +272,7 @@ ScriptsOnlyBuild:
     className: iBeaconExampleScript
   - hash:
       serializedVersion: 2
-      Hash: bfa44eecf6bb40b53ef91d9fe4f0d830
+      Hash: 31eb9c17179c43e8a3cd400ad7796339
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FooterBarHandler
@@ -370,6 +288,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
     className: PlayerQuitHandler
+  - hash:
+      serializedVersion: 2
+      Hash: 20476302ce7ab48ad350f008b1787d8c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GardenSpotHandler
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -546,7 +470,7 @@ ScriptsOnlyBuild:
     className: BluetoothManager
   - hash:
       serializedVersion: 2
-      Hash: 5f3256acb9bc384ad7b4215e137ce356
+      Hash: 58e82e50c25e2c70c596508407ef24aa
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogCanvasHandler
@@ -556,6 +480,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: AnimationPlayableAsset
+  - hash:
+      serializedVersion: 2
+      Hash: d06c4784e8a5ed2268b09c6ab3d26ac3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ErrorOcurredWindowHandler
   - hash:
       serializedVersion: 2
       Hash: aba7b2852ef61d175dd9602e7723d5e5
@@ -612,12 +542,6 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAsset
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: KYC_Test
-  - hash:
-      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -642,7 +566,7 @@ ScriptsOnlyBuild:
     className: Welcome4Handler
   - hash:
       serializedVersion: 2
-      Hash: 1127db9425738ce04f0ce1b20f2ab6eb
+      Hash: 3c8128cc4b66094c531616fc325e7513
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MissionCanvasHandler
@@ -652,6 +576,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_Asset
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CanvasDisableAnimationContoller
   - hash:
       serializedVersion: 2
       Hash: d4020bafcd3ccbb5601a6e6c8ac78be0
@@ -666,13 +596,13 @@ ScriptsOnlyBuild:
     className: SignalTrack
   - hash:
       serializedVersion: 2
-      Hash: a7c402d79cb2efe620f8909b4e311641
+      Hash: 447c081b69e2b5e7e5d38fe0629e4955
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CalendarHandler
   - hash:
       serializedVersion: 2
-      Hash: 16210933b55d2b147a1f8cf28d8da20b
+      Hash: c97aa1142354b918356b7014f5cc204d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SlotHandler
@@ -690,7 +620,7 @@ ScriptsOnlyBuild:
     className: ProtocolHandler
   - hash:
       serializedVersion: 2
-      Hash: 07c76131298427ba48cba994986e3476
+      Hash: c9e10637c99d27e6bf6884c5006170b8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogSpriteHandler
@@ -712,12 +642,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
     className: RemoteTestResultSender
-  - hash:
-      serializedVersion: 2
-      Hash: 0b69eeeea51cdede3e8bebb8c47d1fc6
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: CalendarWaterLogHandler
   - hash:
       serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
@@ -828,10 +752,10 @@ ScriptsOnlyBuild:
     className: Level2Script
   - hash:
       serializedVersion: 2
-      Hash: 6446610c0fdb2e26558e1377043989a3
+      Hash: 20978a1bc4cfec31b9a08a6617e007ed
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: ScrollViewHandler2
+    className: FlowerPageHandler
   - hash:
       serializedVersion: 2
       Hash: 8001a5f7502aab37e42206da015e6914
@@ -870,7 +794,7 @@ ScriptsOnlyBuild:
     className: BeforeAfterTestCommandState
   - hash:
       serializedVersion: 2
-      Hash: ec0f234ecc2ce53e76fbbb943ec04da5
+      Hash: 95c70153901f2cb209dc523f5a801022
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TotalManager
@@ -882,16 +806,22 @@ ScriptsOnlyBuild:
     className: FlashHandler
   - hash:
       serializedVersion: 2
-      Hash: ac319b946d17fce6e0ec59875c6f88b9
+      Hash: 8b0533c7647447ec26072f4e04ca860c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: TestButtonHandler_HSY
+    className: NavigationHandler
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: MarkerTrack
+  - hash:
+      serializedVersion: 2
+      Hash: efbbe2c1ade5b8492ed4d32a1720de87
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TouchAndMouseManager
   - hash:
       serializedVersion: 2
       Hash: d791aa6007fa3640be1164ea75bb087d
@@ -912,7 +842,7 @@ ScriptsOnlyBuild:
     className: TMP_ColorGradient
   - hash:
       serializedVersion: 2
-      Hash: 6e20f0f6b446bdf45e18f8f11347992f
+      Hash: e0e5644b47fa2fbee16fd0dc958c6bc5
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SoundHandler
@@ -934,6 +864,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Outline
+  - hash:
+      serializedVersion: 2
+      Hash: f3919d2db92e635d040c79fd679888f1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FlowerShapeHandler
   - hash:
       serializedVersion: 2
       Hash: 477e5b2c63616e8b7c43ba8694058c03
@@ -996,19 +932,13 @@ ScriptsOnlyBuild:
     className: StandaloneInputModule
   - hash:
       serializedVersion: 2
-      Hash: 0725786e1c619b4558ae3c0ab76f542b
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: ScrollViewHandler
-  - hash:
-      serializedVersion: 2
       Hash: aa88ae22474df55295327e4ee99e5a24
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Toggle
   - hash:
       serializedVersion: 2
-      Hash: 54bf039006772df37b22aa7dcaaba25d
+      Hash: 4697fa97db5c7acd4733733ce6902617
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: HomeHandler
@@ -1051,6 +981,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/MainScene.unity
-  - Assets/Shatalmic/Example/MultipleLevels/Level1.unity
-  - Assets/Shatalmic/Example/MultipleLevels/Level2.unity
   playerPath: C:/Users/movie/Desktop/test.apk

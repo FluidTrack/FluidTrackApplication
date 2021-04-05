@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4194257362798617861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4194257362798617882}
+  - component: {fileID: 4194257362798617880}
+  - component: {fileID: 4194257362798617883}
+  m_Layer: 5
+  m_Name: FlowerShape
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4194257362798617882
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194257362798617861}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -4.5, y: 52.800003}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4194257362798617880
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194257362798617861}
+  m_CullTransparentMesh: 0
+--- !u!114 &4194257362798617883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194257362798617861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac17fde2dff77946969e3bfc6fb53d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Flowers:
+  - {fileID: 650439962373958716, guid: a25a93656f105e24fa744e0ebd6967a3, type: 3}
+  - {fileID: 7418525840318189217, guid: a196665f9983aa7499ce76110f0f86a6, type: 3}
+  - {fileID: 798104716868151746, guid: f564328d3a172ac4b8450006e7bf1802, type: 3}
+  - {fileID: 7273615193809269010, guid: 8d06526e9cebbe44abe6892fb14f18cf, type: 3}
+  - {fileID: 7270859250046419250, guid: 5f4b2ead4056a314d9c5967f5079184e, type: 3}
+  - {fileID: 1391000969199712598, guid: d5573b205f6a07b4fa15a00443d905d8, type: 3}
+  - {fileID: 2952846575517801603, guid: e0dc525d8dbe4b44db91ee4ae8a7f611, type: 3}
+  - {fileID: 8022567749815646935, guid: 9b97558b86e5ad84d9498cb51683ce2b, type: 3}
+  Offset_Y:
+  - -5.8
+  - -18.5
+  - -0.9
+  - -15.6
+  - -23.9
+  - -23.9
+  - -23.5
+  - -15.9
+  Offset_X:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  Step: 0
+  FlowerInstance: {fileID: 0}

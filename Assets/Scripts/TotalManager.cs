@@ -10,9 +10,13 @@ public class TotalManager : MonoBehaviour
     public static TotalManager instance;
     public GameObject OpeningCanvas;
     public GameObject[] OtherCanvas;
+    public ErrorOcurredWindowHandler ErrorHandler;
     public Font[] fonts;
     public bool SkipOpening;
     public GameObject FlashEffect;
+    public CANVAS currentCanvas;
+    public bool isDebugMode = true;
+
     public enum FONT_FAMILY {
         NAUM_GOTHIC,
         HY_YUBSU,
@@ -21,14 +25,37 @@ public class TotalManager : MonoBehaviour
     }
 
     public enum CANVAS {
-        NAVI_BAR,
+        NULL, NAVI_BAR, FOOTER_BAR,
         WELCOME, WELCOME2, WELCOME3, WELCOME4, WELCOME5,
-        HOME, FOOTER_BAR,
-        LOG,FLOWER,TABLE,CALENDAR,BLIND_CON,
+        HOME, LOG, FLOWER, TABLE, CALENDAR, BLIND_CON, 
     }
 
+    void OnEnable() {
+        Application.logMessageReceived += HandleLog;
+    }
 
-    public void OnEnable() {
+    void OnDisable() {
+        Application.logMessageReceived -= HandleLog;
+    }
+
+    private void HandleLog(string logString, string stackTrace, LogType type) {
+        if (isDebugMode) {
+            if( type == (LogType)4 || type == LogType.Error ) {
+                SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
+                ErrorHandler.gameObject.SetActive(true);
+                ErrorHandler.ErrorMsg(logString + "\n\n" + stackTrace);
+            }
+        } else {
+#if !UNITY_EDITOR
+            string str = logString + "\n\n" + stackTrace;
+            DataHandler.ErrorLogs error = new DataHandler.ErrorLogs(str);
+            StartCoroutine(DataHandler.CreateErrorlogs(error));
+#endif
+        }
+    }
+
+    public void Awake() {
+        instance = this;
         DataHandler.dataPath = Application.persistentDataPath;
 
         if (SkipOpening) {
@@ -49,7 +76,7 @@ public class TotalManager : MonoBehaviour
     }
 
     public void Start() {
-        instance = this;
+        NavigationHandler.Instance.ModeSetting(isDebugMode);
         if (!SkipOpening) {
             OpeningCanvas.SetActive(true);
             foreach (GameObject go in OtherCanvas)
@@ -90,6 +117,20 @@ public class TotalManager : MonoBehaviour
 
     public void BlindControl(bool value) {
         OtherCanvas[(int)CANVAS.BLIND_CON].SetActive(value);
+    }
+
+    public void Update() {
+        int targetIndex = 0;
+        for (int i = 8; i < 13; i++) {
+            if (OtherCanvas[i] == null) continue;
+            if (OtherCanvas[i].activeSelf)
+                targetIndex = i;
+        }
+        if(currentCanvas != (CANVAS)targetIndex) {
+            currentCanvas = ( targetIndex == 0 ) ? CANVAS.NULL : (CANVAS)targetIndex;
+            DataHandler.User_isDataLoaded = false;
+            StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
+        }
     }
 
     public void Connect() {

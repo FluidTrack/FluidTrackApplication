@@ -7,40 +7,58 @@ public class GardenSpotHandler : MonoBehaviour
 {
     public GameObject TodayUI;
     public GameObject NotYetObject;
-    public GameObject Flower3_Base;
-    public GameObject[] Flowers;
+    public GameObject FlowerBody;
+    public GameObject FlowerHead;
     public GameObject ButterFlies;
+    public Transform FlowerParents;
     public Text DateText;
     
     public TimeHandler.DateTimeStamp.DATE Date = TimeHandler.DateTimeStamp.DATE.MON;
     public bool isToday = false;
     public bool isNotUse = false;
     public bool isFuture = false;
-    internal string DateString = "2021-1-1";
-    internal int flowerCount = 0;
+    public string DateString = "2021-1-1";
+    public int flowerCount = 0;
     public int Step = 0;
+    private List<GameObject> FlowerParts;
 
-    public void Start() {
-        FlowerShapeHandler[] shapes = this.GetComponentsInChildren<FlowerShapeHandler>();
-        if(shapes != null) {
-            foreach(FlowerShapeHandler shape in shapes) {
-                shape.Change(( FlowerShapeHandler.STAGE_TYPE )Step);
-            }
-        }
+    private float[] Body_Offset_X_1 = { 0f };
+    private float[] Body_Offset_Y_1 = { 0f };
+    private float[] Body_Offset_X_2 = { -50f, 50f };
+    private float[] Body_Offset_Y_2 = { 0f, 0f };
+    private float[] Body_Offset_X_3 = { -90f, 0f, 90f};
+    private float[] Body_Offset_Y_3 = { 0f, 0f, 0f };
+
+    private float[] Head_Offset_X_1 = { 0f};
+    private float[] Head_Offset_Y_1 = { 105.3f};
+    private float[] Head_Offset_X_2 = { -50f, 50f };
+    private float[] Head_Offset_Y_2 = { 105.3f, 105.3f};
+    private float[] Head_Offset_X_3 = { -95f, 0f, 95f, -138f, -48f, 48, 138f, -95f, 0f, 95f, };
+    private float[] Head_Offset_Y_3 = { 105.3f, 105.3f, 105.3f, 174f, 174f, 174f, 174f, 247f, 247f, 247f };
+
+    public void Awake() {
+        TodayUI.SetActive(false);
+        NotYetObject.SetActive(false);
+        isToday = false;
+        ButterFlies.SetActive(false);
+        DateText.text = "";
+        FlowerParts = new List<GameObject>();
     }
 
-    public void InitSpot(DataHandler.GardenLog logData, string DateString, string DateType) {
-        foreach (GameObject go in Flowers)
-            go.SetActive(false);
-        Flower3_Base.SetActive(false);
+    public void InitSpot(DataHandler.GardenLog logData, TimeHandler.DateTimeStamp logDate) {
+        int new_flowerCount = (logData != null) ? logData.flower : 0;
+        if ((flowerCount != 0) &&flowerCount == new_flowerCount) return;
+        flowerCount = new_flowerCount;
+        foreach (GameObject go in FlowerParts)
+            Destroy(go);
+        FlowerParts.Clear();
         TodayUI.SetActive(false);
         NotYetObject.SetActive(false);
         isToday = false;
         ButterFlies.SetActive(false);
 
-        flowerCount = logData.flower;
-        this.DateString = DateString;
-        DateText.text = DateType;
+        this.DateString = logDate.ToDateString();
+        DateText.text = TimeHandler.DateTimeStamp.DateList[logDate.Date];
         int cmpResult = TimeHandler.DateTimeStamp.CmpDateTimeStamp(
             TimeHandler.HomeCanvasTime,
             new TimeHandler.DateTimeStamp(DateString));
@@ -54,22 +72,66 @@ public class GardenSpotHandler : MonoBehaviour
             return;
         }
 
-        if(logData.item_0 > 0) {
+        bool drawFlowerFlag = true;
+        if(logData.log_water > 0) {
             isNotUse = true;
-            if (flowerCount == 0)
+            if (flowerCount == 0) {
                 NotYetObject.SetActive(true);
-        } else {
-            if(flowerCount == 1)
-                Flowers[0].SetActive(true);
-            else if (flowerCount == 2)
-                Flowers[1].SetActive(true);
-            else if (flowerCount == 3)
-                Flowers[2].SetActive(true);
-            else if (flowerCount >= 4) {
-                Flower3_Base.SetActive(true);
-                for (int i = 3; i < flowerCount; i++)
-                    Flowers[i].SetActive(true);
+                drawFlowerFlag = false;
             }
+        }
+        if(drawFlowerFlag) {
+            if (flowerCount == 1) {
+                for(int i = 0; i < 1; i ++) {
+                    GameObject body = Instantiate(FlowerBody, FlowerParents);
+                    body.GetComponent<RectTransform>().anchoredPosition
+                        = new Vector2(Body_Offset_X_1[i],Body_Offset_Y_1[i]);
+                    GameObject head = Instantiate(FlowerHead, FlowerParents);
+                    head.GetComponent<RectTransform>().anchoredPosition
+                        = new Vector2(Head_Offset_X_1[i], Head_Offset_Y_1[i]);
+                    FlowerParts.Add(body);
+                    FlowerParts.Add(head);
+                    head.GetComponent<FlowerShapeHandler>().
+                        Change((FlowerShapeHandler.STAGE_TYPE)Step);
+                }
+            }
+            else if (flowerCount == 2) {
+                for (int i = 0; i < 2; i++) {
+                    GameObject body = Instantiate(FlowerBody, FlowerParents);
+                    body.GetComponent<RectTransform>().anchoredPosition
+                        = new Vector2(Body_Offset_X_2[i], Body_Offset_Y_2[i]);
+                    GameObject head = Instantiate(FlowerHead, FlowerParents);
+                    head.GetComponent<RectTransform>().anchoredPosition
+                        = new Vector2(Head_Offset_X_2[i], Head_Offset_Y_2[i]);
+                    FlowerParts.Add(body);
+                    FlowerParts.Add(head);
+                    head.GetComponent<FlowerShapeHandler>().
+                        Change((FlowerShapeHandler.STAGE_TYPE)Step);
+                }
+            }
+            else if (flowerCount >= 3) {
+                for (int i = 0; i < 3; i++) {
+                    GameObject body = Instantiate(FlowerBody, FlowerParents);
+                    body.GetComponent<RectTransform>().anchoredPosition
+                        = new Vector2(Body_Offset_X_3[i], Body_Offset_Y_3[i]);
+                    GameObject head = Instantiate(FlowerHead, FlowerParents);
+                    head.GetComponent<RectTransform>().anchoredPosition
+                        = new Vector2(Head_Offset_X_3[i], Head_Offset_Y_3[i]);
+                    FlowerParts.Add(body);
+                    FlowerParts.Add(head);
+                    head.GetComponent<FlowerShapeHandler>().
+                        Change((FlowerShapeHandler.STAGE_TYPE)Step);
+                }
+                for (int i = 3; (i < flowerCount) && (i<10); i++) {
+                    GameObject head = Instantiate(FlowerHead, FlowerParents);
+                    head.GetComponent<RectTransform>().anchoredPosition
+                        = new Vector2(Head_Offset_X_3[i], Head_Offset_Y_3[i]);
+                    FlowerParts.Add(head);
+                    head.GetComponent<FlowerShapeHandler>().
+                        Change((FlowerShapeHandler.STAGE_TYPE)Step);
+                }
+            }
+
             if (flowerCount >= 10)
                 ButterFlies.SetActive(true);
         }
