@@ -94,10 +94,6 @@ public class CalendarHandler : MonoBehaviour {
         StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
         StartCoroutine(CheckLoadAndVisualize_2());
-        UpButton.SetActive(( DataHandler.User_periode != 4 ));
-        DownButton.SetActive(( DataHandler.User_periode != 4 ));
-
-
     }
 
     private IEnumerator CheckLoadAndVisualize_2() {
@@ -146,15 +142,9 @@ public class CalendarHandler : MonoBehaviour {
 
         TimeHandler.DateTimeStamp indexTime =
              new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
-
-        for (int i = 0; i < 7; i++) {
-            TimeHandler.DateTimeStamp tempTime = indexTime + i;
-            RightLabelDates[i].text = TimeHandler.DateTimeStamp.DateList[tempTime.Date];
-            LeftLabelDates[i].text  = TimeHandler.DateTimeStamp.DateList[tempTime.Date];
-        }
-
+        indexTime = indexTime - ( indexTime.Date );
         bool flag = true;
-        for (int w = 1; (w < DataHandler.User_periode) && flag; w++) {
+        for (int w = 1; (w <= DataHandler.User_periode+1) && flag; w++) {
             for(int i = 0; (i < 7) && flag; i ++) {
                 if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                     indexTime,TimeHandler.CalendarCanvasTime
@@ -168,12 +158,24 @@ public class CalendarHandler : MonoBehaviour {
         }
         if(flag) {
             DebugText.text = "Can't find Week Data!";
-            Debug.LogError("Can't find Week Data!");
+            Debug.LogError("Can't find Week Data!\n" + TimeHandler.CalendarCanvasTime.ToDateString());
         } else { DebugText.text = "Today : " + TimeHandler.CalendarCanvasTime.ToDateString() + "\n" +
                                   "weeks : " + weekData.ToString();
         }
-
-         StartCoroutine(DrawCalendarAnimation());
+        WeekTexts[0].text = WeekTextsList[weekData - 4];
+        WeekTexts[1].text = WeekTextsList[weekData - 3];
+        WeekTexts[2].text = WeekTextsList[weekData - 2];
+        WeekTexts[3].text = WeekTextsList[weekData - 1];
+        if (weekData == 4) UpButton.SetActive(false);
+        else UpButton.SetActive(true);
+        if (( new TimeHandler.DateTimeStamp(DataHandler.User_creation_date) ).Date == 0) {
+            if (weekData >= DataHandler.User_periode) DownButton.SetActive(false);
+            else DownButton.SetActive(true);
+        } else {
+            if (weekData > DataHandler.User_periode) DownButton.SetActive(false);
+            else DownButton.SetActive(true);
+        }
+        StartCoroutine(DrawCalendarAnimation());
     }
 
     private bool isDataLoaded = false;
@@ -183,29 +185,47 @@ public class CalendarHandler : MonoBehaviour {
     public void UpButtonClick() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED2);
         if (!isDataLoaded) return;
+        DownButton.SetActive(true);
         weekData = ( weekData <= 4 ) ? 4 : weekData - 1;
         WeekTexts[0].text = WeekTextsList[weekData - 4];
         WeekTexts[1].text = WeekTextsList[weekData - 3];
         WeekTexts[2].text = WeekTextsList[weekData - 2];
         WeekTexts[3].text = WeekTextsList[weekData - 1];
         DrawCalendar();
+        if (weekData == 4) UpButton.SetActive(false);
     }
 
     public void DownButtonClick() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED2);
         if (!isDataLoaded) return;
-        weekData = ( weekData >= DataHandler.User_periode ) ? DataHandler.User_periode : weekData + 1;
-        WeekTexts[0].text = WeekTextsList[weekData - 4];
-        WeekTexts[1].text = WeekTextsList[weekData - 3];
-        WeekTexts[2].text = WeekTextsList[weekData - 2];
-        WeekTexts[3].text = WeekTextsList[weekData - 1];
-        DrawCalendar();
+        UpButton.SetActive(true);
+        if((new TimeHandler.DateTimeStamp(DataHandler.User_creation_date)).Date == 0) {
+            if (weekData <= DataHandler.User_periode) {
+                weekData = ( weekData >= DataHandler.User_periode ) ? DataHandler.User_periode : weekData + 1;
+                WeekTexts[0].text = WeekTextsList[weekData - 4];
+                WeekTexts[1].text = WeekTextsList[weekData - 3];
+                WeekTexts[2].text = WeekTextsList[weekData - 2];
+                WeekTexts[3].text = WeekTextsList[weekData - 1];
+                DrawCalendar();
+            } else DownButton.SetActive(false);
+        } else {
+            if (weekData <= DataHandler.User_periode+1 ) {
+                weekData = ( weekData >= DataHandler.User_periode+1 ) ? DataHandler.User_periode+1 : weekData + 1;
+                WeekTexts[0].text = WeekTextsList[weekData - 4];
+                WeekTexts[1].text = WeekTextsList[weekData - 3];
+                WeekTexts[2].text = WeekTextsList[weekData - 2];
+                WeekTexts[3].text = WeekTextsList[weekData - 1];
+                DrawCalendar();
+            } else DownButton.SetActive(false);
+        }
     }
 
 
     private IEnumerator DrawCalendarAnimation() {
         TimeHandler.DateTimeStamp indexTime =
             new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
+
+        indexTime = indexTime - ( indexTime.Date );
         indexTime = indexTime + ( ( weekData - 4 ) * 7 );
 
         yield return new WaitForSeconds(0.3f);
@@ -260,6 +280,9 @@ public class CalendarHandler : MonoBehaviour {
     }
 
     public IEnumerator DrawWaterLogAnimation(TimeHandler.DateTimeStamp indexTime) {
+        TimeHandler.DateTimeStamp creationTime =
+            new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
+
         yield return new WaitForSeconds(0.12f);
         for (int j = 0; j < 10; j++) {
             bool flag = false;
@@ -277,16 +300,22 @@ public class CalendarHandler : MonoBehaviour {
                     e.ToString();
                     int result =
                         TimeHandler.DateTimeStamp.CmpDateTimeStamp(
-                            indexTime + stairs[j, i], TimeHandler.CalendarCanvasTime
-                        );
+                            indexTime + stairs[j, i], TimeHandler.CalendarCanvasTime );
                     if (result == 1) {
                         WaterGauges[stairs[j, i]].sprite = WaterEmptyGauges;
                         WaterGaugeTexts[stairs[j, i]].text = " ";
                     } else {
-                        WaterGauges[stairs[j, i]].sprite = AfterWaterGauges[0];
-                        WaterGaugeTexts[stairs[j, i]].text = "0";
-                        WaterGauges[stairs[j, i]].GetComponent<Animator>().SetTrigger("Poped");
-                        flag = true;
+                        result = TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                            indexTime + stairs[j, i], creationTime );
+                        if(result == -1) {
+                            WaterGauges[stairs[j, i]].sprite = WaterEmptyGauges;
+                            WaterGaugeTexts[stairs[j, i]].text = " ";
+                        } else {
+                            WaterGauges[stairs[j, i]].sprite = AfterWaterGauges[0];
+                            WaterGaugeTexts[stairs[j, i]].text = "0";
+                            WaterGauges[stairs[j, i]].GetComponent<Animator>().SetTrigger("Poped");
+                            flag = true;
+                        }
                     }
                 }
             }
@@ -298,6 +327,9 @@ public class CalendarHandler : MonoBehaviour {
     }
 
     public IEnumerator DrawPeeLogAnimation(TimeHandler.DateTimeStamp indexTime) {
+        TimeHandler.DateTimeStamp creationTime =
+            new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
+
         yield return new WaitForSeconds(0.12f);
         for (int j = 0; j < 10; j++) {
             bool flag = false;
@@ -330,10 +362,17 @@ public class CalendarHandler : MonoBehaviour {
                     if (result == 1) {
                         numberString = " ";
                     } else {
-                        PeeGauges[stairs[j, i]].GetComponent<Animator>().SetTrigger("Poped");
-                        numberString = "0";
-                        flag = true;
-                        StartCoroutine(SetPeeText(stairs[j, i], numberString));
+                        result = TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                            indexTime + stairs[j, i], creationTime );
+                        if( result == -1) {
+                            numberString = " ";
+                        } else {
+                            PeeGauges[stairs[j, i]].GetComponent<Animator>().SetTrigger("Poped");
+                            numberString = "0";
+                            flag = true;
+                            StartCoroutine(SetPeeText(stairs[j, i], numberString));
+                        }
+
                     }
                 }
             }
@@ -353,6 +392,8 @@ public class CalendarHandler : MonoBehaviour {
     private void DrawCalendar() {
         TimeHandler.DateTimeStamp indexTime =
             new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
+        TimeHandler.DateTimeStamp creationTime = indexTime;
+        indexTime = indexTime - ( indexTime.Date );
         indexTime = indexTime + ( ( weekData - 4 ) * 7 );
         int todayIndex = -1;
         for (int i = 0; i < 28; i++) {
@@ -383,7 +424,12 @@ public class CalendarHandler : MonoBehaviour {
                     );
                 PeeGauges[i].sprite = AfterPeeGauges[0];
                 if (result == 1) PeeGaugeTexts[i].text = " ";
-                else PeeGaugeTexts[i].text = "0";
+                else { 
+                    result = TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                        indexTime + i, creationTime );
+                    if(result >= 0) PeeGaugeTexts[i].text = "0"; 
+                    else PeeGaugeTexts[i].text = " ";
+                }
             }
 
             //===============================================================================================
@@ -410,8 +456,16 @@ public class CalendarHandler : MonoBehaviour {
                     WaterGauges[i].sprite = WaterEmptyGauges;
                     WaterGaugeTexts[i].text = " ";
                 } else {
-                    WaterGauges[i].sprite = AfterWaterGauges[0];
-                    WaterGaugeTexts[i].text = "0";
+                    result = TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                        indexTime + i, creationTime);
+                    if (result >= 0) {
+                        WaterGauges[i].sprite = AfterWaterGauges[0];
+                        WaterGaugeTexts[i].text = "0";
+                    }
+                    else {
+                        WaterGauges[i].sprite = WaterEmptyGauges;
+                        WaterGaugeTexts[i].text = " ";
+                    }
                 }
             }
 

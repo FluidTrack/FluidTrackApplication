@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class FooterBarHandler : MonoBehaviour
 {
+    public static FooterBarHandler Instance;
     public Image[] Buttons;
     public Image[] ButtonImage;
     public Text[] ButtonText;
@@ -17,6 +18,10 @@ public class FooterBarHandler : MonoBehaviour
     public enum FOOTER_BTN {
         HOME, LOG, TABLE, CALENDAR,
     };
+
+    public void Awake() {
+        Instance = this;
+    }
 
     public void Start() {
         GameObject[] pages = {

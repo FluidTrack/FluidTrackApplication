@@ -11,6 +11,7 @@ public class TotalManager : MonoBehaviour
     public GameObject OpeningCanvas;
     public GameObject[] OtherCanvas;
     public ErrorOcurredWindowHandler ErrorHandler;
+    public string TargetDateString = "";
     public Font[] fonts;
     public bool SkipOpening;
     public GameObject FlashEffect;

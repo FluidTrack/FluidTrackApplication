@@ -7,7 +7,6 @@ public class TouchAndMouseManager : MonoBehaviour {
     public GameObject TouchRing1;
     public GameObject TouchRing2;
     public GameObject TouchRing3;
-    public GameObject TouchRing4;
     public GameObject TouchRing5;
     public GameObject TouchRing6;
     public Text DebugText;
@@ -29,7 +28,6 @@ public class TouchAndMouseManager : MonoBehaviour {
     private RectTransform TouchRing1Trans;
     private RectTransform TouchRing2Trans;
     private RectTransform TouchRing3Trans;
-    private RectTransform TouchRing4Trans;
     private RectTransform TouchRing5Trans;
     private RectTransform TouchRing6Trans;
     private static HomeHandler homeHandler;
@@ -64,15 +62,22 @@ public class TouchAndMouseManager : MonoBehaviour {
         TouchRing1Trans = TouchRing1.GetComponent<RectTransform>();
         TouchRing2Trans = TouchRing2.GetComponent<RectTransform>();
         TouchRing3Trans = TouchRing3.GetComponent<RectTransform>();
-        TouchRing4Trans = TouchRing4.GetComponent<RectTransform>();
         TouchRing5Trans = TouchRing5.GetComponent<RectTransform>();
         TouchRing6Trans = TouchRing6.GetComponent<RectTransform>();
-        TouchRing4.SetActive(TotalManager.instance.isDebugMode);
+
         DebugText.gameObject.SetActive(TotalManager.instance.isDebugMode);
         DebugText2.gameObject.SetActive(TotalManager.instance.isDebugMode);
         DebugTextLabel.gameObject.SetActive(TotalManager.instance.isDebugMode);
         DebugText2Label.gameObject.SetActive(TotalManager.instance.isDebugMode);
         TouchRing3.SetActive(TotalManager.instance.isDebugMode);
+    }
+
+
+    public void ChangePeriode(RectTransform newWorldMap) {
+        WorldMap = newWorldMap;
+        WorldMapOriginPivot = new Vector2(0f, 1f);
+        WorldMapOriginPos = WorldMap.position;
+        WorldMapOriginScale = WorldMap.localScale;
     }
 
     public void Awake() {
@@ -81,7 +86,7 @@ public class TouchAndMouseManager : MonoBehaviour {
         Instance = this;
     }
 
-    public void FixedUpdate() {
+    public void Update() {
         if (manager.currentCanvas != TotalManager.CANVAS.HOME) return;
 
         #region Zoom-In/Out
@@ -112,8 +117,6 @@ public class TouchAndMouseManager : MonoBehaviour {
                     1- ( ( TouchesCenter.y + AdjustedWorldMapPos.y + Mask.anchoredPosition.y ) / ( WorldMap.sizeDelta.y * WorldMap.localScale.y) )
                 );
 
-                TouchRing4Trans.anchoredPosition = new Vector2(ZoomCenter.x * WorldMap.sizeDelta.x,
-                                                               -( 1 - ( ZoomCenter.y ) ) * WorldMap.sizeDelta.y);
                 WorldMap.pivot = ZoomCenter;
                 WorldMap.anchoredPosition = new Vector2(TouchesCenter.x-Mask.anchoredPosition.x,-(TouchesCenter.y+Mask.anchoredPosition.y));
 
@@ -125,7 +128,7 @@ public class TouchAndMouseManager : MonoBehaviour {
                 else if (zoomedScale.x <= 0.23f || zoomedScale.y <= 0.23f) {
                     zoomedScale = new Vector3(0.23f, 0.23f, 0.23f);
                     PC_zoom_count++;
-                    if(PC_zoom_count >= 5) {
+                    if(PC_zoom_count >= 10) {
                         PC_zoom_count = 0;
                         Debug.LogError("Maximum zoom");
                     }
@@ -263,7 +266,9 @@ public class TouchAndMouseManager : MonoBehaviour {
                     new Vector2(offset_x*movementFactor,offset_y*movementFactor).magnitude > 150f) {
                     homeHandler.ReturnButton.SetActive(true);
                 }
-            } else {
+            } else if(Input.mousePosition.x > Mask.anchoredPosition.x && Input.mousePosition.x < (Mask.anchoredPosition.x + Mask.sizeDelta.x ) &&
+                      Input.mousePosition.y < (Screen.height + Mask.anchoredPosition.y ) &&
+                      Input.mousePosition.y > (Screen.height + Mask.anchoredPosition.y - Mask.sizeDelta.y)) {
                 OriginClickedPosition = WorldMap.anchoredPosition;
                 ClickedAnchor = Input.mousePosition;
                 isClicked = true;
@@ -278,7 +283,6 @@ public class TouchAndMouseManager : MonoBehaviour {
         if (AdjustedWorldMapPos.x > 0) {
             Vector2 amount = new Vector2(-AdjustedWorldMapPos.x, 0);
             WorldMap.anchoredPosition += amount;
-            TouchRing4Trans.anchoredPosition -= amount;
         } else if (AdjustedWorldMapPos.x + WorldMap.sizeDelta.x * WorldMap.localScale.x <
              Mask.anchoredPosition.x + Mask.sizeDelta.x) {
             Vector2 amount = new Vector2(
@@ -286,7 +290,6 @@ public class TouchAndMouseManager : MonoBehaviour {
                 AdjustedWorldMapPos.x - WorldMap.sizeDelta.x * WorldMap.localScale.x
             , 0);
             WorldMap.anchoredPosition += amount;
-            TouchRing4Trans.anchoredPosition -= amount;
         }
 
         if (AdjustedWorldMapPos.y - WorldMap.sizeDelta.y * WorldMap.localScale.y >
@@ -297,11 +300,9 @@ public class TouchAndMouseManager : MonoBehaviour {
                 + Mask.sizeDelta.y )
             );
             WorldMap.anchoredPosition += amount;
-            TouchRing4Trans.anchoredPosition -= amount;
         } else if (AdjustedWorldMapPos.y < 0) {
             Vector2 amount = new Vector2(0, -AdjustedWorldMapPos.y);
             WorldMap.anchoredPosition += amount;
-            TouchRing4Trans.anchoredPosition -= amount;
         }
     }
 }

@@ -34,7 +34,6 @@ public class LogCanvasHandler : MonoBehaviour
     public enum LOG_TYPE { NONE, WATER, DRINK, PEE, POOP, };
     public static string[] LogTypeList = { "None Log", "Water Log", "Drink Log", "Pee Log", "Poop Log" };
 
-    internal string TargetDateString = "";
     internal bool WaterButtonClicked = false;
     internal bool PooButtonClicked = false;
     internal bool PeeButtonClicked = false;
@@ -150,9 +149,9 @@ public class LogCanvasHandler : MonoBehaviour
         TimeHandler.GetCurrentTime();
         WriteTimeStamp(TimeHandler.LogCanvasTime);
 
-        if (TargetDateString != "") {
-            targetDate = new TimeHandler.DateTimeStamp(TargetDateString);
-            TargetDateString = "";
+        if (TotalManager.instance.TargetDateString != "") {
+            targetDate = new TimeHandler.DateTimeStamp(TotalManager.instance.TargetDateString);
+            TotalManager.instance.TargetDateString = "";
         }
     }
 

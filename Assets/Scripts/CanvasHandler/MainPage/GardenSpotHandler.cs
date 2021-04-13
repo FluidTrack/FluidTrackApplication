@@ -20,7 +20,7 @@ public class GardenSpotHandler : MonoBehaviour
     public string DateString = "2021-1-1";
     public int flowerCount = 0;
     public int Step = 0;
-    private List<GameObject> FlowerParts;
+    public List<GameObject> FlowerParts;
 
     private float[] Body_Offset_X_1 = { 0f };
     private float[] Body_Offset_Y_1 = { 0f };
@@ -45,17 +45,25 @@ public class GardenSpotHandler : MonoBehaviour
         FlowerParts = new List<GameObject>();
     }
 
+    public void OnEnable() {
+        if(FlowerParts == null)
+            FlowerParts = new List<GameObject>();
+    }
+
     public void InitSpot(DataHandler.GardenLog logData, TimeHandler.DateTimeStamp logDate) {
         int new_flowerCount = (logData != null) ? logData.flower : 0;
         if ((flowerCount != 0) &&flowerCount == new_flowerCount) return;
         flowerCount = new_flowerCount;
-        foreach (GameObject go in FlowerParts)
-            Destroy(go);
-        FlowerParts.Clear();
+        try {
+            foreach (GameObject go in FlowerParts)
+                Destroy(go);
+            FlowerParts.Clear();
+        } catch(System.Exception e) { e.ToString(); }
         TodayUI.SetActive(false);
         NotYetObject.SetActive(false);
         isToday = false;
         ButterFlies.SetActive(false);
+        this.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
 
         this.DateString = logDate.ToDateString();
         DateText.text = TimeHandler.DateTimeStamp.DateList[logDate.Date];
@@ -67,10 +75,15 @@ public class GardenSpotHandler : MonoBehaviour
             TodayUI.SetActive(true);
         }
 
+        Debug.Log(logDate.ToDateString());
         if (logData == null) {
-            if (cmpResult == -1) { NotYetObject.SetActive(true); isFuture = true; }
+            if (cmpResult == -1) {
+                this.GetComponent<Image>().color = new Color(1f,1f,1f,0f);
+                DateText.text = "";
+                isFuture = true; }
             return;
         }
+        Debug.Log(logDate.ToDateString());
 
         bool drawFlowerFlag = true;
         if(logData.log_water > 0) {
@@ -139,8 +152,8 @@ public class GardenSpotHandler : MonoBehaviour
 
     public void GardenClick() {
         if (isFuture) return;
-        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
-        if (isNotUse) Debug.Log("하루보기 화면으로 이동");
-        else Debug.Log("꽃키우기 화면으로 이동");
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.POPED);
+        TotalManager.instance.TargetDateString = DateString;
+        FooterBarHandler.Instance.FooterButtonClick(1);
     }
 }

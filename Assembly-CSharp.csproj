@@ -75,11 +75,17 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Log\LogCanvasHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Log\LogSpriteHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Log\SlotHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MainPage\BigCloudController.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\FlowerShapeHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MainPage\FlowerSprites\FlowerSpritesGroup.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MainPage\FlowerSprites\FlowerSpritesSet.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\GardenSpotHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\HomeHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\MainPageHeaderHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MainPage\SmallCloudController.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Mission\MissionCanvasHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Navigation\DeviceBatteryIconHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Navigation\MoabandStatusHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\NavigationHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\TouchAndMouseManager.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\OpeningHandler.cs" />
