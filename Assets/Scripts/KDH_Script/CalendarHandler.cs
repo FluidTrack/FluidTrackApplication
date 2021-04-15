@@ -200,22 +200,26 @@ public class CalendarHandler : MonoBehaviour {
         if (!isDataLoaded) return;
         UpButton.SetActive(true);
         if((new TimeHandler.DateTimeStamp(DataHandler.User_creation_date)).Date == 0) {
-            if (weekData <= DataHandler.User_periode) {
+            if (weekData < DataHandler.User_periode) {
                 weekData = ( weekData >= DataHandler.User_periode ) ? DataHandler.User_periode : weekData + 1;
                 WeekTexts[0].text = WeekTextsList[weekData - 4];
                 WeekTexts[1].text = WeekTextsList[weekData - 3];
                 WeekTexts[2].text = WeekTextsList[weekData - 2];
                 WeekTexts[3].text = WeekTextsList[weekData - 1];
                 DrawCalendar();
+                if(weekData == DataHandler.User_periode)
+                    DownButton.SetActive(false);
             } else DownButton.SetActive(false);
         } else {
-            if (weekData <= DataHandler.User_periode+1 ) {
+            if (weekData < DataHandler.User_periode+1 ) {
                 weekData = ( weekData >= DataHandler.User_periode+1 ) ? DataHandler.User_periode+1 : weekData + 1;
                 WeekTexts[0].text = WeekTextsList[weekData - 4];
                 WeekTexts[1].text = WeekTextsList[weekData - 3];
                 WeekTexts[2].text = WeekTextsList[weekData - 2];
                 WeekTexts[3].text = WeekTextsList[weekData - 1];
                 DrawCalendar();
+                if (weekData == DataHandler.User_periode + 1)
+                    DownButton.SetActive(false);
             } else DownButton.SetActive(false);
         }
     }

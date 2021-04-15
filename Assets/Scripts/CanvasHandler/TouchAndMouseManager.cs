@@ -24,6 +24,7 @@ public class TouchAndMouseManager : MonoBehaviour {
     public float movementFactor = 1.4f;
     public Vector2 ZoomCenter;
     public float zoomAmount = 0f;
+    public bool isTouchEnable;
 
     private RectTransform TouchRing1Trans;
     private RectTransform TouchRing2Trans;
@@ -88,7 +89,7 @@ public class TouchAndMouseManager : MonoBehaviour {
 
     public void Update() {
         if (manager.currentCanvas != TotalManager.CANVAS.HOME) return;
-
+        if (!isTouchEnable) return;
         #region Zoom-In/Out
 #if UNITY_EDITOR
         //======================================================================================================

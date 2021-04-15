@@ -87,6 +87,11 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\DeviceBatteryIconHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\MoabandStatusHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\NavigationHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\CheckBoxButton.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\ConnectingWindowHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\ScrollbarProgress.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\ScrollbarSound.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\SettingWindowHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\TouchAndMouseManager.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\OpeningHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\WelcomHandler.cs" />

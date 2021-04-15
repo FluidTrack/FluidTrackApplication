@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class SoundHandler : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class SoundHandler : MonoBehaviour
     public AudioClip SFX_Clicked;
     public AudioClip SFX_Clicked2;
     public AudioClip SFX_Clicked3;
+    public AudioClip SFX_Clicked4;
     public AudioClip SFX_Poped;
     public AudioClip SFX_Poped2;
     public AudioClip SFX_Congratulation1;
@@ -38,6 +40,7 @@ public class SoundHandler : MonoBehaviour
     public bool SFX_Enable = false;
     public bool isMusicPlaying = false;
 
+
     public void Awake() {
         Instance = this;
     }
@@ -46,7 +49,7 @@ public class SoundHandler : MonoBehaviour
         CLICKED, POPED, POPED2, CONGRATULATION1, CONGRATULATION2,
         TADA1, TADA2, TADA3, YEAH, SCAN,
         CONNECT, DISCONNECT, COIN, BACK, SMALL_PING,
-        ERROR, CLICKED2, CLICKED3,
+        ERROR, CLICKED2, CLICKED3, CLICKED4
     }
 
     public enum MUSIC {
@@ -67,6 +70,8 @@ public class SoundHandler : MonoBehaviour
                 SFXSource.PlayOneShot(SFX_Clicked2); break;
             case SFX.CLICKED3:
                 SFXSource.PlayOneShot(SFX_Clicked3); break;
+            case SFX.CLICKED4:
+                SFXSource.PlayOneShot(SFX_Clicked4); break;
             case SFX.POPED:
                 SFXSource2.PlayOneShot(SFX_Poped);
                 break;
@@ -115,12 +120,14 @@ public class SoundHandler : MonoBehaviour
         }
     }
 
-    public void ChangeMusicVolue(float volume) {
+    public void ChangeMusicVolume(float volume) {
         MusicSource.volume = volume;
+        MusicSource2.volume = volume;
     }
 
-    public void ChangeSFXVolue(float volume) {
+    public void ChangeSFXVolume(float volume) {
         SFXSource.volume = volume;
+        SFXSource2.volume = volume;
     }
 
     public void Play_SFX(int typeInt) {
@@ -161,14 +168,41 @@ public class SoundHandler : MonoBehaviour
     }
 
     public void Start() {
-        StartCoroutine(PlayBackgroundMusic());
+        try {
+            FileStream fs =
+                new FileStream(DataHandler.dataPath + "/settingData.data",
+                               FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs);
+            float MusicVolume = float.Parse(sr.ReadLine());
+            float SFXVolume = float.Parse(sr.ReadLine());
+            bool MusicEnable = (int.Parse(sr.ReadLine()) == 1);
+            bool SFXEnable = (int.Parse(sr.ReadLine()) == 1);
+            Debug.Log("MV : " + MusicVolume);
+            Debug.Log("SV : " + SFXVolume);
+            Debug.Log("ME : " + MusicEnable);
+            Debug.Log("SE : " + SFXEnable);
+            ChangeMusicVolume(MusicVolume);
+            ChangeSFXVolume(SFXVolume);
+            MusicSource.enabled = MusicEnable;
+            MusicSource2.enabled = MusicEnable;
+            SFXSource.enabled = SFXEnable;
+            SFXSource2.enabled = SFXEnable;
+            sr.Close(); fs.Close();
+        } catch (System.Exception e) {
+            FileStream fs = new FileStream(DataHandler.dataPath + "/settingData.data",
+                                           FileMode.OpenOrCreate, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs);
+            string MusicVolume = MusicSource.volume.ToString() + "\n";
+            string SFXVolume = SFXSource.volume.ToString() + "\n";
+            string MusicEnable = ( MusicSource.enabled ) ? "1\n" : "0\n" ;
+            string SFXEnable = ( SFXSource.enabled ) ? "1" : "0";
+            sw.WriteLine(MusicVolume + SFXVolume + MusicEnable + SFXEnable);
+            sw.Close(); fs.Close();
+        }
+        PlayBackgroundMusic();
     }
 
-    public IEnumerator PlayBackgroundMusic() {
-        yield return new WaitForSeconds(1.2f);
-        while (SoundHandler.Instance.isMusicPlaying) {
-            yield return 0;
-        }
+    public void PlayBackgroundMusic() {
         SoundHandler.Instance.Play_Music(SoundHandler.MUSIC.CHIPTUNE_01);
     }
 }
