@@ -21,7 +21,7 @@ public class CalendarHandler : MonoBehaviour {
     public Text[] RightLabelDates = new Text[7];
     public Text[] WeekTexts = new Text[4];
     public Sprite WaterEmptyGauges;
-    public String[] WeekTextsList = { "1주", "2주", "3주", "4주", "5주", "6주", "7주", "8주" };
+    public String[] WeekTextsList = { "1주", "2주", "3주", "4주", "5주", "6주", "7주", "8주", "9주" };
 
     public GameObject UpButton;
     public GameObject DownButton;

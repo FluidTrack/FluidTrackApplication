@@ -29,6 +29,7 @@ public class SoundHandler : MonoBehaviour
     public AudioClip SFX_Back;
     public AudioClip SFX_SmallPing;
     public AudioClip SFX_Error;
+    public AudioClip SFX_SmallestView;
 
     public AudioSource SFXSource;
     public AudioSource SFXSource2;
@@ -49,7 +50,7 @@ public class SoundHandler : MonoBehaviour
         CLICKED, POPED, POPED2, CONGRATULATION1, CONGRATULATION2,
         TADA1, TADA2, TADA3, YEAH, SCAN,
         CONNECT, DISCONNECT, COIN, BACK, SMALL_PING,
-        ERROR, CLICKED2, CLICKED3, CLICKED4
+        ERROR, CLICKED2, CLICKED3, CLICKED4, SMALLEST_VEIW,
     }
 
     public enum MUSIC {
@@ -117,6 +118,9 @@ public class SoundHandler : MonoBehaviour
             case SFX.ERROR:
                 SFXSource.PlayOneShot(SFX_Error);
                 break;
+            case SFX.SMALLEST_VEIW:
+                SFXSource.PlayOneShot(SFX_SmallestView);
+                break;
         }
     }
 
@@ -177,10 +181,6 @@ public class SoundHandler : MonoBehaviour
             float SFXVolume = float.Parse(sr.ReadLine());
             bool MusicEnable = (int.Parse(sr.ReadLine()) == 1);
             bool SFXEnable = (int.Parse(sr.ReadLine()) == 1);
-            Debug.Log("MV : " + MusicVolume);
-            Debug.Log("SV : " + SFXVolume);
-            Debug.Log("ME : " + MusicEnable);
-            Debug.Log("SE : " + SFXEnable);
             ChangeMusicVolume(MusicVolume);
             ChangeSFXVolume(SFXVolume);
             MusicSource.enabled = MusicEnable;

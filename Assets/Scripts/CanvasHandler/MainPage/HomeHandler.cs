@@ -12,7 +12,11 @@ public class HomeHandler : MonoBehaviour
     public GameObject[] Week4Objects;
     public GameObject[] Week6Objects;
     public GameObject[] Week8Objects;
+    public ZoomedViewHandler Week4ComponentHandler;
+    public ZoomedViewHandler Week6ComponentHandler;
+    public ZoomedViewHandler Week8ComponentHandler;
     internal int DateCount = 0;
+    internal int totalWeek;
     public enum PAGE { WEEK_4, WEEK_6, WEEK_8 };
     public PAGE currentPage;
     public GardenSpotHandler[] Spots;
@@ -22,9 +26,9 @@ public class HomeHandler : MonoBehaviour
         -537, 1940, -2147,1743, -3275,2603, -1594,2769,    -95,2903,    -1160, 3700,  -2651,3716
     };
 
-    private float[] Week4TempPivot = { -14,  438 };
-    private float[] Week6TempPivot = { -4, 961 };
-    private float[] Week8TempPivot = { -20, 1406 };
+    private float[] Week4TempPivot = { -540, 1452 };
+    private float[] Week6TempPivot = { -597, 1992 };
+    private float[] Week8TempPivot = { -669, 2300 };
 
     public void Awake() {
         Instance = this;
@@ -48,6 +52,7 @@ public class HomeHandler : MonoBehaviour
         //==================================================================================================
         //  TODAY POSITION
         //==================================================================================================
+        totalWeek = DataHandler.User_periode;
         if (DataHandler.User_periode == 4) {
             Week4Objects[0].GetComponent<RectTransform>().pivot = new Vector2(0, 1);
             Week4Objects[0].GetComponent<RectTransform>().anchoredPosition =
@@ -117,7 +122,18 @@ public class HomeHandler : MonoBehaviour
             new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
         DataHandler.GardenLog[] logs = DataHandler.Garden_logs.GardenLogs;
         int index = 0;
-        foreach(GardenSpotHandler spot in Spots) {
+
+        if (GardenSpotHandler.weeklyData == null) {
+            GardenSpotHandler.weeklyData = new List<int>();
+            for (int i = 0; i < 8; i++) {
+                GardenSpotHandler.weeklyData.Add(0);
+            }
+        }
+
+        for (int i = 0; i < 8; i++)
+            GardenSpotHandler.weeklyData[i] = 0;
+
+        foreach (GardenSpotHandler spot in Spots) {
             DataHandler.GardenLog inputData = null;
             while(true) {
                 if (index < logs.Length) {
@@ -125,7 +141,6 @@ public class HomeHandler : MonoBehaviour
                         new TimeHandler.DateTimeStamp(logs[index].timestamp);
                     int cmpResult = TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                         inputDate.ToDateString(), targetDate.ToDateString());
-
                     if (cmpResult == 0) {
                         inputData = logs[index];
                         index++;
@@ -144,41 +159,51 @@ public class HomeHandler : MonoBehaviour
         if(DataHandler.User_periode == 4) {
             Week4Objects[2].GetComponent<BigCloudController>().ChangeCloudState(DateCount);
             Week4Objects[3].GetComponent<SmallCloudController>().ChangeCloudState(DateCount);
+            Week4ComponentHandler.Day = DateCount;
         }
         if (DataHandler.User_periode == 6) {
             Week6Objects[2].GetComponent<BigCloudController>().ChangeCloudState(DateCount);
             Week6Objects[3].GetComponent<SmallCloudController>().ChangeCloudState(DateCount);
+            Week6ComponentHandler.Day = DateCount;
         }
         if (DataHandler.User_periode == 8) {
             Week8Objects[2].GetComponent<BigCloudController>().ChangeCloudState(DateCount);
             Week8Objects[3].GetComponent<SmallCloudController>().ChangeCloudState(DateCount);
+            Week8ComponentHandler.Day = DateCount;
         }
     }
 
-    public void ReturnButtonClick() {
-        Debug.Log(TimeHandler.HomeCanvasTime.ToDateString());
-        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
+    public void ReturnButtonClick(bool isNoSound) {
+        if(!isNoSound)
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
 
         if (DataHandler.User_periode == 4) {
             Week4Objects[0].GetComponent<RectTransform>().pivot = new Vector2(0, 1);
             Week4Objects[0].GetComponent<RectTransform>().anchoredPosition =
                 new Vector2(Week4TempPivot[0], Week4TempPivot[1]);
             Week4Objects[0].GetComponent<RectTransform>().localScale = new Vector3(0.7f, 0.7f, 0.7f);
+            Week4ComponentHandler.ResetButton();
         }
         if (DataHandler.User_periode == 6) {
             Week6Objects[0].GetComponent<RectTransform>().pivot = new Vector2(0, 1);
             Week6Objects[0].GetComponent<RectTransform>().anchoredPosition =
                 new Vector2(Week6TempPivot[0], Week6TempPivot[1]);
             Week6Objects[0].GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            Week6ComponentHandler.ResetButton();
         }
         if (DataHandler.User_periode == 8) {
             Week8Objects[0].GetComponent<RectTransform>().pivot = new Vector2(0, 1);
             Week8Objects[0].GetComponent<RectTransform>().anchoredPosition =
                 new Vector2(Week8TempPivot[0], Week8TempPivot[1]);
             Week8Objects[0].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 1.2f);
+            Week8ComponentHandler.ResetButton();
         }
 
         ReturnButton.SetActive(false);
         return;
+    }
+
+    public void ReturnButtonClick() {
+        ReturnButtonClick(false);
     }
 }

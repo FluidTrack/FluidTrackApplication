@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class GardenSpotHandler : MonoBehaviour
 {
+    public static List<int> weeklyData;
     public GameObject TodayUI;
     public GameObject NotYetObject;
     public GameObject FlowerBody;
     public GameObject FlowerHead;
+    public GameObject GrassPrefabs;
+    public GameObject FencePrefab;
     public GameObject ButterFlies;
     public Transform FlowerParents;
     public Text DateText;
@@ -52,7 +55,6 @@ public class GardenSpotHandler : MonoBehaviour
 
     public void InitSpot(DataHandler.GardenLog logData, TimeHandler.DateTimeStamp logDate) {
         int new_flowerCount = (logData != null) ? logData.flower : 0;
-        if ((flowerCount != 0) &&flowerCount == new_flowerCount) return;
         flowerCount = new_flowerCount;
         try {
             foreach (GameObject go in FlowerParts)
@@ -64,7 +66,6 @@ public class GardenSpotHandler : MonoBehaviour
         isToday = false;
         ButterFlies.SetActive(false);
         this.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-
         this.DateString = logDate.ToDateString();
         DateText.text = TimeHandler.DateTimeStamp.DateList[logDate.Date];
         int cmpResult = TimeHandler.DateTimeStamp.CmpDateTimeStamp(
@@ -75,7 +76,6 @@ public class GardenSpotHandler : MonoBehaviour
             TodayUI.SetActive(true);
         }
 
-        Debug.Log(logDate.ToDateString());
         if (logData == null) {
             if (cmpResult == -1) {
                 this.GetComponent<Image>().color = new Color(1f,1f,1f,0f);
@@ -83,7 +83,6 @@ public class GardenSpotHandler : MonoBehaviour
                 isFuture = true; }
             return;
         }
-        Debug.Log(logDate.ToDateString());
 
         bool drawFlowerFlag = true;
         if(logData.log_water > 0) {
@@ -93,7 +92,8 @@ public class GardenSpotHandler : MonoBehaviour
                 drawFlowerFlag = false;
             }
         }
-        if(drawFlowerFlag) {
+
+        if (drawFlowerFlag) {
             if (flowerCount == 1) {
                 for(int i = 0; i < 1; i ++) {
                     GameObject body = Instantiate(FlowerBody, FlowerParents);
@@ -147,6 +147,18 @@ public class GardenSpotHandler : MonoBehaviour
 
             if (flowerCount >= 10)
                 ButterFlies.SetActive(true);
+
+            if(logData.item_0 > 0) {
+                GameObject grassInstacne = Instantiate(GrassPrefabs, this.transform);
+                FlowerParts.Add(grassInstacne);
+            }
+
+            if(logData.item_1 > 0) {
+                GameObject fenceInstance = Instantiate(FencePrefab, this.transform.parent.parent.GetChild(2));
+                fenceInstance.GetComponent<RectTransform>().anchoredPosition = this.GetComponent<RectTransform>().anchoredPosition;
+                FlowerParts.Add(fenceInstance);
+            }
+            weeklyData[Step] += logData.flower;
         }
     }
 

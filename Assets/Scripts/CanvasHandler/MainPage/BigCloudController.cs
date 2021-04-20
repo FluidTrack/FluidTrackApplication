@@ -8,6 +8,7 @@ public class BigCloudController : MonoBehaviour
 
     public int weeks;
     public int day = 0;
+    internal int pass = 0;
 
     public void ChangeCloudState(int day) {
         weeks = Clouds.Length;
@@ -17,7 +18,7 @@ public class BigCloudController : MonoBehaviour
             foreach (GameObject go in Clouds)
                 go.SetActive(false);
         } else { 
-            int pass = ( day - 1 ) / 7;
+            pass = ( day - 1 ) / 7;
             for (int i = 0; i < pass; i++)
                 Clouds[i].SetActive(false);
             for (int i = pass; i < weeks; i++)

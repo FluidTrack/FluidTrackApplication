@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ScrollbarProgress : MonoBehaviour
 {
     public Scrollbar scroll;
-    private RectTransform thisTransform;
+    public RectTransform thisTransform;
     private float maxValue = 0;
 
     private void OnEnable() {
@@ -15,6 +15,8 @@ public class ScrollbarProgress : MonoBehaviour
     }
 
     public void ChangeScrollValue() {
+        thisTransform = this.GetComponent<RectTransform>();
+        maxValue = scroll.GetComponent<RectTransform>().sizeDelta.x - 6;
         float value = scroll.value;
         thisTransform.offsetMax = new Vector2((value-1f) * maxValue,-4f);
     }

@@ -246,6 +246,10 @@ MonoBehaviour:
     type: 3}
   FlowerHead: {fileID: 4194257362798617861, guid: ed1960e1f828920478c3ee7b4799a418,
     type: 3}
+  GrassPrefabs: {fileID: 1134921269205881164, guid: 9ba6522f54149b74ba21fd075e1b273d,
+    type: 3}
+  FencePrefab: {fileID: 273139883077668863, guid: 5e9c6c1b1717d0f4b87988e2991cc16d,
+    type: 3}
   ButterFlies: {fileID: 3177438139760146078}
   FlowerParents: {fileID: 3177438139433966509}
   DateText: {fileID: 3177438138918659823}
@@ -256,6 +260,7 @@ MonoBehaviour:
   DateString: 2021-1-1
   flowerCount: 0
   Step: 0
+  FlowerParts: []
 --- !u!114 &3177438138784024020
 MonoBehaviour:
   m_ObjectHideFlags: 0

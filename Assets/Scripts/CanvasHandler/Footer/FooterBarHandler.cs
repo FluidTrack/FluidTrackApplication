@@ -44,6 +44,37 @@ public class FooterBarHandler : MonoBehaviour
     }
 
     public void FooterButtonClick(int index) {
+if(TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].activeSelf) {
+    Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].GetComponent<Animator>();
+    if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+        !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+}
+
+if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].activeSelf) {
+    Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].GetComponent<Animator>();
+    if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+        !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+}
+
+if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf) {
+    Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].GetComponent<Animator>();
+    if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+        !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+}
+
+if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].activeSelf) {
+    Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].GetComponent<Animator>();
+    if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+        !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+}
+
+if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].activeSelf) {
+    Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].GetComponent<Animator>();
+    if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+        !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+}
+
+
         if (currentPage == (FOOTER_BTN)index)
             return;
     

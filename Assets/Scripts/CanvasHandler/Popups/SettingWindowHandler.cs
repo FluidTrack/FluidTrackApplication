@@ -6,6 +6,7 @@ using System.IO;
 
 public class SettingWindowHandler : MonoBehaviour
 {
+    public TouchAndMouseManager touch;
     public static SettingWindowHandler Instance;
     public Scrollbar musicScroll;
     public Scrollbar sfxScroll;
@@ -18,7 +19,7 @@ public class SettingWindowHandler : MonoBehaviour
     }
 
     private void OnEnable() {
-        TouchAndMouseManager.Instance.isTouchEnable = false;
+        touch.isTouchEnable = false;
         musicScroll.value = SoundHandler.Instance.MusicSource.volume;
         sfxScroll.value = SoundHandler.Instance.SFXSource.volume;
         musicEnable.ChangeStatus(SoundHandler.Instance.MusicSource.enabled);
@@ -49,7 +50,7 @@ public class SettingWindowHandler : MonoBehaviour
     }
 
     private void OnDisable() {
-        TouchAndMouseManager.Instance.isTouchEnable = true;
+        touch.isTouchEnable = true;
         try {
             FileStream fs = new FileStream(DataHandler.dataPath + "/settingData.data",
                                                FileMode.OpenOrCreate, FileAccess.Write);

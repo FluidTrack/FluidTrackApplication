@@ -26,6 +26,10 @@ public class TouchAndMouseManager : MonoBehaviour {
     public float zoomAmount = 0f;
     public bool isTouchEnable;
 
+    public ZoomedViewHandler week4ZoomHandler;
+    public ZoomedViewHandler week6ZoomHandler;
+    public ZoomedViewHandler week8ZoomHandler;
+
     private RectTransform TouchRing1Trans;
     private RectTransform TouchRing2Trans;
     private RectTransform TouchRing3Trans;
@@ -44,11 +48,13 @@ public class TouchAndMouseManager : MonoBehaviour {
     private float zoom_D1 = 0;
     private float zoom_D2 = 0;
     private int PC_zoom_count = 0;
+    private int PC_zoom_count2 = 0;
     private Touch[] Touches;
     private Vector2[] TouchPos;
     private Vector2 ClickedAnchor;
     private Vector2 OriginClickedPosition;
     private bool isClicked = false;
+    internal bool zoomFlag = false;
 
 #if UNITY_ANDROID
     private Vector2 AdjustedWorldMapPos;
@@ -122,19 +128,34 @@ public class TouchAndMouseManager : MonoBehaviour {
                 WorldMap.anchoredPosition = new Vector2(TouchesCenter.x-Mask.anchoredPosition.x,-(TouchesCenter.y+Mask.anchoredPosition.y));
 
                 zoomAmount = ( wheelAmount < 0 ) ? -0.1f : 0.1f;
-                Vector3 zoomedScale = WorldMap.localScale + new Vector3(zoomAmount, zoomAmount, zoomAmount);
-                isMaximumZoom = false;
-                if (zoomedScale.x >= 1.2f || zoomedScale.y >= 1.2f)
-                    zoomedScale = new Vector3(1.2f, 1.2f, 1.2f);
-                else if (zoomedScale.x <= 0.23f || zoomedScale.y <= 0.23f) {
-                    zoomedScale = new Vector3(0.23f, 0.23f, 0.23f);
-                    PC_zoom_count++;
-                    if(PC_zoom_count >= 10) {
-                        PC_zoom_count = 0;
-                        Debug.LogError("Maximum zoom");
-                    }
-                } else PC_zoom_count = 0;
-                WorldMap.localScale = zoomedScale;
+                if(zoomFlag) {
+                    if (zoomAmount > 0) {
+                        PC_zoom_count2++;
+                        if (PC_zoom_count2 >= 5) {
+                            PC_zoom_count2 = 0;
+                            ZoomIn();
+                            zoomFlag = false;
+                        }
+                    } else PC_zoom_count2 = 0;
+                } else {
+                    Vector3 zoomedScale = WorldMap.localScale + new Vector3(zoomAmount, zoomAmount, zoomAmount);
+                    isMaximumZoom = false;
+                    if (zoomedScale.x >= 1.2f || zoomedScale.y >= 1.2f) {
+                        zoomedScale = new Vector3(1.2f, 1.2f, 1.2f);
+                    } else if (zoomedScale.x <= 0.23f || zoomedScale.y <= 0.23f) {
+                        zoomedScale = new Vector3(0.23f, 0.23f, 0.23f);
+                        if (!zoomFlag) {
+                            PC_zoom_count++;
+                            if (PC_zoom_count >= 5) {
+                                PC_zoom_count = 0;
+                                ZoomOut();
+                                zoomFlag = true;
+                            }
+                        }
+                    } else PC_zoom_count = 0;
+                    WorldMap.localScale = zoomedScale;
+                }
+
             }
         }
 #elif UNITY_ANDROID
@@ -234,21 +255,31 @@ public class TouchAndMouseManager : MonoBehaviour {
                 DebugText2.text += "zoom_D1 = " + zoom_D1 + "\n";
                 DebugText2.text += "zoomAmount = " + zoomAmount + "\n";
                 Vector3 zoomedScale =WorldMapOriginScale + new Vector3(zoomAmount, zoomAmount, zoomAmount);
-                isMaximumZoom = false;
-                if (zoomedScale.x >= 1.2f || zoomedScale.y >= 1.2f){
-                    zoomedScale = new Vector3(1.2f, 1.2f, 1.2f);
-                    isMaximumZoom2 = false;
-                }    
-                else if (zoomedScale.x <= 0.23f || zoomedScale.y <= 0.23f) {
-                    if(isMaximumZoom2 && zoomAmount < -2f) {
+                if (!zoomFlag) {
+                    isMaximumZoom = false;
+                    if (zoomedScale.x >= 1.2f || zoomedScale.y >= 1.2f) {
+                        zoomedScale = new Vector3(1.2f, 1.2f, 1.2f);
                         isMaximumZoom2 = false;
-                        Debug.LogError("8 weeks view");
-                    } else {
-                        zoomedScale = new Vector3(0.23f, 0.23f, 0.23f);
-                        isMaximumZoom = true;
+                    } else if (zoomedScale.x <= 0.23f || zoomedScale.y <= 0.23f) {
+                        if (isMaximumZoom2 && zoomAmount < -2f) {
+                            zoomedScale = new Vector3(0.23f, 0.23f, 0.23f);
+                            isMaximumZoom2 = false;
+                            ZoomOut();
+                            zoomFlag = true;
+                        } else {
+                            zoomedScale = new Vector3(0.23f, 0.23f, 0.23f);
+                            isMaximumZoom = true;
+                        }
                     }
+                    WorldMap.localScale = zoomedScale;
+                } else {
+                    zoomedScale = new Vector3(0.23f, 0.23f, 0.23f);
+                    if (zoomAmount > 0.5f) {
+                        ZoomIn();
+                        zoomFlag = false;
+                    }
+                    WorldMap.localScale = zoomedScale;
                 }
-                WorldMap.localScale = zoomedScale;
             }
         }
 #endif
@@ -304,6 +335,26 @@ public class TouchAndMouseManager : MonoBehaviour {
         } else if (AdjustedWorldMapPos.y < 0) {
             Vector2 amount = new Vector2(0, -AdjustedWorldMapPos.y);
             WorldMap.anchoredPosition += amount;
+        }
+    }
+
+    public void ZoomOut() {
+        int week = HomeHandler.Instance.totalWeek;
+        if (week != 4 && week != 6 && week != 8) return;
+        switch(week) {
+            case 4: week4ZoomHandler.ZoomChange(false); break;
+            case 6: week6ZoomHandler.ZoomChange(false); break;
+            case 8: week8ZoomHandler.ZoomChange(false); break;
+        }
+    }
+
+    public void ZoomIn() {
+        int week = HomeHandler.Instance.totalWeek;
+        if (week != 4 && week != 6 && week != 8) return;
+        switch (week) {
+            case 4: week4ZoomHandler.ZoomChange(true); break;
+            case 6: week6ZoomHandler.ZoomChange(true); break;
+            case 8: week8ZoomHandler.ZoomChange(true); break;
         }
     }
 }
