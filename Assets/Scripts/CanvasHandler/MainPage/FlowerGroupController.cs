@@ -47,12 +47,12 @@ public class FlowerGroupController : MonoBehaviour
     }
 
     public IEnumerator IncreasementFlowers() {
-        for(int i = 0; i <= maxCount; i++) {
+        for(int i = 0; i <= maxCount+1; i++) {
             yield return new WaitForSeconds(0.05f);
             for(int j = 0; j < num; j ++) {
-                if (flowerRealCounts[j] <= flowerCounts[j]) {
+                if (flowerRealCounts[j] <= flowerCounts[j]+1) {
                     Flowers[j].sprite = FlowerSpritesGroup.FlowerSprite[j].Sprites[flowerRealCounts[j]];
-                    FlowerTexts[j].text = flowerRealCounts[j].ToString();
+                    FlowerTexts[j].text = ((flowerRealCounts[j]-1) <= 0) ? "0" : ( ( flowerRealCounts[j] - 1 ).ToString());
                     flowerRealCounts[j]++;
                 }
             }

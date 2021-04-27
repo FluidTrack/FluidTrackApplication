@@ -25,10 +25,10 @@ public class HomeHandler : MonoBehaviour
         -613, 30,   -1994,0,    -3288, 8,   -3430, 868,    -2310, 852,    -961,828,     0,1009,
         -537, 1940, -2147,1743, -3275,2603, -1594,2769,    -95,2903,    -1160, 3700,  -2651,3716
     };
-
-    private float[] Week4TempPivot = { -540, 1452 };
-    private float[] Week6TempPivot = { -597, 1992 };
-    private float[] Week8TempPivot = { -669, 2300 };
+    
+    private float[] Week4TempPivot = { -3197, 1500 };
+    private float[] Week6TempPivot = { -3872, 1305 };
+    private float[] Week8TempPivot = { -2912, 2570 };
 
     public void Awake() {
         Instance = this;

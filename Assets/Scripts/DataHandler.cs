@@ -7,7 +7,7 @@ using System.IO;
 public class DataHandler : MonoBehaviour
 {
     internal static string ServerAddress = "http://fluidtrack.site/";
-
+    internal static string tempText = "";
     internal static bool User_isDataLoaded = false;
     internal static bool User_isGardenDataLoaded = false;
     internal static bool User_isWaterDataLoaded = false;
@@ -447,6 +447,7 @@ public class DataHandler : MonoBehaviour
             if (request.isNetworkError)
                 QuitApplication();
             else {
+                tempText = request.downloadHandler.text;
                 User_isGardenDataCreated = true;
             }
         }
@@ -498,7 +499,6 @@ public class DataHandler : MonoBehaviour
         url += "&item_2=" + log.item_2;
         url += "&item_3=" + log.item_3;
         url += "&item_4=" + log.item_4;
-
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)

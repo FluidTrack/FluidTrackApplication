@@ -14,6 +14,7 @@ public class GardenSpotHandler : MonoBehaviour
     public GameObject FencePrefab;
     public GameObject ButterFlies;
     public Transform FlowerParents;
+    public Color[] colors;
     public Text DateText;
     
     public TimeHandler.DateTimeStamp.DATE Date = TimeHandler.DateTimeStamp.DATE.MON;
@@ -36,7 +37,7 @@ public class GardenSpotHandler : MonoBehaviour
     private float[] Head_Offset_Y_1 = { 105.3f};
     private float[] Head_Offset_X_2 = { -50f, 50f };
     private float[] Head_Offset_Y_2 = { 105.3f, 105.3f};
-    private float[] Head_Offset_X_3 = { -95f, 0f, 95f, -138f, -48f, 48, 138f, -95f, 0f, 95f, };
+    private float[] Head_Offset_X_3 = { -95f, 0f, 95f, -48f, 48f, -138f, 138f, -95f, 0f, 95f, };
     private float[] Head_Offset_Y_3 = { 105.3f, 105.3f, 105.3f, 174f, 174f, 174f, 174f, 247f, 247f, 247f };
 
     public void Awake() {
@@ -156,6 +157,7 @@ public class GardenSpotHandler : MonoBehaviour
             if(logData.item_1 > 0) {
                 GameObject fenceInstance = Instantiate(FencePrefab, this.transform.parent.parent.GetChild(2));
                 fenceInstance.GetComponent<RectTransform>().anchoredPosition = this.GetComponent<RectTransform>().anchoredPosition;
+                fenceInstance.GetComponent<Image>().color = colors[Step];
                 FlowerParts.Add(fenceInstance);
             }
             weeklyData[Step] += logData.flower;

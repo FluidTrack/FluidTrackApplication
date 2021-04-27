@@ -29,17 +29,18 @@ public class FooterBarHandler : MonoBehaviour
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG],
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE],
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR],
-            TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER],
         };
 
         for (int i = 0; i < pages.Length; i++) {
-            if (pages[i].activeSelf) {
-                currentPage = (FOOTER_BTN)i;
-                Buttons[i].color = Active;
-                ButtonText[i].color = ActiveContentColor;
-                ButtonImage[i].color = ActiveContentColor;
-                break;
-            }
+            try {
+                if (pages[i].activeSelf) {
+                    currentPage = (FOOTER_BTN)i;
+                    Buttons[i].color = Active;
+                    ButtonText[i].color = ActiveContentColor;
+                    ButtonImage[i].color = ActiveContentColor;
+                    break;
+                }
+            } catch(System.Exception e) { e.ToString(); }
         }
     }
 
@@ -56,12 +57,6 @@ if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].activeSelf) 
         !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
 }
 
-if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf) {
-    Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].GetComponent<Animator>();
-    if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
-        !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
-}
-
 if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].activeSelf) {
     Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].GetComponent<Animator>();
     if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
@@ -74,7 +69,6 @@ if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].activeS
         !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
 }
 
-
         if (currentPage == (FOOTER_BTN)index)
             return;
     
@@ -82,8 +76,7 @@ if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].activeS
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME],
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG],
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE],
-            TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR],
-            TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER],
+            TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR]
         };
 
         if(index > (int)currentPage) {

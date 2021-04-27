@@ -28,7 +28,7 @@ public class ZoomedViewHandler : MonoBehaviour
             BCC.ChangeCloudState(Day);
             FlowersGroup.ChangeSprite(HomeHandler.Instance.totalWeek);
         } else {
-            HomeHandler.Instance.ReturnButtonClick(true);
+            //HomeHandler.Instance.ReturnButtonClick(true);
         }
     }
 

@@ -71,7 +71,12 @@
     <Compile Include="Assets\Scripts\CanvasHandler\CanvasDisableAnimationContoller.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\ErrorOcurredWindowHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\FlashHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Flower\FlowerPageFenceHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Flower\FlowerPageGroundHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Flower\FlowerPageHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Flower\FlowerPageSpotHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Footer\FooterBarHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Log\LogBlocker.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Log\LogCanvasHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Log\LogSpriteHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Log\SlotHandler.cs" />
@@ -87,9 +92,12 @@
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\SmallCloudController.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\ZoomedViewHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Mission\MissionCanvasHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MongMong\GreetingMongMong.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\DeviceBatteryIconHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\MoabandStatusHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\NavigationHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\AddDrinkLogHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\AddPooLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\CheckBoxButton.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ConnectingWindowHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ScrollbarProgress.cs" />
@@ -103,7 +111,8 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome4Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome5Handler.cs" />
     <Compile Include="Assets\Scripts\DataHandler.cs" />
-    <Compile Include="Assets\Scripts\HSY_Script\FlowerPageHandler.cs" />
+    <Compile Include="Assets\Scripts\DraggableWaterIcon.cs" />
+    <Compile Include="Assets\Scripts\EffectAnimatorAutoDelete.cs" />
     <Compile Include="Assets\Scripts\KDH_Script\CalendarHandler.cs" />
     <Compile Include="Assets\Scripts\KDH_Script\GaugeHandler.cs" />
     <Compile Include="Assets\Scripts\KDH_Script\InputFieldHandler.cs" />

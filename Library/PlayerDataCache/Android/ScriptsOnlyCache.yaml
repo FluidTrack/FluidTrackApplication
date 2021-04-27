@@ -12,9 +12,12 @@ ScriptsOnlyBuild:
     - DataHandler
     - DeviceBatteryIconHandler
     - DeviceListHandler
+    - DraggableWaterIcon
     - ErrorOcurredWindowHandler
     - FlashHandler
     - FlowerGroupController
+    - FlowerPageHandler
+    - FlowerPageSpotHandler
     - FlowerShapeHandler
     - FlowerSpritesGroup
     - FlowerSpritesSet
@@ -130,65 +133,67 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11388}
     - Class: 114
-      Script: {instanceID: 11478}
+      Script: {instanceID: 11412}
     - Class: 114
-      Script: {instanceID: 11498}
+      Script: {instanceID: 11480}
     - Class: 114
       Script: {instanceID: 11500}
     - Class: 114
-      Script: {instanceID: 11548}
+      Script: {instanceID: 11502}
     - Class: 114
-      Script: {instanceID: 11650}
+      Script: {instanceID: 11550}
     - Class: 114
-      Script: {instanceID: 11734}
+      Script: {instanceID: 11652}
     - Class: 114
-      Script: {instanceID: 11962}
+      Script: {instanceID: 11736}
     - Class: 114
-      Script: {instanceID: 11976}
+      Script: {instanceID: 11964}
     - Class: 114
-      Script: {instanceID: 12002}
+      Script: {instanceID: 11978}
     - Class: 114
-      Script: {instanceID: 12020}
+      Script: {instanceID: 12004}
     - Class: 114
-      Script: {instanceID: 12058}
+      Script: {instanceID: 12022}
     - Class: 114
-      Script: {instanceID: 12196}
+      Script: {instanceID: 12060}
     - Class: 114
-      Script: {instanceID: 12212}
+      Script: {instanceID: 12198}
     - Class: 114
-      Script: {instanceID: 12220}
+      Script: {instanceID: 12214}
     - Class: 114
-      Script: {instanceID: 12236}
+      Script: {instanceID: 12222}
     - Class: 114
-      Script: {instanceID: 12262}
+      Script: {instanceID: 12238}
     - Class: 114
-      Script: {instanceID: 12374}
+      Script: {instanceID: 12264}
     - Class: 114
-      Script: {instanceID: 12442}
+      Script: {instanceID: 12376}
     - Class: 114
-      Script: {instanceID: 12458}
+      Script: {instanceID: 12444}
     - Class: 114
-      Script: {instanceID: 12560}
+      Script: {instanceID: 12460}
     - Class: 114
-      Script: {instanceID: 12584}
+      Script: {instanceID: 12562}
     - Class: 114
-      Script: {instanceID: 12596}
+      Script: {instanceID: 12586}
     - Class: 114
-      Script: {instanceID: 12658}
+      Script: {instanceID: 12598}
     - Class: 114
-      Script: {instanceID: 12676}
+      Script: {instanceID: 12660}
     - Class: 114
-      Script: {instanceID: 12702}
+      Script: {instanceID: 12678}
     - Class: 114
-      Script: {instanceID: 12740}
+      Script: {instanceID: 12704}
     - Class: 114
-      Script: {instanceID: 12770}
+      Script: {instanceID: 12742}
     - Class: 114
-      Script: {instanceID: 12778}
+      Script: {instanceID: 12772}
     - Class: 114
-      Script: {instanceID: 13066}
+      Script: {instanceID: 12780}
     - Class: 114
-      Script: {instanceID: 13252}
+      Script: {instanceID: 13068}
+    - Class: 114
+      Script: {instanceID: 13254}
     - Class: 114
       Script: {instanceID: 13702}
     - Class: 114
@@ -206,29 +211,33 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13996}
     - Class: 114
-      Script: {instanceID: 14206}
+      Script: {instanceID: 14014}
     - Class: 114
-      Script: {instanceID: 14262}
+      Script: {instanceID: 14208}
     - Class: 114
-      Script: {instanceID: 14276}
+      Script: {instanceID: 14264}
     - Class: 114
-      Script: {instanceID: 14316}
+      Script: {instanceID: 14278}
     - Class: 114
-      Script: {instanceID: 14320}
+      Script: {instanceID: 14318}
     - Class: 114
-      Script: {instanceID: 14342}
+      Script: {instanceID: 14322}
     - Class: 114
-      Script: {instanceID: 14374}
+      Script: {instanceID: 14344}
     - Class: 114
-      Script: {instanceID: 14384}
+      Script: {instanceID: 14376}
     - Class: 114
-      Script: {instanceID: 14396}
+      Script: {instanceID: 14386}
     - Class: 114
       Script: {instanceID: 14398}
     - Class: 114
-      Script: {instanceID: 14422}
+      Script: {instanceID: 14400}
     - Class: 114
-      Script: {instanceID: 14436}
+      Script: {instanceID: 14424}
+    - Class: 114
+      Script: {instanceID: 14438}
+    - Class: 114
+      Script: {instanceID: 1126670}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -342,6 +351,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GardenSpotHandler
+  - hash:
+      serializedVersion: 2
+      Hash: 1ece26737df65c53da520b985ebaa14c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FlowerPageHandler
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -854,12 +869,6 @@ ScriptsOnlyBuild:
     className: Level2Script
   - hash:
       serializedVersion: 2
-      Hash: 20978a1bc4cfec31b9a08a6617e007ed
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: FlowerPageHandler
-  - hash:
-      serializedVersion: 2
       Hash: 8001a5f7502aab37e42206da015e6914
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -938,6 +947,12 @@ ScriptsOnlyBuild:
     className: TouchAndMouseManager
   - hash:
       serializedVersion: 2
+      Hash: 094365bcd8fa929dca1022804d5edc78
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FlowerPageSpotHandler
+  - hash:
+      serializedVersion: 2
       Hash: d791aa6007fa3640be1164ea75bb087d
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -956,7 +971,7 @@ ScriptsOnlyBuild:
     className: TMP_ColorGradient
   - hash:
       serializedVersion: 2
-      Hash: cf4c9b14b6a4ba25f3716548e08b08e6
+      Hash: db24dcaaf00f18a01097095955612fd8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SoundHandler
@@ -1104,6 +1119,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: d9bb8c80c91a48d36bc0d26a48263feb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DraggableWaterIcon
   platform: 13
   scenePathNames:
   - Assets/Scenes/MainScene.unity

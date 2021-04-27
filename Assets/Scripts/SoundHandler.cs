@@ -21,6 +21,8 @@ public class SoundHandler : MonoBehaviour
     public AudioClip SFX_Tada1;
     public AudioClip SFX_Tada2;
     public AudioClip SFX_Tada3;
+    public AudioClip SFX_Tada4;
+    public AudioClip SFX_Tada5;
     public AudioClip SFX_Yeah;
     public AudioClip SFX_Scan;
     public AudioClip SFX_Connect;
@@ -30,11 +32,14 @@ public class SoundHandler : MonoBehaviour
     public AudioClip SFX_SmallPing;
     public AudioClip SFX_Error;
     public AudioClip SFX_SmallestView;
+    public AudioClip SFX_Water;
 
     public AudioSource SFXSource;
     public AudioSource SFXSource2;
     public AudioSource MusicSource;
     public AudioSource MusicSource2;
+    public AudioSource MongMongSource;
+    public AudioSource MongMongSource2;
 
     public static SoundHandler Instance;
     public bool Music_Enable = false;
@@ -50,7 +55,8 @@ public class SoundHandler : MonoBehaviour
         CLICKED, POPED, POPED2, CONGRATULATION1, CONGRATULATION2,
         TADA1, TADA2, TADA3, YEAH, SCAN,
         CONNECT, DISCONNECT, COIN, BACK, SMALL_PING,
-        ERROR, CLICKED2, CLICKED3, CLICKED4, SMALLEST_VEIW,
+        ERROR, CLICKED2, CLICKED3, CLICKED4, SMALLEST_VEIW,WATER,
+        TADA4, TADA5,
     }
 
     public enum MUSIC {
@@ -94,6 +100,12 @@ public class SoundHandler : MonoBehaviour
             case SFX.TADA3:
                 SFXSource2.PlayOneShot(SFX_Tada3);
                 break;
+            case SFX.TADA4:
+                SFXSource2.PlayOneShot(SFX_Tada4);
+                break;
+            case SFX.TADA5:
+                SFXSource2.PlayOneShot(SFX_Tada5);
+                break;
             case SFX.YEAH:
                 SFXSource2.PlayOneShot(SFX_Yeah);
                 break;
@@ -120,6 +132,9 @@ public class SoundHandler : MonoBehaviour
                 break;
             case SFX.SMALLEST_VEIW:
                 SFXSource.PlayOneShot(SFX_SmallestView);
+                break;
+            case SFX.WATER:
+                SFXSource.PlayOneShot(SFX_Water);
                 break;
         }
     }
