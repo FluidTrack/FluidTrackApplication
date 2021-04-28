@@ -33,6 +33,9 @@ public class SoundHandler : MonoBehaviour
     public AudioClip SFX_Error;
     public AudioClip SFX_SmallestView;
     public AudioClip SFX_Water;
+    public AudioClip SFX_MongMongJump;
+    public AudioClip SFX_MongMongHello;
+    public AudioClip SFX_MongMongBeep;
 
     public AudioSource SFXSource;
     public AudioSource SFXSource2;
@@ -56,7 +59,7 @@ public class SoundHandler : MonoBehaviour
         TADA1, TADA2, TADA3, YEAH, SCAN,
         CONNECT, DISCONNECT, COIN, BACK, SMALL_PING,
         ERROR, CLICKED2, CLICKED3, CLICKED4, SMALLEST_VEIW,WATER,
-        TADA4, TADA5,
+        TADA4, TADA5,MONG_JUMP, MONG_HELLO, MONG_BEEP,
     }
 
     public enum MUSIC {
@@ -136,6 +139,15 @@ public class SoundHandler : MonoBehaviour
             case SFX.WATER:
                 SFXSource.PlayOneShot(SFX_Water);
                 break;
+            case SFX.MONG_JUMP:
+                SFXSource2.PlayOneShot(SFX_MongMongJump);
+            break;
+            case SFX.MONG_HELLO:
+                SFXSource2.PlayOneShot(SFX_MongMongHello);
+            break;
+            case SFX.MONG_BEEP:
+                SFXSource2.PlayOneShot(SFX_MongMongBeep);
+            break;
         }
     }
 

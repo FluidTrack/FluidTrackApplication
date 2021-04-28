@@ -21,11 +21,13 @@ public class HomeHandler : MonoBehaviour
     public PAGE currentPage;
     public GardenSpotHandler[] Spots;
 
-    private float[] Week4Pivot = {
-        -613, 30,   -1994,0,    -3288, 8,   -3430, 868,    -2310, 852,    -961,828,     0,1009,
-        -537, 1940, -2147,1743, -3275,2603, -1594,2769,    -95,2903,    -1160, 3700,  -2651,3716
+    public float[] Week4Pivot_x = {
+        -84, -836, -1529, -1618,-984, -209, 0, 0, -895, -1545, -571, 0, -294, -1238, -2222, -2392, -2716, -3197, -3415, -3867, -3867, -3867, -3291, -2474, -2598, -3265, -3837, -3867
     };
-    
+    public float[] Week4Pivot_y = {
+        0,0,0,271, 388,401, 395, 950, 899, 1415, 1460, 1473, 1894, 1894, 1894,1894, 1485, 1093, 1500, 1894, 1894, 1436, 851, 725, 653, 195, 140, 231, 78
+    };
+
     private float[] Week4TempPivot = { -3197, 1500 };
     private float[] Week6TempPivot = { -3872, 1305 };
     private float[] Week8TempPivot = { -2912, 2570 };
