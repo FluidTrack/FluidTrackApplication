@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\ZoomedViewHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Mission\MissionCanvasHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\GreetingMongMong.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MongMong\MainPageMongMongHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\MongMongQuoteHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\DeviceBatteryIconHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\MoabandStatusHandler.cs" />
@@ -102,8 +103,14 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\AddPooLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\CheckBoxButton.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ConnectingWindowHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\DrinkSelectIcon.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\ModifyDrinkLogHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\ModifyPooLogHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\PooSelectIcon.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ScrollbarProgress.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ScrollbarSound.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\SelectDrinkHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\SelectPooHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\SettingWindowHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\TouchAndMouseManager.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\OpeningHandler.cs" />

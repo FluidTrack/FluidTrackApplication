@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 public class TotalManager : MonoBehaviour
 {
     public static TotalManager instance;
+    public GreetingMongMong Greeting;
     public GameObject OpeningCanvas;
     public GameObject[] OtherCanvas;
     public ErrorOcurredWindowHandler ErrorHandler;
@@ -71,17 +72,20 @@ public class TotalManager : MonoBehaviour
                 Debug.LogWarning("Cannot found userData\nDataHandler.User_id set 1 as default value.");
                 DataHandler.User_id = 1;
             }
-
+            Greeting.SayHello();
             StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
         }
     }
 
     public void Start() {
-        NavigationHandler.Instance.ModeSetting(isDebugMode);
+        if (NavigationHandler.Instance != null)
+            NavigationHandler.Instance.ModeSetting(isDebugMode);
         if (!SkipOpening) {
             OpeningCanvas.SetActive(true);
-            foreach (GameObject go in OtherCanvas)
-                go.SetActive(false);
+            foreach (GameObject go in OtherCanvas) {
+                try { go.SetActive(false); }
+                catch (System.Exception e) { e.ToString(); }
+            }
         }
     }
 

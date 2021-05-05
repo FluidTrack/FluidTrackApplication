@@ -22,21 +22,26 @@ public class TimerHandler : MonoBehaviour
     }
 
     public void TimezoneButton() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
         Hour = (Hour >= 12) ? Hour - 12 : Hour + 12;
         drawClock();
     }
 
     public void HourMinusButton() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
+
         Hour = ( Hour <= 0 ) ? 23 : Hour - 1;
         drawClock();
     }
 
     public void HourPlusButton() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
         Hour = ( Hour >= 23 ) ? 0 : Hour + 1;
         drawClock();
     }
 
     public void MinMinusButton() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
         if (Min <= 0) {
             Min = 45;
             HourMinusButton();
@@ -47,6 +52,7 @@ public class TimerHandler : MonoBehaviour
     }
 
     public void MinPlusButton() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
         if (Min >= 45) {
             Min = 0;
             HourPlusButton();

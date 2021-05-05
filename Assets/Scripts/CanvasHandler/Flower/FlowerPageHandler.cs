@@ -62,6 +62,14 @@ public class FlowerPageHandler : MonoBehaviour
         StartCoroutine(FetchData());
     }
 
+    IEnumerator writeGardenLogId(DataHandler.GardenLog log) {
+        while (!DataHandler.User_isGardenDataCreated)
+            yield return 0;
+        DataHandler.User_isGardenDataCreated = false;
+        log.log_id = DataHandler.User_isGardenDataCreatedId;
+        Debug.Log("Log_id : " + DataHandler.User_isGardenDataCreatedId);
+    }
+
     public IEnumerator FetchData() {
         while(!DataHandler.User_isGardenDataLoaded)
             yield return 0;
@@ -82,6 +90,7 @@ public class FlowerPageHandler : MonoBehaviour
             newGarden.log_water = 0; newGarden.log_poop = 0; newGarden.log_pee = 0;
             newGarden.item_0 = 0; newGarden.item_1 = 0; newGarden.item_2 = 0; newGarden.item_3 = 0; newGarden.item_4 = 0;
             StartCoroutine(DataHandler.CreateGardenlogs(newGarden));
+            StartCoroutine(writeGardenLogId(newGarden));
             TargetGardenLog = newGarden;
         }
 

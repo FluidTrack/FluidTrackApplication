@@ -7,7 +7,6 @@ public class MongMongQuoteHandler : MonoBehaviour
 {
     public GameObject[] Elements;
     public Text QuoteText;
-
     private Transform worldMap;
     private bool isClose = false;
     

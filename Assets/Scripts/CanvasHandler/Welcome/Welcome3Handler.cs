@@ -39,7 +39,7 @@ public class Welcome3Handler : MonoBehaviour
         DataHandler.User_morning_call_time = Morning.getTime();
         DataHandler.User_school_time = School.getTime();
         DataHandler.User_home_time = Home.getTime();
-        TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME4].SetActive(true);
+        TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME5].SetActive(true);
         this.gameObject.SetActive(false);
     }
 

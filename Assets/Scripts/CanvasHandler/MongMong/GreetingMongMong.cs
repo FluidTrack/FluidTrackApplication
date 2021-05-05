@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GreetingMongMong : MonoBehaviour
 {
+    public static GreetingMongMong Instance;
     public GameObject GreetingMongMongObject;
     public Text GreetingText;
     public Animator Anim;
@@ -15,19 +16,24 @@ public class GreetingMongMong : MonoBehaviour
 
     private bool isPlayedVoice = false;
     private int rand = 0;
-    public void Start() {
+
+    public void Awake() {
+        Instance = this;
+    }
+    public void SayHello() {
         if (isGreeting) {
             GreetingMongMongObject.SetActive(true);
             rand = Random.Range(0, 3);
             GreetingText.text = greetingQuote[rand];
-            TouchAndMouseManager.Instance.isTouchEnable = false;
+            if (TouchAndMouseManager.Instance != null)
+                TouchAndMouseManager.Instance.isTouchEnable = false;
             StartCoroutine(PlaySFX());
         } else this.enabled = false;
     }
 
     IEnumerator PlaySFX() {
         yield return new WaitForSeconds(1.4f);
-        SoundHandler.Instance.MongMongSource2.PlayOneShot(SFX);
+        this.transform.GetComponent<SoundHandler>().MongMongSource2.PlayOneShot(SFX);
     }
 
     public void Update() {
@@ -41,7 +47,8 @@ public class GreetingMongMong : MonoBehaviour
     public void OkayButton() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
         GreetingMongMongObject.SetActive(false);
-        TouchAndMouseManager.Instance.isTouchEnable = true;
+        if (TouchAndMouseManager.Instance != null)
+            TouchAndMouseManager.Instance.isTouchEnable = true;
         this.enabled = false;
     }
 }

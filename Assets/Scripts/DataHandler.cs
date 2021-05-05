@@ -25,6 +25,16 @@ public class DataHandler : MonoBehaviour
     internal static bool User_isMoabandDataCreated = false;
     internal static bool User_isErrorDataCreated = false;
 
+    internal static int User_isGardenDataCreatedId = 0;
+    internal static int User_isWaterDataCreatedId = 0;
+    internal static int User_isDrinkDataCreatedId = 0;
+    internal static int User_isPooDataCreatedId = 0;
+    internal static int User_isPeeDataCreatedId = 0;
+
+    internal static int User_isScreenDataCreatedId = 0;
+    internal static int User_isMoabandDataCreatedId = 0;
+    internal static int User_isErrorDataCreatedId = 0;
+
     internal static bool User_isDataUpdated = false;
     internal static bool User_isGardenDataUpdated = false;
     internal static bool User_isWaterDataUpdated = false;
@@ -449,6 +459,7 @@ public class DataHandler : MonoBehaviour
             else {
                 tempText = request.downloadHandler.text;
                 User_isGardenDataCreated = true;
+                User_isGardenDataCreatedId = int.Parse(tempText);
             }
         }
     }
@@ -544,6 +555,7 @@ public class DataHandler : MonoBehaviour
                 QuitApplication();
             else {
                 User_isWaterDataCreated = true;
+                User_isWaterDataCreatedId = int.Parse(request.downloadHandler.text);
             }
 
         }
@@ -654,6 +666,7 @@ public class DataHandler : MonoBehaviour
                 QuitApplication();
             else {
                 User_isDrinkDataCreated = true;
+                User_isDrinkDataCreatedId = int.Parse(request.downloadHandler.text);
             }
 
         }
@@ -763,6 +776,7 @@ public class DataHandler : MonoBehaviour
                 QuitApplication();
             else {
                 User_isPooDataCreated = true;
+                User_isPooDataCreatedId = int.Parse(request.downloadHandler.text);
             }
 
         }
@@ -869,6 +883,7 @@ public class DataHandler : MonoBehaviour
                 QuitApplication();
             else {
                 User_isPeeDataCreated = true;
+                User_isPeeDataCreatedId = int.Parse(request.downloadHandler.text);
             }
 
         }
@@ -971,13 +986,14 @@ public class DataHandler : MonoBehaviour
         url += "&start_time=" + log.start_time;
         url += "&end_time=" + log.end_time;
         url += "&second=" + log.second;
-
+        Debug.Log(url);
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
                 QuitApplication();
             else {
                 User_isScreenDataCreated = true;
+                User_isScreenDataCreatedId = int.Parse(request.downloadHandler.text);
             }
         }
     }
@@ -1021,6 +1037,7 @@ public class DataHandler : MonoBehaviour
                 QuitApplication();
             else {
                 User_isMoabandDataCreated = true;
+                User_isMoabandDataCreatedId = int.Parse(request.downloadHandler.text);
             }
         }
     }
@@ -1057,6 +1074,7 @@ public class DataHandler : MonoBehaviour
                 QuitApplication();
             else {
                 User_isErrorDataCreated = true;
+                User_isErrorDataCreatedId = int.Parse(request.downloadHandler.text);
             }
         }
         

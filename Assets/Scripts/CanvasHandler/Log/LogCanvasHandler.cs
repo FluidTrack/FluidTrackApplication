@@ -69,10 +69,25 @@ public class LogCanvasHandler : MonoBehaviour
     public enum LOG_TYPE { NONE, WATER, DRINK, PEE, POOP, };
     public static string[] LogTypeList = { "None Log", "Water Log", "Drink Log", "Pee Log", "Poop Log" };
 
+    public GameObject SelectDrinkUI;
+    public GameObject DrinkModifyWindow;
+    public Image[] DrinkModifyButtonIcons;
+    public Scrollbar DrinkModifyWindow_Volume_Input;
+    public Text DrinkModifyWindow_Volume_Input_Text;
+    public Text DrinkModifyWindowTitleText;
+    private int ModifyDrinkLogType = 0;
+    private int ModifyDrinkLogVolume = 0;
+
+    public GameObject SelectPooUI;
+
+
     internal bool WaterButtonClicked = false;
     internal bool PooButtonClicked = false;
     internal bool PeeButtonClicked = false;
     internal bool DrinkButtonClicked = false;
+
+    internal LOG_TYPE PressLogType = LOG_TYPE.NONE;
+    internal int PressLogIndex = 0;
 
     private TimeHandler.DateTimeStamp targetDate = null;
     private List<Log> totalLog;
@@ -148,40 +163,43 @@ public class LogCanvasHandler : MonoBehaviour
     }
 
     public void OnDisable() {
-        totalLog.Clear();
+        if(totalLog != null)
+            totalLog.Clear();
         DrawOff();
     }
 
     public void DrawOff() {
-        for(int i = 0; i < spawnObjects.Count; i ++) {
-            GameObject temp = spawnObjects[i];
-            spawnObjects[i] = null;
-            Destroy(temp);
-        }
-        for(int i = 0; i < MealObjectList.Count; i++) {
-            GameObject temp = MealObjectList[i];
-            MealObjectList[i] = null;
-            Destroy(temp);
-        }
-        spawnObjects.Clear();
-        MealObjectList.Clear();
-        for (int i = 0; i < 12; i++) {
-            SlotHandler slot_up   = UpSlot[i].GetComponent<SlotHandler>();
-            SlotHandler slot_down = DownSlot[i].GetComponent<SlotHandler>();
-            slot_up.WaterCount = 0;
-            slot_up.DrinkCount = 0;
-            slot_up.WaterTop = null;
-            slot_up.DrinkTop = null;
-            slot_down.PeeCount = 0;
-            slot_down.PooCount = 0;
-            slot_down.PeeTop = null;
-            slot_down.PooTop = null;
-            slot_down.isPooNoType = false;
-        }
-        WaterCountText.text = "0";
-        DrinkCountText.text = "0";
-        PeeCountText.text = "0";
-        PooCountText.text = "0";
+        try {
+            for (int i = 0; i < spawnObjects.Count; i ++) {
+                GameObject temp = spawnObjects[i];
+                spawnObjects[i] = null;
+                Destroy(temp);
+            }
+            for(int i = 0; i < MealObjectList.Count; i++) {
+                GameObject temp = MealObjectList[i];
+                MealObjectList[i] = null;
+                Destroy(temp);
+            }
+            spawnObjects.Clear();
+            MealObjectList.Clear();
+            for (int i = 0; i < 12; i++) {
+                SlotHandler slot_up   = UpSlot[i].GetComponent<SlotHandler>();
+                SlotHandler slot_down = DownSlot[i].GetComponent<SlotHandler>();
+                slot_up.WaterCount = 0;
+                slot_up.DrinkCount = 0;
+                slot_up.WaterTop = null;
+                slot_up.DrinkTop = null;
+                slot_down.PeeCount = 0;
+                slot_down.PooCount = 0;
+                slot_down.PeeTop = null;
+                slot_down.PooTop = null;
+                slot_down.isPooNoType = false;
+            }
+            WaterCountText.text = "0";
+            DrinkCountText.text = "0";
+            PeeCountText.text = "0";
+            PooCountText.text = "0";
+        } catch (System.Exception e) { e.ToString(); }
         try {
             WaterCountText2.text = "0";
             DrinkCountText2.text = "0";
@@ -265,6 +283,7 @@ public class LogCanvasHandler : MonoBehaviour
             newGarden.item_0 = 0; newGarden.item_1 = 0; newGarden.item_2 = 0; newGarden.item_3 = 0; newGarden.item_4 = 0;
             DataHandler.User_isGardenDataCreated = false;
             StartCoroutine(DataHandler.CreateGardenlogs(newGarden));
+            StartCoroutine(writeGardenLogId(newGarden));
             StartCoroutine(FetchGardenLogId());
             TargetGardenLog = newGarden;
         }
@@ -758,6 +777,50 @@ public class LogCanvasHandler : MonoBehaviour
         else if (PooButtonClicked)   TimeBarClick_AddPoo(index);
     }
 
+    IEnumerator writeWaterLogId(DataHandler.WaterLog log) {
+        while (!DataHandler.User_isWaterDataCreated)
+            yield return 0;
+        DataHandler.User_isWaterDataCreated = false;
+        log.log_id = DataHandler.User_isWaterDataCreatedId;
+        Debug.Log("Log_id : " + DataHandler.User_isWaterDataCreatedId);
+    }
+
+    IEnumerator writeDrinkLogId(DataHandler.DrinkLog log) {
+        while (!DataHandler.User_isDrinkDataCreated)
+            yield return 0;
+        DataHandler.User_isDrinkDataCreated = false;
+        log.log_id = DataHandler.User_isDrinkDataCreatedId;
+        Debug.Log("Log_id : " + DataHandler.User_isDrinkDataCreatedId);
+
+    }
+
+    IEnumerator writePooLogId(DataHandler.PoopLog log) {
+        while (!DataHandler.User_isPooDataCreated)
+            yield return 0;
+        DataHandler.User_isPooDataCreated = false;
+        log.log_id = DataHandler.User_isPooDataCreatedId;
+        Debug.Log("Log_id : " + DataHandler.User_isPooDataCreatedId);
+
+    }
+
+    IEnumerator writePeeLogId(DataHandler.PeeLog log) {
+        while (!DataHandler.User_isPeeDataCreated)
+            yield return 0;
+        DataHandler.User_isPeeDataCreated = false;
+        log.log_id = DataHandler.User_isPeeDataCreatedId;
+        Debug.Log("Log_id : " + DataHandler.User_isPeeDataCreatedId);
+
+    }
+
+    IEnumerator writeGardenLogId(DataHandler.GardenLog log) {
+        while (!DataHandler.User_isGardenDataCreated)
+            yield return 0;
+        DataHandler.User_isGardenDataCreated = false;
+        log.log_id = DataHandler.User_isGardenDataCreatedId;
+        Debug.Log("Log_id : " + DataHandler.User_isGardenDataCreatedId);
+
+    }
+
     public void TimeBarClick_AddWater(int index) {
         string timestamp = TargetGardenLog.timestamp.Split(' ')[0] + " " +
                            ( currentFirstHour + index ) + ":59:59";
@@ -767,6 +830,7 @@ public class LogCanvasHandler : MonoBehaviour
         newLog.id = DataHandler.User_id;
         newLog.type = 0;
         StartCoroutine(DataHandler.CreateWaterlogs(newLog));
+        //StartCoroutine(writeWaterLogId(newLog));
         TargetGardenLog.log_water++;
         Debug.Log(TargetGardenLog.log_water);
         StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
@@ -852,6 +916,7 @@ public class LogCanvasHandler : MonoBehaviour
         newLog.type = type;
         newLog.volume = volume;
         StartCoroutine(DataHandler.CreateDrinklogs(newLog));
+        //StartCoroutine(writeDrinkLogId(newLog));
         StartCoroutine(Redraw_Drink());
     }
 
@@ -863,6 +928,8 @@ public class LogCanvasHandler : MonoBehaviour
         newLog.timestamp = timestamp;
         newLog.id = DataHandler.User_id;
         StartCoroutine(DataHandler.CreatePeelogs(newLog));
+        //StartCoroutine(writePeeLogId(newLog));
+
         TargetGardenLog.log_pee++;
         StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
         StartCoroutine(Redraw_Pee());
@@ -924,6 +991,7 @@ public class LogCanvasHandler : MonoBehaviour
         newLog.id = DataHandler.User_id;
         newLog.type = type;
         StartCoroutine(DataHandler.CreatePooplogs(newLog));
+        //StartCoroutine(writePooLogId(newLog));
         TargetGardenLog.log_poop++;
         StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
         StartCoroutine(Redraw_Poo());
@@ -1004,6 +1072,7 @@ public class LogCanvasHandler : MonoBehaviour
             newGarden.log_water = 0; newGarden.log_poop = 0; newGarden.log_pee = 0;
             newGarden.item_0 = 0; newGarden.item_1 = 0; newGarden.item_2 = 0; newGarden.item_3 = 0; newGarden.item_4 = 0;
             StartCoroutine(DataHandler.CreateGardenlogs(newGarden));
+            StartCoroutine(writeGardenLogId(newGarden));
             TargetGardenLog = newGarden;
         }
 
@@ -1065,5 +1134,238 @@ public class LogCanvasHandler : MonoBehaviour
         DownShield.SetActive(false);
         UpShield.SetActive(false);
         LogBlocker.Instance.BlockOff();
+    }
+
+    public List<int> autoLogId;
+    public List<int> noneAutoLogId;
+
+    public void DeleteLog() {
+        if (PressLogType == LOG_TYPE.NONE) return;
+        
+        int hour = currentFirstHour + PressLogIndex;
+        autoLogId = new List<int>();
+        noneAutoLogId = new List<int>();
+        if(PressLogType == LOG_TYPE.WATER) {
+            foreach(DataHandler.WaterLog log in DataHandler.Water_logs.WaterLogs) {
+                TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
+                if ( target.Hours == hour)
+                    if (log.auto == 1) autoLogId.Add(log.log_id);
+                    else noneAutoLogId.Add(log.log_id);
+            }
+        } else if(PressLogType == LOG_TYPE.DRINK) {
+            foreach (DataHandler.DrinkLog log in DataHandler.Drink_logs.DrinkLogs) {
+                TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
+                if (target.Hours == hour)
+                    if (log.auto == 1) autoLogId.Add(log.log_id);
+                    else noneAutoLogId.Add(log.log_id);
+            }
+        } else if (PressLogType == LOG_TYPE.PEE) {
+            foreach (DataHandler.PeeLog log in DataHandler.Pee_logs.PeeLogs) {
+                TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
+                if (target.Hours == hour)
+                    if (log.auto == 1) autoLogId.Add(log.log_id);
+                    else noneAutoLogId.Add(log.log_id);
+            }
+        } else {
+            foreach (DataHandler.PoopLog log in DataHandler.Poop_logs.PoopLogs) {
+                TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
+                if (target.Hours == hour)
+                    if (log.auto == 1) autoLogId.Add(log.log_id);
+                    else noneAutoLogId.Add(log.log_id);
+            }
+        }
+        if(noneAutoLogId.Count > 0) {
+            switch(PressLogType) {
+                case LOG_TYPE.WATER: StartCoroutine(DataHandler.DeleteWaterLogs(noneAutoLogId[0])); break;
+                case LOG_TYPE.PEE:   StartCoroutine(DataHandler.DeletePeeLogs(noneAutoLogId[0])); break;
+            }
+        } else {
+            if(autoLogId.Count > 0) {
+                switch (PressLogType) {
+                    case LOG_TYPE.WATER: StartCoroutine(DataHandler.DeleteWaterLogs(autoLogId[0])); break;
+                    case LOG_TYPE.PEE:   StartCoroutine(DataHandler.DeletePeeLogs(autoLogId[0])); break;
+                }
+            }
+        }
+
+        if (PressLogType == LOG_TYPE.DRINK || PressLogType == LOG_TYPE.POOP) {
+            if(PressLogType == LOG_TYPE.DRINK) {
+                SelectDrinkUI.GetComponent<SelectDrinkHandler>().isDelete = true;
+                SelectDrinkUI.GetComponent<SelectDrinkHandler>().titleText.text
+                    = "제거할 기록을 골라주세요";
+                SelectDrinkUI.GetComponent<SelectDrinkHandler>().auto = autoLogId;
+                SelectDrinkUI.GetComponent<SelectDrinkHandler>().noneauto = noneAutoLogId;
+                SelectDrinkUI.SetActive(true);
+                LogBlocker.Instance.BlockOff();
+            } else {
+                SelectPooUI.GetComponent<SelectPooHandler>().isDelete = true;
+                SelectPooUI.GetComponent<SelectPooHandler>().titleText.text
+                    = "제거할 기록을 골라주세요";
+                SelectPooUI.GetComponent<SelectPooHandler>().auto = autoLogId;
+                SelectPooUI.GetComponent<SelectPooHandler>().noneauto = noneAutoLogId;
+                SelectPooUI.SetActive(true);
+                LogBlocker.Instance.BlockOff();
+            }
+        } else {
+            if (PressLogType == LOG_TYPE.WATER) {
+                if (TargetGardenLog.log_water > 0) TargetGardenLog.log_water--;
+                else if ( TargetGardenLog.flower > 0) TargetGardenLog.flower--;
+                StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
+            } else if (PressLogType == LOG_TYPE.PEE) {
+                if (TargetGardenLog.log_pee > 0) TargetGardenLog.log_pee--;
+                else if (TargetGardenLog.item_0 > 0) TargetGardenLog.item_0--;
+                StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
+            } 
+
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
+            LogBlocker.Instance.BlockOff();
+            int tempCurrent = currentFirstHour;
+            Fetching();
+            moveTimeZone(tempCurrent);
+        }
+
+    }
+
+    public void RealRemovePooLog() {
+        if (TargetGardenLog.log_poop > 0) TargetGardenLog.log_poop--;
+        else if (TargetGardenLog.item_1 > 0) TargetGardenLog.item_1--;
+        StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
+        LogBlocker.Instance.BlockOff();
+        totalLog.Clear();
+        int tempCurrent = currentFirstHour;
+        Fetching();
+        moveTimeZone(tempCurrent);
+    }
+
+
+    public void ModifyLog() {
+        if (PressLogType == LOG_TYPE.NONE ||
+            PressLogType == LOG_TYPE.WATER ||
+            PressLogType == LOG_TYPE.PEE ) return;
+
+        int hour = currentFirstHour + PressLogIndex;
+        autoLogId = new List<int>();
+        noneAutoLogId = new List<int>();
+        if (PressLogType == LOG_TYPE.DRINK) {
+            foreach (DataHandler.DrinkLog log in DataHandler.Drink_logs.DrinkLogs) {
+                TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
+                if (target.Hours == hour)
+                    if (log.auto == 1) autoLogId.Add(log.log_id);
+                    else noneAutoLogId.Add(log.log_id);
+            }
+        } else {
+            foreach (DataHandler.PoopLog log in DataHandler.Poop_logs.PoopLogs) {
+                TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
+                if (target.Hours == hour)
+                    if (log.auto == 1) autoLogId.Add(log.log_id);
+                    else noneAutoLogId.Add(log.log_id);
+            }
+        }
+
+
+        if (PressLogType == LOG_TYPE.DRINK || PressLogType == LOG_TYPE.POOP) {
+            if (PressLogType == LOG_TYPE.DRINK) {
+                SelectDrinkUI.GetComponent<SelectDrinkHandler>().isDelete = false;
+                SelectDrinkUI.GetComponent<SelectDrinkHandler>().titleText.text
+                    = "변경할 기록을 골라주세요";
+                SelectDrinkUI.GetComponent<SelectDrinkHandler>().auto = autoLogId;
+                SelectDrinkUI.GetComponent<SelectDrinkHandler>().noneauto = noneAutoLogId;
+                SelectDrinkUI.SetActive(true);
+                LogBlocker.Instance.BlockOff();
+            } else {
+                SelectPooUI.GetComponent<SelectPooHandler>().isDelete = false;
+                SelectPooUI.GetComponent<SelectPooHandler>().titleText.text
+                    = "변경할 기록을 골라주세요";
+                SelectPooUI.GetComponent<SelectPooHandler>().auto = autoLogId;
+                SelectPooUI.GetComponent<SelectPooHandler>().noneauto = noneAutoLogId;
+                SelectPooUI.SetActive(true);
+                LogBlocker.Instance.BlockOff();
+            }
+        }
+    }
+
+
+
+
+    public void InitDrinkModify(int type,int hour) {
+        LogBlocker.Instance.BlockOff();
+        DrinkModifyWindow.SetActive(true);
+        ModifyDrinkLogType = ModifyDrinkLogHandler.Target.type;
+        ModifyDrinkLogVolume = ModifyDrinkLogHandler.Target.volume;
+        for (int i = 1; i < 4; i++) {
+            if (type == i) DrinkModifyButtonIcons[i].color = new Color(1f, 1f, 1f, 1f);
+            else DrinkModifyButtonIcons[i].color = new Color(1f, 1f, 1f, 0.3f);
+        }
+        if (type == 0) DrinkModifyButtonIcons[0].color = new Color(0.55f, 0.55f, 0.55f, 1f);
+        else DrinkModifyButtonIcons[0].color = new Color(0.55f, 0.55f, 0.55f, 0.3f);
+        int showTime = hour;
+        string str = "변경할 새벽";
+        if (showTime >= 6 && showTime <= 11) str = "변경할 아침";
+        else if (showTime >= 12 && showTime <= 14) str = "변경할 점심";
+        else if (showTime >= 15 && showTime <= 17) str = "변경할 낮";
+        else if (showTime >= 18 && showTime <= 20) str = "변경할 저녁";
+        else if (showTime >= 21) str = "변경할 밤";
+        if (showTime >= 12)
+            showTime -= 12;
+        showTime = ( showTime == 0 ) ? 12 : showTime;
+        str += " " + showTime + "시 음료의 종류와 양을 골라주세요.";
+        DrinkModifyWindowTitleText.text = str;
+    }
+
+    public void DrinkModifyWidowClose() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
+        DrinkModifyWindow.SetActive(false);
+    }
+
+    public void DrinkModifyWindowOkay() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.POPED);
+        ModifyDrinkLogHandler.Target.volume = ModifyDrinkLogVolume;
+        ModifyDrinkLogHandler.Target.type = ModifyDrinkLogType;
+        StartCoroutine(DataHandler.UpdateDrinkLogs(ModifyDrinkLogHandler.Target));
+        StartCoroutine(UpdateDrinkCheck());
+    }
+
+    public IEnumerator UpdateDrinkCheck() {
+        while (!DataHandler.User_isDrinkDataUpdated)
+            yield return 0;
+        DataHandler.User_isDrinkDataUpdated = false;
+        DrinkModifyWindow.SetActive(false);
+    }
+
+    public void DrinkModifyWindowSelectTypeButton(int index) {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED3);
+        ModifyDrinkLogType = index;
+        for (int i = 1; i < 4; i++) {
+            if (index == i) DrinkModifyButtonIcons[i].color = new Color(1f, 1f, 1f, 1f);
+            else DrinkModifyButtonIcons[i].color = new Color(1f, 1f, 1f, 0.3f);
+        }
+        if (index == 0) DrinkButtonIcons[0].color = new Color(0.55f, 0.55f, 0.55f, 1f);
+        else DrinkModifyButtonIcons[0].color = new Color(0.55f, 0.55f, 0.55f, 0.3f);
+    }
+
+    public void DrinkModifyWindowSelectValue() {
+        //DrinkWindow_Volume = int.Parse(DrinkWindow_Volume_Input.captionText.text.Split(' ')[0]);
+
+            float splitAmount = ( (float)1 / (float)12 );
+            float scrollValue = DrinkModifyWindow_Volume_Input.value;
+            bool flag = true;
+            if (scrollValue < splitAmount * 3) {
+                ModifyDrinkLogVolume = 50; flag = false;
+                if (scrollValue < splitAmount * 2)
+                    DrinkModifyWindow_Volume_Input.value = splitAmount * 2;
+            }
+            for (int i = 3; i < 8 && flag; i++) {
+                if (scrollValue < splitAmount * ( ( i * 2 ) - 1 )) {
+                ModifyDrinkLogVolume = ( i - 1 ) * 50; flag = false;
+                }
+            }
+            DrinkModifyWindow_Volume_Input_Text.text = ModifyDrinkLogVolume + " ml";
     }
 }
