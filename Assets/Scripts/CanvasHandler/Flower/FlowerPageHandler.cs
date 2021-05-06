@@ -8,9 +8,10 @@ public class FlowerPageHandler : MonoBehaviour
     public static FlowerPageHandler Instance;
     public FlowerPageSpotHandler SpotHandler;
     public GameObject WaterPrefab;
+    public GameObject PeePrefab;
+    public GameObject PooPrefab;
     public Transform WaterSlot;
     public Transform EffectSpawnZone;
-    public GameObject Flash;
     public GameObject Ring;
     public List<GameObject> WaterIcons;
     public RectTransform TargetZone;
@@ -116,7 +117,6 @@ public class FlowerPageHandler : MonoBehaviour
         EffectSpawnZone.gameObject.SetActive(true);
         StartCoroutine(EffectSpwanZoneOff());
         Instantiate(Ring, EffectSpawnZone);
-        Instantiate(Flash, EffectSpawnZone);
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA3);
         StartCoroutine(ReDrawSpot());
     }
@@ -125,7 +125,6 @@ public class FlowerPageHandler : MonoBehaviour
         EffectSpawnZone.gameObject.SetActive(true);
         StartCoroutine(EffectSpwanZoneOff());
         Instantiate(Ring, EffectSpawnZone);
-        Instantiate(Flash, EffectSpawnZone);
     }
 
     public IEnumerator EffectSpwanZoneOff() {
