@@ -87,6 +87,30 @@ public class TotalManager : MonoBehaviour
                 catch (System.Exception e) { e.ToString(); }
             }
         }
+
+        try {
+            FileStream fs = new FileStream(DataHandler.dataPath + "/joinLog", FileMode.Open);
+            StreamReader sr = new StreamReader(fs);
+            DataHandler.lastJoin = new TimeHandler.DateTimeStamp( sr.ReadLine());
+            TimeHandler.GetCurrentTime();
+            sr.Close(); fs.Close();
+            if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(DataHandler.lastJoin, TimeHandler.CurrentTime) != 0) {
+                FileStream fs2 = new FileStream(DataHandler.dataPath + "/joinLog", FileMode.OpenOrCreate);
+                StreamWriter sr2 = new StreamWriter(fs2);
+                sr2.WriteLine(DataHandler.lastJoin.ToString());
+                sr2.Close(); fs2.Close();
+            }
+            sr.Close();
+            fs.Close();
+        } catch (System.Exception e) {
+            e.ToString();
+            TimeHandler.GetCurrentTime();
+            DataHandler.lastJoin = TimeHandler.CurrentTime;
+            FileStream fs2 = new FileStream(DataHandler.dataPath + "/joinLog", FileMode.OpenOrCreate);
+            StreamWriter sr2 = new StreamWriter(fs2);
+            sr2.WriteLine(DataHandler.lastJoin.ToString());
+            sr2.Close(); fs2.Close();
+        }
     }
 
     public void font_change(FONT_FAMILY ff,CANVAS can) {

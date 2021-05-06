@@ -13,6 +13,7 @@ public class GardenSpotHandler : MonoBehaviour
     public GameObject GrassPrefabs;
     public GameObject FencePrefab;
     public GameObject ButterFlies;
+    public GameObject Particle;
     public Transform FlowerParents;
     public Color[] colors;
     public Text DateText;
@@ -94,6 +95,8 @@ public class GardenSpotHandler : MonoBehaviour
             }
         }
 
+        FlowerParents.localScale = new Vector3(0.7f,0.7f,0.7f);
+
         if (drawFlowerFlag) {
             if (flowerCount == 1) {
                 for(int i = 0; i < 1; i ++) {
@@ -146,20 +149,13 @@ public class GardenSpotHandler : MonoBehaviour
                 }
             }
 
-            if (flowerCount >= 10)
-                ButterFlies.SetActive(true);
+            ButterFlies.SetActive(flowerCount >= 10);
 
-            if(logData.item_0 > 0) {
-                GameObject grassInstacne = Instantiate(GrassPrefabs, this.transform);
-                FlowerParts.Add(grassInstacne);
-            }
+            Particle.SetActive(logData.item_0 > 0);
 
-            if(logData.item_1 > 0) {
-                GameObject fenceInstance = Instantiate(FencePrefab, this.transform.parent.parent.GetChild(2));
-                fenceInstance.GetComponent<RectTransform>().anchoredPosition = this.GetComponent<RectTransform>().anchoredPosition;
-                fenceInstance.GetComponent<Image>().color = colors[Step];
-                FlowerParts.Add(fenceInstance);
-            }
+            if(logData.item_1 > 0)
+                FlowerParents.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+            else FlowerParents.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             weeklyData[Step] += logData.flower;
         }
     }

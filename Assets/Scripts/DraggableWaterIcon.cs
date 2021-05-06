@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableWaterIcon : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler {
+public class DraggablePooIcon : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler {
 
     public FlowerPageHandler pageHandler;
     public RectTransform TargetZone;
@@ -40,7 +40,7 @@ public class DraggableWaterIcon : MonoBehaviour, IDragHandler, IEndDragHandler, 
             Debug.Log(newPos);
             if(newPos.x >= TargetZone.anchoredPosition.x && newPos.x <= (TargetZone.anchoredPosition.x + TargetZone.sizeDelta.x) &&
                newPos.y >= TargetZone.anchoredPosition.y && newPos.y <= ( TargetZone.anchoredPosition.y + TargetZone.sizeDelta.y ) ) {
-                pageHandler.Watering();
+                pageHandler.DragPoo();
                 moveId = -10f;
                 Destroy(this.gameObject);
             } else {
@@ -53,7 +53,7 @@ public class DraggableWaterIcon : MonoBehaviour, IDragHandler, IEndDragHandler, 
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {
         if(moveId == -10f) {
-            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.WATER);
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.POPED);
             moveId = initPosition.x;
         }
     }

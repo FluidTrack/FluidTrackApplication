@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlowerPageHandler : MonoBehaviour
 {
+    public GameObject WateringAnim;
     public static DataHandler.GardenLog CurrentLog;
     public static FlowerPageHandler Instance;
     public FlowerPageSpotHandler SpotHandler;
@@ -97,12 +98,35 @@ public class FlowerPageHandler : MonoBehaviour
 
         SpotHandler.InitSpot(TargetGardenLog);
 
-        int waterIconCount = ( TargetGardenLog.log_water >= 10 ) ? 10 : TargetGardenLog.log_water;
-        WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( waterIconCount * 90f ) + ( waterIconCount - 1 ) * 80, 131f);
-        for(int i = 0; i < waterIconCount; i++) {
+        int waterIconCount = (TargetGardenLog.log_water + TargetGardenLog.flower >= 10 ) ? 0 : TargetGardenLog.log_water;
+        int peeIconCount = (TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0) ? 1 : 0;
+        int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
+        Debug.Log("TargetGardenLog.item_0 : " + TargetGardenLog.item_0);
+        Debug.Log("TargetGardenLog.log_pee : " + TargetGardenLog.log_pee);
+        Debug.Log("peeIconCount : " + peeIconCount);
+        Debug.Log("TargetGardenLog.item_1 : " + TargetGardenLog.item_1);
+        Debug.Log("TargetGardenLog.log_poop : " + TargetGardenLog.log_poop);
+        Debug.Log("pooIconCount : " + pooIconCount);
+        int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
+        WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
+        int k = 0;
+        for(k = 0; k < waterIconCount; k++) {
             GameObject go = Instantiate(WaterPrefab, WaterSlot);
-            go.GetComponent<RectTransform>().anchoredPosition = new Vector2((i * 170),0);
+            go.GetComponent<RectTransform>().anchoredPosition = new Vector2((k * 130),0);
             go.GetComponent<DraggableWaterIcon>().SetinitPos();
+            WaterIcons.Add(go);
+        }
+        if(peeIconCount > 0) {
+            GameObject go = Instantiate(PeePrefab, WaterSlot);
+            go.GetComponent<RectTransform>().anchoredPosition = new Vector2(( k * 130 ), 0);
+            go.GetComponent<DraggablePeeIcon>().SetinitPos();
+            WaterIcons.Add(go);
+            k++;
+        }
+        if(pooIconCount > 0) {
+            GameObject go = Instantiate(PooPrefab, WaterSlot);
+            go.GetComponent<RectTransform>().anchoredPosition = new Vector2(( k * 130 ), 0);
+            go.GetComponent<DraggablePooIcon>().SetinitPos();
             WaterIcons.Add(go);
         }
     }
@@ -118,6 +142,30 @@ public class FlowerPageHandler : MonoBehaviour
         StartCoroutine(EffectSpwanZoneOff());
         Instantiate(Ring, EffectSpawnZone);
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA3);
+        TargetGardenLog.flower = ( TargetGardenLog.flower >= 10 ) ? 10 : TargetGardenLog.flower + 1;
+        TargetGardenLog.log_water = ( TargetGardenLog.log_water <= 0 ) ? 0 : TargetGardenLog.log_water - 1;
+        SpotHandler.Watering();
+        StartCoroutine(ReDrawSpot());
+        WateringAnim.SetActive(true);
+    }
+
+    public void DragPee() {
+        EffectSpawnZone.gameObject.SetActive(true);
+        StartCoroutine(EffectSpwanZoneOff());
+        Instantiate(Ring, EffectSpawnZone);
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA5);
+        TargetGardenLog.item_0 = 1;
+        SpotHandler.DragPee();
+        StartCoroutine(ReDrawSpot());
+    }
+
+    public void DragPoo() {
+        EffectSpawnZone.gameObject.SetActive(true);
+        StartCoroutine(EffectSpwanZoneOff());
+        Instantiate(Ring, EffectSpawnZone);
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA5);
+        TargetGardenLog.item_1 = 1;
+        SpotHandler.DragPoo();
         StartCoroutine(ReDrawSpot());
     }
 
@@ -134,9 +182,6 @@ public class FlowerPageHandler : MonoBehaviour
 
     IEnumerator ReDrawSpot() {
         yield return new WaitForSeconds(0.2f);
-        TargetGardenLog.flower = ( TargetGardenLog.flower >= 10) ? 10 : TargetGardenLog.flower+1;
-        TargetGardenLog.log_water = ( TargetGardenLog.log_water <= 0 ) ? 0 : TargetGardenLog.log_water-1;
-        SpotHandler.InitSpot(TargetGardenLog);
         StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
         for (int i = 0; i < WaterIcons.Count; i++) {
             GameObject temp = WaterIcons[i];
@@ -144,12 +189,35 @@ public class FlowerPageHandler : MonoBehaviour
             Destroy(temp);
         }
         WaterIcons.Clear();
-        int waterIconCount = ( TargetGardenLog.log_water >= 10 ) ? 10 : TargetGardenLog.log_water;
-        WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( waterIconCount * 90f ) + ( waterIconCount - 1 ) * 80, 131f);
-        for (int i = 0; i < waterIconCount; i++) {
+        int waterIconCount = ( TargetGardenLog.log_water + TargetGardenLog.flower >= 10 ) ? 0 : TargetGardenLog.log_water;
+        int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
+        int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
+        int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
+        Debug.Log("TargetGardenLog.item_0 : " + TargetGardenLog.item_0);
+        Debug.Log("TargetGardenLog.log_pee : " + TargetGardenLog.log_pee);
+        Debug.Log("peeIconCount : " + peeIconCount);
+        Debug.Log("TargetGardenLog.item_1 : " + TargetGardenLog.item_1);
+        Debug.Log("TargetGardenLog.log_poop : " + TargetGardenLog.log_poop);
+        Debug.Log("pooIconCount : " + pooIconCount);
+        WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
+        int k = 0;
+        for (k = 0; k < waterIconCount; k++) {
             GameObject go = Instantiate(WaterPrefab, WaterSlot);
-            go.GetComponent<RectTransform>().anchoredPosition = new Vector2(( i * 170 ), 0);
+            go.GetComponent<RectTransform>().anchoredPosition = new Vector2(( k * 130 ), 0);
             go.GetComponent<DraggableWaterIcon>().SetinitPos();
+            WaterIcons.Add(go);
+        }
+        if (peeIconCount > 0) {
+            GameObject go = Instantiate(PeePrefab, WaterSlot);
+            go.GetComponent<RectTransform>().anchoredPosition = new Vector2(( k * 130 ), 0);
+            go.GetComponent<DraggablePeeIcon>().SetinitPos();
+            WaterIcons.Add(go);
+            k++;
+        }
+        if (pooIconCount > 0) {
+            GameObject go = Instantiate(PooPrefab, WaterSlot);
+            go.GetComponent<RectTransform>().anchoredPosition = new Vector2(( k * 130 ), 0);
+            go.GetComponent<DraggablePooIcon>().SetinitPos();
             WaterIcons.Add(go);
         }
     }

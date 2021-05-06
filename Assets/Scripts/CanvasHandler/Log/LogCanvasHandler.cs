@@ -277,7 +277,7 @@ public class LogCanvasHandler : MonoBehaviour
         if (TargetGardenLog == null) {
             DataHandler.GardenLog newGarden = new DataHandler.GardenLog();
             newGarden.id = DataHandler.User_id;
-            newGarden.timestamp = TimeHandler.LogCanvasTime.ToString();
+            newGarden.timestamp = (new TimeHandler.DateTimeStamp(targetDate)).ToString();
             newGarden.flower = 0;
             newGarden.log_water = 0; newGarden.log_poop = 0; newGarden.log_pee = 0;
             newGarden.item_0 = 0; newGarden.item_1 = 0; newGarden.item_2 = 0; newGarden.item_3 = 0; newGarden.item_4 = 0;
@@ -663,6 +663,31 @@ public class LogCanvasHandler : MonoBehaviour
             DateLeftButton.transform.parent.GetComponent<Button>().interactable = false;
         DateRightButton.transform.parent.GetComponent<Button>().interactable = true;
         TodayButton.interactable = ( true );
+        targetDate = TimeHandler.LogCanvasTime;
+
+        TargetGardenLog = null;
+        for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++) {
+            if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                new TimeHandler.DateTimeStamp(DataHandler.Garden_logs.GardenLogs[i].timestamp), targetDate) == 0) {
+                TargetGardenLog = DataHandler.Garden_logs.GardenLogs[i];
+                break;
+            }
+        }
+        
+        if (TargetGardenLog == null) {
+            DataHandler.GardenLog newGarden = new DataHandler.GardenLog();
+            newGarden.id = DataHandler.User_id;
+            newGarden.timestamp = ( new TimeHandler.DateTimeStamp(targetDate) ).ToString();
+            newGarden.flower = 0;
+            newGarden.log_water = 0; newGarden.log_poop = 0; newGarden.log_pee = 0;
+            newGarden.item_0 = 0; newGarden.item_1 = 0; newGarden.item_2 = 0; newGarden.item_3 = 0; newGarden.item_4 = 0;
+            DataHandler.User_isGardenDataCreated = false;
+            StartCoroutine(DataHandler.CreateGardenlogs(newGarden));
+            StartCoroutine(writeGardenLogId(newGarden));
+            StartCoroutine(FetchGardenLogId());
+            TargetGardenLog = newGarden;
+        }
+
         DrawLogs();
     }
 
@@ -675,6 +700,32 @@ public class LogCanvasHandler : MonoBehaviour
             TodayButton.interactable = ( false );
         }
         DateLeftButton.transform.parent.GetComponent<Button>().interactable = true;
+        targetDate = TimeHandler.LogCanvasTime;
+
+        TargetGardenLog = null;
+        for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++) {
+            if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                new TimeHandler.DateTimeStamp(DataHandler.Garden_logs.GardenLogs[i].timestamp), targetDate) == 0) {
+                TargetGardenLog = DataHandler.Garden_logs.GardenLogs[i];
+                break;
+            }
+        }
+
+        if (TargetGardenLog == null) {
+            DataHandler.GardenLog newGarden = new DataHandler.GardenLog();
+            newGarden.id = DataHandler.User_id;
+            newGarden.timestamp = ( new TimeHandler.DateTimeStamp(targetDate) ).ToString();
+            newGarden.flower = 0;
+            newGarden.log_water = 0; newGarden.log_poop = 0; newGarden.log_pee = 0;
+            newGarden.item_0 = 0; newGarden.item_1 = 0; newGarden.item_2 = 0; newGarden.item_3 = 0; newGarden.item_4 = 0;
+            DataHandler.User_isGardenDataCreated = false;
+            StartCoroutine(DataHandler.CreateGardenlogs(newGarden));
+            StartCoroutine(writeGardenLogId(newGarden));
+            StartCoroutine(FetchGardenLogId());
+            TargetGardenLog = newGarden;
+        }
+
+        DrawLogs();
         DrawLogs();
     }
 
@@ -1067,7 +1118,7 @@ public class LogCanvasHandler : MonoBehaviour
         if (TargetGardenLog == null) {
             DataHandler.GardenLog newGarden = new DataHandler.GardenLog();
             newGarden.id = DataHandler.User_id;
-            newGarden.timestamp = TimeHandler.LogCanvasTime.ToString();
+            newGarden.timestamp = ( new TimeHandler.DateTimeStamp(targetDate) ).ToString();
             newGarden.flower = 0;
             newGarden.log_water = 0; newGarden.log_poop = 0; newGarden.log_pee = 0;
             newGarden.item_0 = 0; newGarden.item_1 = 0; newGarden.item_2 = 0; newGarden.item_3 = 0; newGarden.item_4 = 0;

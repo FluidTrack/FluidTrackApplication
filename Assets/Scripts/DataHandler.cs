@@ -8,6 +8,9 @@ public class DataHandler : MonoBehaviour
 {
     internal static string ServerAddress = "http://fluidtrack.site/";
     internal static string tempText = "";
+
+    internal static TimeHandler.DateTimeStamp lastJoin;
+
     internal static bool User_isDataLoaded = false;
     internal static bool User_isGardenDataLoaded = false;
     internal static bool User_isWaterDataLoaded = false;
@@ -1079,7 +1082,6 @@ public class DataHandler : MonoBehaviour
         }
         
     }
-
 
     static public void QuitApplication() {
         Debug.Log("Quit");
