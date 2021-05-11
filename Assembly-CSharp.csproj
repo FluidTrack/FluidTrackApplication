@@ -117,6 +117,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\OpeningHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\WelcomHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome2Handler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome2_1Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome3Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome4Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome5Handler.cs" />

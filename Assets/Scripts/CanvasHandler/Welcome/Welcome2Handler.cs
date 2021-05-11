@@ -43,4 +43,9 @@ public class Welcome2Handler : MonoBehaviour
         TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME3].SetActive(true);
         this.gameObject.SetActive(false);
     }
+
+    public void PrevButton() {
+        TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME].SetActive(true);
+        this.gameObject.SetActive(false);
+    }
 }

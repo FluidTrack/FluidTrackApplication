@@ -13,9 +13,14 @@ public class DeviceListHandler : MonoBehaviour {
     }
 
     public void Init(int index, string deviceName, string macAddress) {
-        this.GetComponent<RectTransform>().transform.localPosition = new Vector2(0f, -180f * index);
+        this.GetComponent<RectTransform>().transform.localPosition = new Vector2(0f, -120f * index);
         MacAddress.text = macAddress;
-        DeviceName.text = deviceName;
+        try {
+            DeviceName.text = "모아밴드 _ " + deviceName.Split('_')[1];
+        } catch (System.Exception e) {
+            e.ToString();
+            DeviceName.text = "모아밴드 _ ??";
+        }
     }
 
     public void OnClickConnectButton() {

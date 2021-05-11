@@ -40,7 +40,7 @@ public class WelcomHandler : MonoBehaviour
         confirmName.SetTrigger("inactive");
         confirmAlert = false;
         Invoke("selfDestruction", 0.16f);
-        TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME2].SetActive(true);
+        TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME4].SetActive(true);
     }
 
     public void selfDestruction() {

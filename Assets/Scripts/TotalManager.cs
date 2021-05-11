@@ -18,6 +18,7 @@ public class TotalManager : MonoBehaviour
     public GameObject FlashEffect;
     public CANVAS currentCanvas;
     public bool isDebugMode = true;
+    public bool isRegisterMode = false;
 
     public enum FONT_FAMILY {
         NAUM_GOTHIC,
@@ -29,7 +30,7 @@ public class TotalManager : MonoBehaviour
     public enum CANVAS {
         NULL, NAVI_BAR, FOOTER_BAR,
         WELCOME, WELCOME2, WELCOME3, WELCOME4, WELCOME5,
-        HOME, LOG, FLOWER, TABLE, CALENDAR, BLIND_CON, 
+        HOME, LOG, FLOWER, TABLE, CALENDAR, BLIND_CON,
     }
 
     void OnEnable() {
