@@ -15,7 +15,6 @@ public class BluetoothManager : MonoBehaviour {
 	public string SendUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 	public string ReceiveUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
 	public ProtocolHandler Protocol;
-	public Text DebugText;
 
 	public enum States {
 		None,
@@ -49,29 +48,27 @@ public class BluetoothManager : MonoBehaviour {
 	}
 
 	void StartProcess() {
-		DebugText.text = "Initializing...";
 
 		Reset();
 		BluetoothLEHardwareInterface.Initialize(true, false, () => {
 
 			SetState(States.Scan, 0.1f);
-			DebugText.text = "Initialized";
 
 		}, (error) => {
 			//AlertHandler.GetInstance().Pop_Error("BT Init실패");
 			BluetoothLEHardwareInterface.Log("Error: " + error);
-			ScanPanelHandler.GetInstance().BlindControl(false);
+            if(Welcome5Handler.GetInstance() != null &&
+                Welcome5Handler.GetInstance().gameObject.activeSelf)
+			    Welcome5Handler.GetInstance().BlindControl(false);
 		});
 	}
 
-	// Use this for initialization
-	void Start() {
-		DebugText.text = "모아밴드 스캔 버튼을 눌러 주변의 모아밴드를 찾아주세요";
-	}
 
 	public void OnConnectStart(string deviceName, string macAddress, string serviceUUID, string sendUUID, string receiveUUID) {
-		ScanPanelHandler.GetInstance().BlindControl(true);
-		DeviceName = deviceName;
+        if (Welcome5Handler.GetInstance() != null &&
+                Welcome5Handler.GetInstance().gameObject.activeSelf)
+                 Welcome5Handler.GetInstance().BlindControl(true);
+        DeviceName = deviceName;
 		MacAddress = macAddress;
 		ServiceUUID = serviceUUID;
 		SendUUID = sendUUID;
@@ -91,7 +88,6 @@ public class BluetoothManager : MonoBehaviour {
 					break;
 
 					case States.Scan:
-					DebugText.text = "Scanning for " + DeviceName + " devices...";
 
 					BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) => {
 
@@ -106,7 +102,6 @@ public class BluetoothManager : MonoBehaviour {
 
 							// add it to the list and set to connect to it
 							MacAddress = address;
-							DebugText.text = "Found " + DeviceName;
 
 							SetState(States.Connect, 2f);
 							//MainPanelHandler.GetInstance().Connect();
@@ -119,8 +114,7 @@ public class BluetoothManager : MonoBehaviour {
 					case States.Connect:
 					// set these flags
 					_foundID = false;
-
-					DebugText.text = "Connecting to " + DeviceName;
+                    
 
 					// note that the first parameter is the address, not the name. I have not fixed this because
 					// of backwards compatiblity.
@@ -136,15 +130,19 @@ public class BluetoothManager : MonoBehaviour {
 							if (IsEqual(characteristicUUID, ReceiveUUID)) {
 
 								_connected = true;
-								SetState(States.Subscribe, 2f);
-								AlertHandler.GetInstance().Pop_Con();
+                                StartCoroutine(ConnectAndQuery());
+                                SetState(States.Subscribe, 2f);
 								TotalManager.instance.BlindControl(true);
-								ScanPanelHandler.GetInstance().BlindControl(false);
+                                if (Welcome5Handler.GetInstance() != null &&
+                                    Welcome5Handler.GetInstance().gameObject.activeSelf)
+                                    Welcome5Handler.GetInstance().BlindControl(false);
 							}
 						}
 					}, (disconnectedAddress) => {
-						ScanPanelHandler.GetInstance().BlindControl(false);
-						TotalManager.instance.BlindControl(false);
+                        if (Welcome5Handler.GetInstance() != null &&
+                             Welcome5Handler.GetInstance().gameObject.activeSelf)
+                                Welcome5Handler.GetInstance().BlindControl(false);
+                        TotalManager.instance.BlindControl(false);
 						BluetoothLEHardwareInterface.Log("Device disconnected: " + disconnectedAddress);
 						AlertHandler.GetInstance().Pop_Discon(DeviceName);
 					});
@@ -158,8 +156,7 @@ public class BluetoothManager : MonoBehaviour {
 					//========================================
 
 					BluetoothLEHardwareInterface.SubscribeCharacteristicWithDeviceAddress(MacAddress, ServiceUUID, ReceiveUUID, (notifyAddress, notifyCharacteristic) => {
-
-						DebugText.text = " ";
+                        
 						_state = States.None;
 
 						// read the initial state of the button
@@ -175,7 +172,6 @@ public class BluetoothManager : MonoBehaviour {
 							// The esp32 sends the notification above, but if yuor device doesn't you would have
 							// to send data like pressing the button on the esp32 as the sketch for this demo
 							// would then send data to trigger this.
-							DebugText.text = " ";
 
 							_state = States.None;
 						}
@@ -198,13 +194,15 @@ public class BluetoothManager : MonoBehaviour {
 							BluetoothLEHardwareInterface.DeInitialize(() => {
 								TotalManager.instance.Disconnect();
 								_connected = false;
-								_state = States.None;
+                                SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DISCONNECT);
+                                _state = States.None;
 							});
 						});
 					} else {
 						BluetoothLEHardwareInterface.DeInitialize(() => {
 							TotalManager.instance.Disconnect();
-							_state = States.None;
+                            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DISCONNECT);
+                            _state = States.None;
 						});
 					}
 					break;
@@ -276,4 +274,38 @@ public class BluetoothManager : MonoBehaviour {
 			BluetoothLEHardwareInterface.Log("Write Succeeded");
 		});
 	}
+
+    public void QueryHistory() {
+        var data = ProtocolHandler.GetHistory();
+        SendBytes(data);
+    }
+
+    public void SetRedLED() {
+        var data = ProtocolHandler.GetRedLEDOn();
+        SendBytes(data);
+    }
+
+    public void SetGreenLED() {
+        var data = ProtocolHandler.GetGreenLEDOn();
+        SendBytes(data);
+    }
+
+    public void SetBlueLED() {
+        var data = ProtocolHandler.GetBlueLEDOn();
+        SendBytes(data);
+    }
+
+    public void SetVibrate() {
+        var data = ProtocolHandler.GetVibrateOn();
+        SendBytes(data);
+    }
+
+    IEnumerator ConnectAndQuery() {
+        yield return new WaitForSeconds(3f);
+        if (TotalManager.instance.isRegisterMode)
+            Welcome5Handler.Instance.RegisterUI.SetActive(true);
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CONNECT);
+        ProtocolHandler.SetTimerToCurrent();
+        QueryHistory();
+    }
 }

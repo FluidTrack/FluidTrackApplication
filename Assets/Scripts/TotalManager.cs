@@ -19,6 +19,7 @@ public class TotalManager : MonoBehaviour
     public CANVAS currentCanvas;
     public bool isDebugMode = true;
     public bool isRegisterMode = false;
+    public string targetName = "";
 
     public enum FONT_FAMILY {
         NAUM_GOTHIC,

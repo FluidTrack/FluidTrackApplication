@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Welcome5Handler : MonoBehaviour
 {
-    private static Welcome5Handler Instance;
+    public static Welcome5Handler Instance;
     internal bool isLocked = false;
 
     public Color BlueColor;
@@ -21,6 +21,12 @@ public class Welcome5Handler : MonoBehaviour
     public List<GameObject> DeviceList;
 
     public Animator RingAnim;
+    public GameObject NoBandUI;
+    public GameObject RegisterUI;
+
+    public void Awake() {
+        Instance = this;
+    }
 
     public static Welcome5Handler GetInstance() {
         return Instance;
@@ -82,31 +88,7 @@ public class Welcome5Handler : MonoBehaviour
         RingAnim.SetBool("RingRing", isLocked);
     }
 
-
-    public void OkayButton() {
-        DataHandler.User_water_skip = "00:00";
-        DataHandler.User_drink_skip = "00:00";
-        DataHandler.User_poop_skip = "00:00";
-        DataHandler.User_pee_skip = "00:00";
-        DataHandler.User_font_family = "Bazzi";
-        DataHandler.User_font_size = 40;
-        DataHandler.User_creation_date = TimeHandler.GetCurrentTime();
-        DataHandler.User_periode = 4;
-        TotalManager.instance.isRegisterMode = false;
-        StartCoroutine(DataHandler.CreateUsers());
-        StartCoroutine(FinalCheck());
+    public void NoBandButtonClick() {
+        NoBandUI.SetActive(true);
     }
-
-    IEnumerator FinalCheck() {
-        while (!DataHandler.User_isDataLoaded)
-            yield return 0;
-        DataHandler.User_isDataLoaded = false;
-        TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FOOTER_BAR].SetActive(true);
-        TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].SetActive(true);
-        TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.NAVI_BAR].SetActive(true);
-        Instantiate(TotalManager.instance.FlashEffect);
-        GreetingMongMong.Instance.SayHello();
-        this.gameObject.SetActive(false);
-    }
-
 }

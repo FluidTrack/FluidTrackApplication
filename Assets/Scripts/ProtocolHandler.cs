@@ -27,60 +27,110 @@ public class ProtocolHandler : MonoBehaviour
             // 타임존 변경 Confirm
             //==============================================================================
             case 0x03:
-            AlertHandler.GetInstance().Pop_Msg("모아밴드의 시간이 성공적으로 변경됨.");
+            //AlertHandler.GetInstance().Pop_Msg("모아밴드의 시간이 성공적으로 변경됨.");
             break;
 
             //==============================================================================
             // 배터리 확인
             //==============================================================================
             case 0x07:
-                if (bytes[3] == 0)
-                     AlertHandler.GetInstance().Pop_BatInfo((int)bytes[2]);
-                else AlertHandler.GetInstance().Pop_ChargeBat((int)bytes[2]);
+                //if (bytes[3] == 0)
+                //     AlertHandler.GetInstance().Pop_BatInfo((int)bytes[2]);
+                //else AlertHandler.GetInstance().Pop_ChargeBat((int)bytes[2]);
             break;
 
             //==============================================================================
             // 배터리 부족 Alert
             //==============================================================================
             case 0x12:
-                if (bytes[3] == 0)
-                    AlertHandler.GetInstance().Pop_LowBat((int)bytes[2]);
+                //if (bytes[3] == 0)
+                    //AlertHandler.GetInstance().Pop_LowBat((int)bytes[2]);
                 break;
 
             //==============================================================================
             // Button Input
             //==============================================================================
             case 0x24:
-                //string stamp = GetCurrentTimeStamp();
-                //switch(bytes[6]) {
-                //    case 3: Main.AddRealtimeLog(MainPanelHandler.LOG_TYPE.POO,stamp); break;
-                //    case 1: Main.AddRealtimeLog(MainPanelHandler.LOG_TYPE.WATER,stamp); break;
-                //    case 2: Main.AddRealtimeLog(MainPanelHandler.LOG_TYPE.PEE,stamp); break;
-                //}
-                break;
+                if(!TotalManager.instance.isRegisterMode) {
+                    string stamp = GetCurrentTimeStamp();
+                    switch (bytes[6]) {
+                        case 3:
+                            DataHandler.PoopLog log1 = new DataHandler.PoopLog();
+                            log1.id = DataHandler.User_id;
+                            log1.auto = 1;
+                            log1.timestamp = stamp;
+                            log1.type = 0;
+                            StartCoroutine(DataHandler.CreatePooplogs(log1));
+                        break;
+                        case 1:
+                            DataHandler.WaterLog log2 = new DataHandler.WaterLog();
+                            log2.id = DataHandler.User_id;
+                            log2.auto = 1;
+                            log2.timestamp = stamp;
+                            log2.type = 0;
+                            StartCoroutine(DataHandler.CreateWaterlogs(log2));
+                        break;
+                        case 2:
+                            DataHandler.PeeLog log3 = new DataHandler.PeeLog();
+                            log3.id = DataHandler.User_id;
+                            log3.auto = 1;
+                            log3.timestamp = stamp;
+                            StartCoroutine(DataHandler.CreatePeelogs(log3));
+                        break;
+                    }
+                } else {
+                    if(RegisterBandHandler.Instance != null && 
+                        RegisterBandHandler.Instance.gameObject.activeSelf) {
+                        RegisterBandHandler register = RegisterBandHandler.Instance;
+                        switch (bytes[6]) {
+                            case 3: register.PooButtonClick();  break;
+                            case 1: register.WaterButtonClick(); break;
+                            case 2: register.PeeButtonClick(); break;
+                        }
+                    }
+                }
+                
+            break;
 
             //==============================================================================
             // History
             //==============================================================================
             case 0x27:
-                //if(bytes[1] == 0) {
-                //    MainPanelHandler.GetInstance().BlindControl(false);
-                //} else {
-                //    try {
-                //        int Length = ( bytes[1] ) / 5;
-                //        for (int i = 0; i < length; i++) {
-                //            string historyStamp = MakeTimeStamp(bytes[2 + 5 * i], bytes[3 + 5 * i], bytes[4 + 5 * i], bytes[5 + 5 * i]);
-                //            switch (bytes[6 + 5 * i]) {
-                //                case 3: Main.AddHistoryLog(MainPanelHandler.LOG_TYPE.POO, historyStamp); break;
-                //                case 1: Main.AddHistoryLog(MainPanelHandler.LOG_TYPE.WATER, historyStamp); break;
-                //                case 2: Main.AddHistoryLog(MainPanelHandler.LOG_TYPE.PEE, historyStamp); break;
-                //            }
-                //        }
-                //    } catch (System.Exception e) {
-                //        e.ToString();
-                //    }
-                //}
-                break;
+                if (TotalManager.instance.isRegisterMode) break;
+                try {
+                    int Length = ( bytes[1] ) / 5;
+                    for (int i = 0; i < length; i++) {
+                        string historyStamp = MakeTimeStamp(bytes[2 + 5 * i], bytes[3 + 5 * i], bytes[4 + 5 * i], bytes[5 + 5 * i]);
+                        switch (bytes[6 + 5 * i]) {
+                            case 3:
+                                DataHandler.PoopLog log1 = new DataHandler.PoopLog();
+                                log1.id = DataHandler.User_id;
+                                log1.auto = 1;
+                                log1.timestamp = historyStamp;
+                                log1.type = 0;
+                                StartCoroutine(DataHandler.CreatePooplogs(log1));
+                            break;
+                            case 1:
+                                DataHandler.WaterLog log2 = new DataHandler.WaterLog();
+                                log2.id = DataHandler.User_id;
+                                log2.auto = 1;
+                                log2.timestamp = historyStamp;
+                                log2.type = 0;
+                                StartCoroutine(DataHandler.CreateWaterlogs(log2));
+                            break;
+                            case 2:
+                                DataHandler.PeeLog log3 = new DataHandler.PeeLog();
+                                log3.id = DataHandler.User_id;
+                                log3.auto = 1;
+                                log3.timestamp = historyStamp;
+                                StartCoroutine(DataHandler.CreatePeelogs(log3));
+                            break;
+                        }
+                    }
+                } catch (System.Exception e) {
+                    e.ToString();
+                }
+            break;
             default: break;
         }
     }
@@ -153,5 +203,43 @@ public class ProtocolHandler : MonoBehaviour
 
     public string MakeTimeStamp(int year,int month,int day, int hour, int min, int sec) {
         return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+    }
+
+    static public byte[] GetHistory() {
+        byte[] bytes = new byte[2];
+        bytes[0] = 0x27;
+        bytes[1] = 0;
+        return bytes;
+    }
+
+    static public byte[] GetRedLEDOn() {
+        byte[] bytes = new byte[3];
+        bytes[0] = 0x44;
+        bytes[1] = 1;
+        bytes[2] = 1;
+        return bytes;
+    }
+
+    static public byte[] GetGreenLEDOn() {
+        byte[] bytes = new byte[3];
+        bytes[0] = 0x44;
+        bytes[1] = 1;
+        bytes[2] = 2;
+        return bytes;
+    }
+
+    static public byte[] GetBlueLEDOn() {
+        byte[] bytes = new byte[3];
+        bytes[0] = 0x44;
+        bytes[1] = 1;
+        bytes[2] = 3;
+        return bytes;
+    }
+
+    static public byte[] GetVibrateOn() {
+        byte[] bytes = new byte[2];
+        bytes[0] = 0x45;
+        bytes[1] = 0;
+        return bytes;
     }
 }

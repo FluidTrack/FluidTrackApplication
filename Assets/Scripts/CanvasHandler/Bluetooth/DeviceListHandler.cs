@@ -7,9 +7,10 @@ public class DeviceListHandler : MonoBehaviour {
     private BluetoothManager BT;
     public Text DeviceName;
     public Text MacAddress;
+    private string deviceString;
 
     public void OnEnable() {
-        BT = GameObject.Find("Total Manager").GetComponent<BluetoothManager>();
+        BT = GameObject.Find("[SYSTEM] Total Manager").GetComponent<BluetoothManager>();
     }
 
     public void Init(int index, string deviceName, string macAddress) {
@@ -17,6 +18,7 @@ public class DeviceListHandler : MonoBehaviour {
         MacAddress.text = macAddress;
         try {
             DeviceName.text = "모아밴드 _ " + deviceName.Split('_')[1];
+            this.deviceString = deviceName;
         } catch (System.Exception e) {
             e.ToString();
             DeviceName.text = "모아밴드 _ ??";
@@ -24,9 +26,10 @@ public class DeviceListHandler : MonoBehaviour {
     }
 
     public void OnClickConnectButton() {
-        if (ScanPanelHandler.GetInstance().isLocked)
-            ScanPanelHandler.GetInstance().ScanButtonClick();
+        if (Welcome5Handler.GetInstance().isLocked)
+            Welcome5Handler.GetInstance().ScanButtonClick();
         else BluetoothLEHardwareInterface.StopScan();
-        BT.OnConnectStart(DeviceName.text, "", "6e400001-b5a3-f393-e0a9-e50e24dcca9e", "6e400002-b5a3-f393-e0a9-e50e24dcca9e", "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
+        TotalManager.instance.targetName = deviceString;
+        BT.OnConnectStart(deviceString, "", "6e400001-b5a3-f393-e0a9-e50e24dcca9e", "6e400002-b5a3-f393-e0a9-e50e24dcca9e", "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
     }
 }
