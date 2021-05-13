@@ -34,9 +34,9 @@ public class ProtocolHandler : MonoBehaviour
             // 배터리 확인
             //==============================================================================
             case 0x07:
-                //if (bytes[3] == 0)
-                //     AlertHandler.GetInstance().Pop_BatInfo((int)bytes[2]);
-                //else AlertHandler.GetInstance().Pop_ChargeBat((int)bytes[2]);
+                if (MoabandStatusHandler.Instance != null &&
+                    MoabandStatusHandler.Instance.gameObject.activeSelf)
+                    MoabandStatusHandler.Instance.value = (int)bytes[2];
             break;
 
             //==============================================================================

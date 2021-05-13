@@ -6,7 +6,7 @@ using System.Text;
 
 public class BluetoothManager : MonoBehaviour {
 	public static BluetoothManager GetInstance() {
-		return GameObject.Find("Total Manager").GetComponent<BluetoothManager>();
+		return GameObject.Find("[SYSTEM] Total Manager").GetComponent<BluetoothManager>();
 	}
 
 	public string DeviceName = "TouchW32_9E";
@@ -307,5 +307,8 @@ public class BluetoothManager : MonoBehaviour {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CONNECT);
         ProtocolHandler.SetTimerToCurrent();
         QueryHistory();
+        QueryBattery();
+        if (MoabandStatusHandler.Instance != null && MoabandStatusHandler.Instance.gameObject.activeSelf)
+            MoabandStatusHandler.Instance.ConnectTimeRefresh();
     }
 }

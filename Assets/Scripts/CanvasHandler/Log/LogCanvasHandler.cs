@@ -266,6 +266,7 @@ public class LogCanvasHandler : MonoBehaviour
                 }
             }
         } else {
+            TimeHandler.GetCurrentTime();
             for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++) {
                 if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                     new TimeHandler.DateTimeStamp(DataHandler.Garden_logs.GardenLogs[i].timestamp), TimeHandler.LogCanvasTime) == 0) {
@@ -273,6 +274,7 @@ public class LogCanvasHandler : MonoBehaviour
                     break;
                 }
             }
+            targetDate = TimeHandler.LogCanvasTime;
         }
         if (TargetGardenLog == null) {
             DataHandler.GardenLog newGarden = new DataHandler.GardenLog();

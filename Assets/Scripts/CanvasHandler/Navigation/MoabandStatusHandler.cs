@@ -26,7 +26,14 @@ public class MoabandStatusHandler : MonoBehaviour
         Instance = this;
     }
 
+    public void Start() {
+        if (BluetoothManager.GetInstance()._connected) {
+            ConnectTimeRefresh();
+        }
+    }
+
     void Update() {
+        isConnected = BluetoothManager.GetInstance()._connected;
         if(isConnected) {
             if(value > Boundary_0)       Icon.sprite = Moaband_FullBattery; 
             else if (value > Boundary_1) Icon.sprite = Moaband_GoodBattery;

@@ -76,7 +76,10 @@ public class MainPageMongMongHandler : MonoBehaviour
 
         TimeHandler.GetCurrentTime();
 
-        if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.CurrentTime, DataHandler.lastJoin) == 0) {
+        if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(DataHandler.User_creation_date),
+            TimeHandler.CurrentTime) == 0) {
+            StartCoroutine(MongMongStep4());
+        } else if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.CurrentTime, DataHandler.lastJoin) == 0) {
             StartCoroutine(MongMongStep2());
         } else if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.CurrentTime, DataHandler.lastJoin+1) == 0) {
             StartCoroutine(MongMongStep4());
