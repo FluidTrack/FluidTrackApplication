@@ -16,6 +16,7 @@ public class LogBlocker : MonoBehaviour
     public GameObject DeleteButton;
     public GameObject ModifyeButton;
     public GameObject DoneButton;
+    public GameObject TestObject;
 
     private bool isPressLog = false;
 
@@ -63,6 +64,8 @@ public class LogBlocker : MonoBehaviour
         UpRight.sizeDelta = new Vector2(0, 280f);
         DownLeft.sizeDelta = new Vector2(0, 280f);
         DownRight.sizeDelta = new Vector2(0, 280f);
+
+        TestObject.SetActive(false);
 
         UpLeft.gameObject.SetActive(false);
         UpRight.gameObject.SetActive(false);
@@ -117,6 +120,7 @@ public class LogBlocker : MonoBehaviour
         ModifyeButton.SetActive(isModifyable);
         DoneButton.SetActive(isControlable);
         isPressLog = !isControlable;
+        TestObject.SetActive(true);
 
         UpLeft.gameObject.SetActive(true);
         UpRight.gameObject.SetActive(true);
@@ -142,6 +146,7 @@ public class LogBlocker : MonoBehaviour
         ModifyeButton.SetActive(isModifyable);
         DoneButton.SetActive(isControlable);
         isPressLog = !isControlable;
+        TestObject.SetActive(true);
 
         UpLeft.gameObject.SetActive(true);
         UpRight.gameObject.SetActive(true);

@@ -548,6 +548,14 @@ public class LogCanvasHandler : MonoBehaviour
         } else {
             if (slot.PooTop != null) slot.PooTop.Number.text = " ";
             GameObject newLog = Instantiate(PoopLogPrefab, DownSlot[index]);
+            if(log.type == 0) {
+                MongMongHand.SetActive(true);
+                Circle.SetActive(true);
+                newLog.GetComponent<Image>().sprite = wrongPoo;
+            } else {
+                MongMongHand.SetActive(false);
+                Circle.SetActive(false);
+            }
             spawnObjects.Add(newLog);
             slot.PooCount++;
             slot.PooTop = newLog.GetComponent<LogSpriteHandler>();
@@ -1420,5 +1428,20 @@ public class LogCanvasHandler : MonoBehaviour
                 }
             }
             DrinkModifyWindow_Volume_Input_Text.text = ModifyDrinkLogVolume + " ml";
+    }
+
+    public GameObject MongMongHand;
+    public GameObject MongMongUI;
+    public GameObject Circle;
+    public Sprite wrongPoo;
+
+    public void MongMongHandClick() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
+        MongMongUI.SetActive(true);
+    }
+
+    public void MongMongUIOkay() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
+        MongMongUI.SetActive(false);
     }
 }

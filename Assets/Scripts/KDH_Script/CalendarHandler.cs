@@ -80,9 +80,20 @@ public class CalendarHandler : MonoBehaviour {
         isDataLoaded = false;
     }
 
+
+    private bool flagCheck = false;
+    public GameObject MongMongUI;
+
     private void OnEnable() {
         TimeHandler.GetCurrentTime();
         StartCoroutine(CheckLoadAndVisualize_1());
+        if (!flagCheck)
+            MongMongUI.SetActive(true);
+        flagCheck = true;
+    }
+
+    public void MongMongButtonClick() {
+        MongMongUI.SetActive(false);
     }
     private IEnumerator CheckLoadAndVisualize_1() {
         yield return 0;

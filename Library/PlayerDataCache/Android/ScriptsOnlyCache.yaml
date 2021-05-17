@@ -84,8 +84,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -814,7 +816,7 @@ ScriptsOnlyBuild:
     className: UI_ScrollRectOcclusion
   - hash:
       serializedVersion: 2
-      Hash: 78d5136617cde251904822437cbb5c82
+      Hash: 572f9c3fb402cc675429b65953bd83d7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogCanvasHandler
@@ -1126,7 +1128,7 @@ ScriptsOnlyBuild:
     className: UIPolygon
   - hash:
       serializedVersion: 2
-      Hash: 447c081b69e2b5e7e5d38fe0629e4955
+      Hash: 4b1f91a54eeb9d0345f3bb24e4dbf7a0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CalendarHandler
@@ -1600,7 +1602,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 8031e099ed2eda3b5b913e90636ab90d
+      Hash: 0eb7b18c6712822b47f2fd5d92995a16
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogBlocker
