@@ -7,6 +7,7 @@ using System.IO;
 public class WelcomHandler : MonoBehaviour
 {
     public InputField nameInputField;
+    public InputField FirstNameInputField;
     public Text nameText;
     public Animator confirmName;
     public Animator anim;
@@ -15,7 +16,7 @@ public class WelcomHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(nameInputField.isFocused) {
+        if(nameInputField.isFocused || FirstNameInputField.isFocused) {
             if(!anim.GetBool("Active"))
                 anim.SetBool("Active", true);
         } else {
@@ -26,17 +27,19 @@ public class WelcomHandler : MonoBehaviour
 
     public void nameOkayButton() {
         if (confirmAlert) return;
-        if(nameInputField.text == "") {
+        if(nameInputField.text == "" || FirstNameInputField.text == "") {
             anim.SetTrigger("Reject");
             return;
         }
-        nameText.text = nameInputField.text;
+        nameText.text = FirstNameInputField.text +  nameInputField.text;
         confirmName.SetTrigger("active");
         confirmAlert = true;
     }
 
     public void nameConfirmButton() {
-        DataHandler.User_name = nameInputField.text;
+        DataHandler.User_name = FirstNameInputField.text + nameInputField.text;
+        DataHandler.User_name_front = FirstNameInputField.text;
+        DataHandler.User_name_back = nameInputField.text;
         confirmName.SetTrigger("inactive");
         confirmAlert = false;
         Invoke("selfDestruction", 0.16f);

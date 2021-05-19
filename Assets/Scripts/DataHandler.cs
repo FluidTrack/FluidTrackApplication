@@ -55,6 +55,8 @@ public class DataHandler : MonoBehaviour
     internal static string dataPath;
     internal static int User_id;
     internal static string User_name;
+    internal static string User_name_front;
+    internal static string User_name_back;
     internal static string User_moa_band_name;
     internal static int User_item_0;
     internal static int User_item_1;

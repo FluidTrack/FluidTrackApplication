@@ -13,10 +13,19 @@ public class LogBlocker : MonoBehaviour
     public RectTransform UpRight;
     public RectTransform DownLeft;
     public RectTransform DownRight;
+
+    public RectTransform Up_WaterShield;
+    public RectTransform Up_DrinkShield;
+    public RectTransform Down_PooShield;
+    public RectTransform Down_PeeShield;
+
     public GameObject DeleteButton;
     public GameObject ModifyeButton;
-    public GameObject DoneButton;
-    public GameObject TestObject;
+
+    private Vector2 WaterShieldOrigin;
+    private Vector2 DrinkShieldOrigin;
+    private Vector2 PooShieldOrigin;
+    private Vector2 PeeShieldOrigin;
 
     private bool isPressLog = false;
 
@@ -30,6 +39,10 @@ public class LogBlocker : MonoBehaviour
 
     public void Awake() {
         Instance = this;
+        WaterShieldOrigin = Up_WaterShield.anchoredPosition;
+        DrinkShieldOrigin = Up_DrinkShield.anchoredPosition;
+        PooShieldOrigin = Down_PooShield.anchoredPosition;
+        PeeShieldOrigin = Down_PeeShield.anchoredPosition;
     }
 
     public void OnEnable() {
@@ -65,7 +78,6 @@ public class LogBlocker : MonoBehaviour
         DownLeft.sizeDelta = new Vector2(0, 280f);
         DownRight.sizeDelta = new Vector2(0, 280f);
 
-        TestObject.SetActive(false);
 
         UpLeft.gameObject.SetActive(false);
         UpRight.gameObject.SetActive(false);
@@ -76,7 +88,11 @@ public class LogBlocker : MonoBehaviour
         log.TimeRightButton2.interactable = true;
         DeleteButton.SetActive(false);
         ModifyeButton.SetActive(false);
-        DoneButton.SetActive(true);
+
+        Up_WaterShield.gameObject.SetActive(false);
+        Up_DrinkShield.gameObject.SetActive(false);
+        Down_PeeShield.gameObject.SetActive(false);
+        Down_PooShield.gameObject.SetActive(false);
     }
 
     public void BlockOn(bool isUp, bool isControlable, bool isModifyable) {
@@ -88,7 +104,6 @@ public class LogBlocker : MonoBehaviour
             for (int i = 4; i < 7; i++)
                 Borders[i].SetActive(false);
         DeleteButton.SetActive(!isControlable);
-        DoneButton.SetActive(isControlable);
         ModifyeButton.SetActive(isModifyable);
         isPressLog = !isControlable;
         UpLeft.gameObject.SetActive(true);
@@ -118,9 +133,7 @@ public class LogBlocker : MonoBehaviour
                 Borders[i].SetActive(false);
         DeleteButton.SetActive(!isControlable);
         ModifyeButton.SetActive(isModifyable);
-        DoneButton.SetActive(isControlable);
         isPressLog = !isControlable;
-        TestObject.SetActive(true);
 
         UpLeft.gameObject.SetActive(true);
         UpRight.gameObject.SetActive(true);
@@ -144,9 +157,7 @@ public class LogBlocker : MonoBehaviour
                 Borders[i].SetActive(false);
         DeleteButton.SetActive(!isControlable);
         ModifyeButton.SetActive(isModifyable);
-        DoneButton.SetActive(isControlable);
         isPressLog = !isControlable;
-        TestObject.SetActive(true);
 
         UpLeft.gameObject.SetActive(true);
         UpRight.gameObject.SetActive(true);
@@ -170,7 +181,6 @@ public class LogBlocker : MonoBehaviour
                 Borders[i].SetActive(false);
         DeleteButton.SetActive(!isControlable);
         ModifyeButton.SetActive(isModifyable);
-        DoneButton.SetActive(isControlable);
         isPressLog = !isControlable;
 
         UpLeft.gameObject.SetActive(true);
@@ -186,5 +196,72 @@ public class LogBlocker : MonoBehaviour
         DownRight.sizeDelta = new Vector2(0, 280f);
         log.TimeLeftButton2.interactable = false;
         log.TimeRightButton2.interactable = false;
+    }
+
+    public void BlockOnDetailWater(int index) {
+        BlockOnDetailUp(index, false, false);
+        RectTransform targetTransform = Up_WaterShield;
+        targetTransform.gameObject.SetActive(true);
+        targetTransform.anchoredPosition =
+            new Vector2(WaterShieldOrigin.x + ( 130f * index ),
+                        WaterShieldOrigin.y);
+        Vector2 ButtonOffset = new Vector2(
+            targetTransform.anchoredPosition.x + targetTransform.sizeDelta.x / 2,
+            targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
+        );
+
+        DeleteButton.GetComponent<RectTransform>().anchoredPosition = ButtonOffset;
+    }
+
+    public void BlockOnDetailPee(int index) {
+        BlockOnDetailDown(index, false, false);
+        RectTransform targetTransform = Down_PeeShield;
+        targetTransform.gameObject.SetActive(true);
+        targetTransform.anchoredPosition =
+            new Vector2(PeeShieldOrigin.x + ( 130f * index ),
+                        PeeShieldOrigin.y);
+        Vector2 ButtonOffset = new Vector2(
+            targetTransform.anchoredPosition.x + targetTransform.sizeDelta.x / 2,
+            targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
+        );
+
+        DeleteButton.GetComponent<RectTransform>().anchoredPosition = ButtonOffset;
+    }
+
+    public void BlockOnDetailPoo(int index) {
+        BlockOnDetailDown(index, false, true);
+        RectTransform targetTransform = Down_PooShield;
+        targetTransform.gameObject.SetActive(true);
+        targetTransform.anchoredPosition =
+            new Vector2(PooShieldOrigin.x + ( 130f * index ),
+                        PooShieldOrigin.y);
+        Vector2 ButtonOffset = new Vector2(
+            targetTransform.anchoredPosition.x + targetTransform.sizeDelta.x / 2,
+            targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
+        );
+
+        DeleteButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x - 87.5f, ButtonOffset.y);
+        ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x + 87.5f, ButtonOffset.y);
+    }
+
+    public void BlockOnDetailDrink(int index) {
+        BlockOnDetailUp(index, false, true);
+        RectTransform targetTransform = Up_DrinkShield;
+        targetTransform.gameObject.SetActive(true);
+        targetTransform.anchoredPosition =
+            new Vector2(DrinkShieldOrigin.x + ( 130f * index ),
+                        DrinkShieldOrigin.y);
+        Vector2 ButtonOffset = new Vector2(
+            targetTransform.anchoredPosition.x + targetTransform.sizeDelta.x / 2,
+            targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
+        );
+
+
+        DeleteButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x - 87.5f, ButtonOffset.y);
+        ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x + 87.5f, ButtonOffset.y);
     }
 }

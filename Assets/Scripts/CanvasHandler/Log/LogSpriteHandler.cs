@@ -111,9 +111,13 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         Debug.Log(log.TimeStamp.Hours - LogCanvasHandler.Instance.currentFirstHour);
         int index = log.TimeStamp.Hours - LogCanvasHandler.Instance.currentFirstHour;
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.POPED2);
-        if (log.LogType == LOG.POO || log.LogType == LOG.PEE)
-             LogBlocker.Instance.BlockOnDetailDown(index, false, ( log.LogType == LOG.POO ));
-        else LogBlocker.Instance.BlockOnDetailUp(index, false, ( log.LogType == LOG.DRINK ));
+        if (log.LogType == LOG.POO)
+            LogBlocker.Instance.BlockOnDetailPoo(index);
+        else if (log.LogType == LOG.PEE)
+            LogBlocker.Instance.BlockOnDetailPee(index);
+        else if (log.LogType == LOG.DRINK)
+            LogBlocker.Instance.BlockOnDetailDrink(index);
+        else LogBlocker.Instance.BlockOnDetailWater(index);
         LogCanvasHandler.Instance.PressLogIndex = index;
         switch(log.LogType) {
             case LOG.WATER: LogCanvasHandler.Instance.PressLogType = LogCanvasHandler.LOG_TYPE.WATER; break;

@@ -14,7 +14,8 @@ public class Welcome2Handler : MonoBehaviour
         if(DataHandler.User_name == null)
             StartCoroutine(SetLabel());
         else {
-            string labelText = DataHandler.User_name.Remove(0, 1);
+            string labelText = DataHandler.User_name_back;
+
             if (KoreanUnderChecker.UnderCheck(labelText))
                 labelText += "이의 하루";
             else labelText += "의 하루";

@@ -35,9 +35,11 @@ public class MissionCanvasHandler : MonoBehaviour
     private int dateCount = 0;
     private bool isOverflowed = false;
     private int currentIndex = 0;
+    public bool DrawDone;
 
     public void Awake() {
         Instance = this;
+        DrawDone = false;
         hole = new List<Image>();
         link = new List<GameObject>();
         dateList = new Dictionary<string, int>();
@@ -78,6 +80,7 @@ public class MissionCanvasHandler : MonoBehaviour
     }
 
     public void OnDisable() {
+        DrawDone = false;
         for (int i = 0; i <= currentIndex; i++) {
             hole[i].sprite = Fail;
             Line[i].color =  ActiveColor;
@@ -220,5 +223,6 @@ public class MissionCanvasHandler : MonoBehaviour
             TodayMarkText.gameObject.SetActive(true);
         }
         TodayText.text = dateCount.ToString();
+        DrawDone = true;
     }
 }

@@ -32,7 +32,7 @@ public class OpeningHandler : MonoBehaviour
                 yield return new WaitForSeconds(2f);
                 NetworkError.SetTrigger("active");
             } else {
-                Debug.Log(request.downloadHandler.text);
+                //Debug.Log(request.downloadHandler.text);
                 yield return new WaitForSeconds(0.9f);
                 ProgressLog.text = "이전 데이터 확인 중";
                 ProgressBar.sizeDelta = new Vector2(230f * 0.7f, 24f);
@@ -58,11 +58,10 @@ public class OpeningHandler : MonoBehaviour
             StreamReader sr = new StreamReader(fs);
             DataHandler.User_id = int.Parse(sr.ReadLine());
         } catch ( System.Exception e ) {
-            Debug.Log(e.ToString());
+            e.ToString();
             flag = false;
         }
         yield return new WaitForSeconds(0.5f);
-
         if (flag) { 
             ProgressLog.text = "초기화 완료";
             ProgressBar.sizeDelta = new Vector2(230f, 24f);

@@ -19,6 +19,8 @@ public class RegisterBandHandler : MonoBehaviour
     public Image PeeIcon;
     public Image PooIcon;
 
+    public GameObject FinalWindow;
+
     private bool WaterButtonClicked = false;
     private bool PeeButtonClicked = false;
     private bool PooButtonClicked = false;
@@ -41,7 +43,7 @@ public class RegisterBandHandler : MonoBehaviour
         PooButtonClicked = true;
         PooCircle.color = ActiveColor_Circle;
         PooIcon.color = ActiveColor_Icon;
-        ButtonClickCheck();
+        StartCoroutine(ButtonClickCheck());
     }
 
     public void WaterButtonClick() {
@@ -49,7 +51,7 @@ public class RegisterBandHandler : MonoBehaviour
         WaterButtonClicked = true;
         WaterCircle.color = ActiveColor_Circle;
         WaterIcon.color = ActiveColor_Icon;
-        ButtonClickCheck();
+        StartCoroutine(ButtonClickCheck());
     }
 
     public void PeeButtonClick() {
@@ -57,7 +59,7 @@ public class RegisterBandHandler : MonoBehaviour
         PeeButtonClicked = true;
         PeeCircle.color = ActiveColor_Circle;
         PeeIcon.color = ActiveColor_Icon;
-        ButtonClickCheck();
+        StartCoroutine(ButtonClickCheck());
     }
 
     public void BackButtonClick() {
@@ -80,22 +82,29 @@ public class RegisterBandHandler : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void ButtonClickCheck() {
+    public IEnumerator ButtonClickCheck() {
         if(WaterButtonClicked && PeeButtonClicked && PooButtonClicked &&
             TotalManager.instance.targetName != "") {
-            DataHandler.User_water_skip = "00:00";
-            DataHandler.User_drink_skip = "00:00";
-            DataHandler.User_poop_skip = "00:00";
-            DataHandler.User_pee_skip = "00:00";
-            DataHandler.User_font_family = "Bazzi";
-            DataHandler.User_font_size = 40;
-            DataHandler.User_creation_date = TimeHandler.GetCurrentTime();
-            DataHandler.User_periode = 4;
-            DataHandler.User_moa_band_name = TotalManager.instance.targetName;
             TotalManager.instance.isRegisterMode = false;
-            StartCoroutine(DataHandler.CreateUsers());
-            StartCoroutine(FinalCheck());
+            yield return new WaitForSeconds(1f);
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA1);
+            FinalWindow.SetActive(true);
         }
+        yield return 0;
+    }
+
+    public void FinalButton() {
+        DataHandler.User_water_skip = "00:00";
+        DataHandler.User_drink_skip = "00:00";
+        DataHandler.User_poop_skip = "00:00";
+        DataHandler.User_pee_skip = "00:00";
+        DataHandler.User_font_family = "Bazzi";
+        DataHandler.User_font_size = 40;
+        DataHandler.User_creation_date = TimeHandler.GetCurrentTime();
+        DataHandler.User_periode = 4;
+        DataHandler.User_moa_band_name = TotalManager.instance.targetName;
+        StartCoroutine(DataHandler.CreateUsers());
+        StartCoroutine(FinalCheck());
     }
 
     IEnumerator FinalCheck() {
@@ -109,6 +118,7 @@ public class RegisterBandHandler : MonoBehaviour
         TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.NAVI_BAR].SetActive(true);
         TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME5].SetActive(false);
         Instantiate(TotalManager.instance.FlashEffect);
+        FinalWindow.SetActive(false);
         this.gameObject.SetActive(false);
     }
 }

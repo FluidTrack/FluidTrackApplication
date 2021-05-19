@@ -41,31 +41,43 @@ public class Welcome2_1Handler : MonoBehaviour {
 
         TimeHandler.GetCurrentTime();
         currentTime = TimeHandler.CurrentTime;
-        todayTime = TimeHandler.CurrentTime;
-        SetBirthDay(currentTime);
+        todayTime = new TimeHandler.DateTimeStamp(TimeHandler.CurrentTime);
+        SetBirthDay();
+        for (int i = 0; i < 5; i++)
+            YearsMinusButtonClick();
     }
 
-    public void SetBirthDay(TimeHandler.DateTimeStamp stamp) {
-        YearsText.text = stamp.Years.ToString();
-        MonthsText.text = stamp.Months.ToString();
-        DaysText.text = stamp.Days.ToString();
+    public void SetBirthDay() {
+        if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(currentTime, todayTime) == 1) {
+            currentTime = new TimeHandler.DateTimeStamp(todayTime);
+        }
 
-        if (stamp.Years >= todayTime.Years) YearsPlusButton.interactable = false;
+        YearsText.text = currentTime.Years.ToString();
+        MonthsText.text = currentTime.Months.ToString();
+        DaysText.text = currentTime.Days.ToString();
+
+        if (currentTime.Years >= todayTime.Years) YearsPlusButton.interactable = false;
         else YearsPlusButton.interactable = true;
 
-        if (stamp.Years <= 0) YearsMinusButton.interactable = false;
+        if (currentTime.Years <= 0) YearsMinusButton.interactable = false;
         else YearsMinusButton.interactable = true;
 
-        if (stamp.Months >= todayTime.Months) MonthsPlusButton.interactable = false;
+
+        TimeHandler.DateTimeStamp currentClone = 
+            new TimeHandler.DateTimeStamp(currentTime.Years + "-" + currentTime.Months + "-1 00:00:00");
+        TimeHandler.DateTimeStamp todayClone =
+            new TimeHandler.DateTimeStamp(todayTime.Years + "-" + todayTime.Months + "-1 00:00:00");
+
+        if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(currentClone, todayClone) >= 0) MonthsPlusButton.interactable = false;
         else MonthsPlusButton.interactable = true;
 
-        if (stamp.Months <= 0) MonthsMinusButton.interactable = false;
+        if (currentTime.Months <= 0) MonthsMinusButton.interactable = false;
         else MonthsMinusButton.interactable = true;
 
-        if (stamp.Days >= todayTime.Days) DaysPlusButton.interactable = false;
+        if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(currentTime, todayTime) >= 0) DaysPlusButton.interactable = false;
         else DaysPlusButton.interactable = true;
 
-        if (stamp.Days <= 0) DaysMinusButton.interactable = false;
+        if (currentTime.Days <= 0) DaysMinusButton.interactable = false;
         else DaysMinusButton.interactable = true;
     }
 
@@ -73,7 +85,7 @@ public class Welcome2_1Handler : MonoBehaviour {
         while (true) {
             yield return 0;
             if (DataHandler.User_isDataLoaded) {
-                string labelText = DataHandler.User_name.Remove(0, 1);
+                string labelText = DataHandler.User_name_back;
                 if (KoreanUnderChecker.UnderCheck(labelText))
                     labelText += "이는...";
                 else labelText += "는...";
@@ -104,46 +116,50 @@ public class Welcome2_1Handler : MonoBehaviour {
         currentTime.Years = ( currentTime.Years - 1 < 0 ) ?
              0 : currentTime.Years - 1;
         validationCheck();
-        SetBirthDay(currentTime);
+        YearsPlusButton.interactable = true;
+        SetBirthDay();
     }
     public void YearsPlusButtonClick() {
         currentTime.Years = ( currentTime.Years + 1 > todayTime.Years ) ?
              currentTime.Years : currentTime.Years + 1;
         validationCheck();
-        SetBirthDay(currentTime);
+        YearsMinusButton.interactable = true;
+        SetBirthDay();
     }
     public void MonthsMinusButtonClick() {
         currentTime.Months = ( currentTime.Months - 1 < 1 ) ?
              1 : currentTime.Months - 1;
         validationCheck();
-        SetBirthDay(currentTime);
+        MonthsPlusButton.interactable = true;
+        SetBirthDay();
     }
     public void MonthsPlusButtonClick() {
         currentTime.Months = ( currentTime.Months + 1 > 12 ) ?
              12 : currentTime.Months + 1;
         validationCheck();
-        SetBirthDay(currentTime);
+        MonthsMinusButton.interactable = true;
+        SetBirthDay();
     }
 
 
     public void DaysMinusButtonClick() {
         currentTime.Days = ( currentTime.Days - 1 < 1 ) ?
              1 : currentTime.Days - 1;
-
-        SetBirthDay(currentTime);
+        DaysPlusButton.interactable = true;
+        SetBirthDay();
     }
     public void DaysPlusButtonClick() {
-        if(TimeHandler.DateTimeStamp.isLeafYear(currentTime.Years)) {
+        if (TimeHandler.DateTimeStamp.isLeafYear(currentTime.Years)) {
             currentTime.Days = ( currentTime.Days + 1 >
-                TimeHandler.DateTimeStamp.LeafYearDaysList[currentTime.Months-1]) ?
+                TimeHandler.DateTimeStamp.LeafYearDaysList[currentTime.Months - 1] ) ?
                 TimeHandler.DateTimeStamp.LeafYearDaysList[currentTime.Months - 1] : currentTime.Days + 1;
         } else {
             currentTime.Days = ( currentTime.Days + 1 >
                 TimeHandler.DateTimeStamp.NormalYearDaysList[currentTime.Months - 1] ) ?
                 TimeHandler.DateTimeStamp.NormalYearDaysList[currentTime.Months - 1] : currentTime.Days + 1;
         }
-
-        SetBirthDay(currentTime);
+        DaysMinusButton.interactable = true;
+        SetBirthDay();
     }
 
     public void validationCheck() {
@@ -159,6 +175,11 @@ public class Welcome2_1Handler : MonoBehaviour {
     }
 
     public void OkayButton() {
+        if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(currentTime,todayTime) == 1) {
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
+            return;
+        }
+
         DataHandler.User_gender = genderValue;
         DataHandler.User_birthday = currentTime.ToDateString();
         TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME2].SetActive(true);

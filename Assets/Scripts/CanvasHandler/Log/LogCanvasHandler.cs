@@ -339,6 +339,8 @@ public class LogCanvasHandler : MonoBehaviour
         bool isThereLog = false;
         DrinkTempList = new List<KeyValuePair<DataHandler.DrinkLog, int>>();
         int count_water = 0, count_drink = 0, count_pee = 0, count_poo = 0;
+        for(int  i = 0; i < wrongPooCheck.Length; i++)
+            wrongPooCheck[i] = false;
         foreach (Log log in totalLog) {
             if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                 TimeHandler.LogCanvasTime,log.Time) == 0 ) {
@@ -373,6 +375,14 @@ public class LogCanvasHandler : MonoBehaviour
                 }
             }
         }
+        for(int i = 0; i < wrongPooCheck.Length; i++) {
+            if (DownSlot[i].GetComponent<SlotHandler>().PooTop == null) continue;
+
+            DownSlot[i].GetComponent<SlotHandler>().
+                PooTop.gameObject.GetComponent<Image>().sprite =
+                    ( wrongPooCheck[i] ) ? wrongPoo : normalPoo;
+        }
+
         CreateDrinkLog();
         if (currentFirstHour <= 0) {
             TimeLeftButton.transform.parent.GetComponent<Button>().interactable = false;
@@ -537,6 +547,10 @@ public class LogCanvasHandler : MonoBehaviour
         }
     }
 
+    internal bool isLogMongMong_Poo = false;
+    private bool[] wrongPooCheck = { false, false, false, false, false, false,
+                                     false, false, false, false, false, false };
+
     public void CreatePoopLog(DataHandler.PoopLog log, int hour) {
         if (hour < currentFirstHour || hour >= currentLastHour) return;
         int index = hour - currentFirstHour;
@@ -546,13 +560,17 @@ public class LogCanvasHandler : MonoBehaviour
             slot.PooCount++;
             slot.PooTop.Number.text = slot.PooCount.ToString();
         } else {
-            if (slot.PooTop != null) slot.PooTop.Number.text = " ";
+            if (slot.PooTop != null) {
+                slot.PooTop.Number.text = " ";
+            }
             GameObject newLog = Instantiate(PoopLogPrefab, DownSlot[index]);
             if(log.type == 0) {
+                isLogMongMong_Poo = true;
                 MongMongHand.SetActive(true);
                 Circle.SetActive(true);
-                newLog.GetComponent<Image>().sprite = wrongPoo;
+                wrongPooCheck[index] = true;
             } else {
+                isLogMongMong_Poo = false;
                 MongMongHand.SetActive(false);
                 Circle.SetActive(false);
             }
@@ -764,6 +782,8 @@ public class LogCanvasHandler : MonoBehaviour
         WriteTimeStamp(TimeHandler.LogCanvasTime);
         DrinkTempList = new List<KeyValuePair<DataHandler.DrinkLog, int>>();
         int count_water = 0, count_drink = 0, count_pee = 0, count_poo = 0;
+        for (int i = 0; i < wrongPooCheck.Length; i++)
+            wrongPooCheck[i] = false;
         foreach (Log log in totalLog) {
             if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                 TimeHandler.LogCanvasTime, log.Time) == 0) {
@@ -776,6 +796,13 @@ public class LogCanvasHandler : MonoBehaviour
                     case LOG_TYPE.POOP: CreatePoopLog(log.PoopLog, log.Time.Hours); count_poo++; break;
                 }
             }
+        }
+        for (int i = 0; i < wrongPooCheck.Length; i++) {
+            if (DownSlot[i].GetComponent<SlotHandler>().PooTop == null) continue;
+
+            DownSlot[i].GetComponent<SlotHandler>().
+                PooTop.gameObject.GetComponent<Image>().sprite =
+                    ( wrongPooCheck[i] ) ? wrongPoo : normalPoo;
         }
         CreateDrinkLog();
         WaterCountText.text = count_water.ToString();
@@ -807,6 +834,8 @@ public class LogCanvasHandler : MonoBehaviour
         WriteTimeStamp(TimeHandler.LogCanvasTime);
         DrinkTempList = new List<KeyValuePair<DataHandler.DrinkLog, int>>();
         int count_water = 0, count_drink = 0, count_pee = 0, count_poo = 0;
+        for (int i = 0; i < wrongPooCheck.Length; i++)
+            wrongPooCheck[i] = false;
         foreach (Log log in totalLog) {
             if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                 TimeHandler.LogCanvasTime, log.Time) == 0) {
@@ -818,6 +847,13 @@ public class LogCanvasHandler : MonoBehaviour
                     case LOG_TYPE.POOP: CreatePoopLog(log.PoopLog, log.Time.Hours); count_poo++; break;
                 }
             }
+        }
+        for (int i = 0; i < wrongPooCheck.Length; i++) {
+            if (DownSlot[i].GetComponent<SlotHandler>().PooTop == null) continue;
+
+            DownSlot[i].GetComponent<SlotHandler>().
+                PooTop.gameObject.GetComponent<Image>().sprite =
+                    ( wrongPooCheck[i] ) ? wrongPoo : normalPoo;
         }
         CreateDrinkLog();
         WaterCountText.text = count_water.ToString();
@@ -1156,6 +1192,8 @@ public class LogCanvasHandler : MonoBehaviour
         yield return 0;
         DrinkTempList = new List<KeyValuePair<DataHandler.DrinkLog, int>>();
         int count_water = 0, count_drink = 0, count_pee = 0, count_poo = 0;
+        for (int i = 0; i < wrongPooCheck.Length; i++)
+            wrongPooCheck[i] = false;
         foreach (Log log in totalLog) {
             if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                 TimeHandler.LogCanvasTime, log.Time) == 0) {
@@ -1168,6 +1206,13 @@ public class LogCanvasHandler : MonoBehaviour
                     case LOG_TYPE.POOP: CreatePoopLog(log.PoopLog, log.Time.Hours); count_poo++; break;
                 }
             }
+        }
+        for (int i = 0; i < wrongPooCheck.Length; i++) {
+            if (DownSlot[i].GetComponent<SlotHandler>().PooTop == null) continue;
+
+            DownSlot[i].GetComponent<SlotHandler>().
+                PooTop.gameObject.GetComponent<Image>().sprite =
+                    ( wrongPooCheck[i] ) ? wrongPoo : normalPoo;
         }
         CreateDrinkLog();
         WaterCountText.text = count_water.ToString();
@@ -1434,6 +1479,7 @@ public class LogCanvasHandler : MonoBehaviour
     public GameObject MongMongUI;
     public GameObject Circle;
     public Sprite wrongPoo;
+    public Sprite normalPoo;
 
     public void MongMongHandClick() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);

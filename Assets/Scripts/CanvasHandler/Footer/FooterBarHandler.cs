@@ -59,6 +59,7 @@ public class FooterBarHandler : MonoBehaviour
         DataHandler.User_isPeeDataLoaded = false;
         DataHandler.User_isPooDataLoaded = false;
         DataHandler.User_isGardenDataLoaded = false;
+        SoundHandler.Instance.StopMongMong();
 
         if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].activeSelf) {
             Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].GetComponent<Animator>();

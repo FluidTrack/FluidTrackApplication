@@ -232,4 +232,9 @@ public class SoundHandler : MonoBehaviour
     public void PlayBackgroundMusic() {
         SoundHandler.Instance.Play_Music(SoundHandler.MUSIC.CHIPTUNE_01);
     }
+
+    public void StopMongMong() {
+        MongMongSource.Stop();
+        MongMongSource2.Stop();
+    }
 }

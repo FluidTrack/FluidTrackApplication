@@ -8,6 +8,7 @@ ScriptsOnlyBuild:
     - BigCloudController
     - BluetoothManager
     - CalendarHandler
+    - CalendarPageMongMongHandler
     - CanvasDisableAnimationContoller
     - CheckBoxButton
     - CloudTransition
@@ -36,10 +37,12 @@ ScriptsOnlyBuild:
     - HomeHandler
     - LogBlocker
     - LogCanvasHandler
+    - LogPageMongMongHandler
     - LogSpriteHandler
     - MainPageHeaderHandler
     - MainPageMongMongHandler
     - MissionCanvasHandler
+    - MissionPageMongMongHandler
     - MoabandStatusHandler
     - ModifyDrinkLogHandler
     - ModifyPooLogHandler
@@ -156,145 +159,151 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11436}
     - Class: 114
-      Script: {instanceID: 11464}
+      Script: {instanceID: 11460}
     - Class: 114
-      Script: {instanceID: 11534}
+      Script: {instanceID: 11466}
     - Class: 114
-      Script: {instanceID: 11562}
+      Script: {instanceID: 11522}
     - Class: 114
-      Script: {instanceID: 11564}
+      Script: {instanceID: 11538}
     - Class: 114
-      Script: {instanceID: 11574}
+      Script: {instanceID: 11566}
     - Class: 114
-      Script: {instanceID: 11622}
+      Script: {instanceID: 11568}
     - Class: 114
-      Script: {instanceID: 11708}
+      Script: {instanceID: 11578}
     - Class: 114
-      Script: {instanceID: 11736}
+      Script: {instanceID: 11626}
     - Class: 114
-      Script: {instanceID: 11766}
+      Script: {instanceID: 11712}
     - Class: 114
-      Script: {instanceID: 11830}
+      Script: {instanceID: 11740}
     - Class: 114
-      Script: {instanceID: 11998}
+      Script: {instanceID: 11770}
     - Class: 114
-      Script: {instanceID: 12084}
+      Script: {instanceID: 11834}
     - Class: 114
-      Script: {instanceID: 12100}
+      Script: {instanceID: 12002}
     - Class: 114
-      Script: {instanceID: 12128}
+      Script: {instanceID: 12088}
     - Class: 114
-      Script: {instanceID: 12150}
+      Script: {instanceID: 12104}
     - Class: 114
-      Script: {instanceID: 12192}
+      Script: {instanceID: 12132}
     - Class: 114
-      Script: {instanceID: 12362}
+      Script: {instanceID: 12154}
     - Class: 114
-      Script: {instanceID: 12372}
+      Script: {instanceID: 12196}
     - Class: 114
-      Script: {instanceID: 12396}
+      Script: {instanceID: 12366}
     - Class: 114
-      Script: {instanceID: 12408}
+      Script: {instanceID: 12376}
     - Class: 114
-      Script: {instanceID: 12428}
+      Script: {instanceID: 12400}
     - Class: 114
-      Script: {instanceID: 12556}
+      Script: {instanceID: 12412}
     - Class: 114
-      Script: {instanceID: 12652}
+      Script: {instanceID: 12432}
     - Class: 114
-      Script: {instanceID: 12738}
+      Script: {instanceID: 12560}
     - Class: 114
-      Script: {instanceID: 12764}
+      Script: {instanceID: 12656}
     - Class: 114
-      Script: {instanceID: 12790}
+      Script: {instanceID: 12742}
     - Class: 114
-      Script: {instanceID: 12802}
+      Script: {instanceID: 12768}
     - Class: 114
-      Script: {instanceID: 12804}
+      Script: {instanceID: 12794}
     - Class: 114
-      Script: {instanceID: 12852}
+      Script: {instanceID: 12800}
     - Class: 114
-      Script: {instanceID: 12878}
+      Script: {instanceID: 12808}
     - Class: 114
-      Script: {instanceID: 12898}
+      Script: {instanceID: 12810}
     - Class: 114
-      Script: {instanceID: 12930}
+      Script: {instanceID: 12858}
     - Class: 114
-      Script: {instanceID: 12972}
+      Script: {instanceID: 12884}
     - Class: 114
-      Script: {instanceID: 13004}
+      Script: {instanceID: 12904}
     - Class: 114
-      Script: {instanceID: 13014}
+      Script: {instanceID: 12936}
     - Class: 114
-      Script: {instanceID: 13184}
+      Script: {instanceID: 12978}
     - Class: 114
-      Script: {instanceID: 13258}
+      Script: {instanceID: 13010}
     - Class: 114
-      Script: {instanceID: 13506}
+      Script: {instanceID: 13020}
     - Class: 114
-      Script: {instanceID: 13542}
+      Script: {instanceID: 13190}
     - Class: 114
-      Script: {instanceID: 13552}
+      Script: {instanceID: 13264}
     - Class: 114
-      Script: {instanceID: 13692}
+      Script: {instanceID: 13512}
     - Class: 114
-      Script: {instanceID: 13936}
+      Script: {instanceID: 13548}
     - Class: 114
-      Script: {instanceID: 13976}
+      Script: {instanceID: 13558}
     - Class: 114
-      Script: {instanceID: 14016}
+      Script: {instanceID: 13698}
     - Class: 114
-      Script: {instanceID: 14052}
+      Script: {instanceID: 13942}
     - Class: 114
-      Script: {instanceID: 14084}
+      Script: {instanceID: 13982}
     - Class: 114
-      Script: {instanceID: 14182}
+      Script: {instanceID: 14022}
     - Class: 114
-      Script: {instanceID: 14248}
+      Script: {instanceID: 14058}
     - Class: 114
-      Script: {instanceID: 14284}
+      Script: {instanceID: 14090}
     - Class: 114
-      Script: {instanceID: 14292}
+      Script: {instanceID: 14188}
     - Class: 114
-      Script: {instanceID: 14322}
+      Script: {instanceID: 14254}
     - Class: 114
-      Script: {instanceID: 14366}
+      Script: {instanceID: 14290}
     - Class: 114
-      Script: {instanceID: 14378}
+      Script: {instanceID: 14298}
     - Class: 114
-      Script: {instanceID: 14382}
+      Script: {instanceID: 14328}
     - Class: 114
-      Script: {instanceID: 14402}
+      Script: {instanceID: 14372}
     - Class: 114
-      Script: {instanceID: 14448}
+      Script: {instanceID: 14384}
     - Class: 114
-      Script: {instanceID: 14610}
+      Script: {instanceID: 14388}
     - Class: 114
-      Script: {instanceID: 14626}
+      Script: {instanceID: 14408}
     - Class: 114
-      Script: {instanceID: 14686}
+      Script: {instanceID: 14454}
     - Class: 114
-      Script: {instanceID: 14702}
+      Script: {instanceID: 14616}
     - Class: 114
-      Script: {instanceID: 14746}
+      Script: {instanceID: 14632}
+    - Class: 114
+      Script: {instanceID: 14692}
+    - Class: 114
+      Script: {instanceID: 14708}
     - Class: 114
       Script: {instanceID: 14752}
     - Class: 114
       Script: {instanceID: 14758}
     - Class: 114
-      Script: {instanceID: 14776}
+      Script: {instanceID: 14764}
     - Class: 114
-      Script: {instanceID: 14812}
+      Script: {instanceID: 14782}
     - Class: 114
-      Script: {instanceID: 14824}
+      Script: {instanceID: 14818}
     - Class: 114
-      Script: {instanceID: 14840}
+      Script: {instanceID: 14830}
     - Class: 114
-      Script: {instanceID: 14842}
+      Script: {instanceID: 14846}
     - Class: 114
-      Script: {instanceID: 14868}
+      Script: {instanceID: 14848}
     - Class: 114
-      Script: {instanceID: 14884}
+      Script: {instanceID: 14874}
+    - Class: 114
+      Script: {instanceID: 14890}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -456,6 +465,12 @@ ScriptsOnlyBuild:
     className: UILinearDodgeEffect
   - hash:
       serializedVersion: 2
+      Hash: 7ca6d2a0b9eb6268be4b09a21038c317
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LogPageMongMongHandler
+  - hash:
+      serializedVersion: 2
       Hash: 1c848b6c370a16eced6ee864969090cd
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -478,6 +493,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: KoreanUnderChecker
+  - hash:
+      serializedVersion: 2
+      Hash: d59749a1aeb26afc6365e5634edd4220
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CalendarPageMongMongHandler
   - hash:
       serializedVersion: 2
       Hash: a5781dc71a671b1ad2b38de19f24b71f
@@ -816,7 +837,7 @@ ScriptsOnlyBuild:
     className: UI_ScrollRectOcclusion
   - hash:
       serializedVersion: 2
-      Hash: 572f9c3fb402cc675429b65953bd83d7
+      Hash: 4f7f3bfbc48bc1d2aa27973b9e69c4b7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogCanvasHandler
@@ -1026,7 +1047,7 @@ ScriptsOnlyBuild:
     className: Welcome4Handler
   - hash:
       serializedVersion: 2
-      Hash: 3c8128cc4b66094c531616fc325e7513
+      Hash: 2cb04d43ba07aa828b17dd427668a79b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MissionCanvasHandler
@@ -1072,6 +1093,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ScrollbarSound
+  - hash:
+      serializedVersion: 2
+      Hash: 31c84495f7327f641cf70bfbcde33769
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MissionPageMongMongHandler
   - hash:
       serializedVersion: 2
       Hash: d9bb8c80c91a48d36bc0d26a48263feb
@@ -1602,7 +1629,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 0eb7b18c6712822b47f2fd5d92995a16
+      Hash: 0b9491f7c747e4549086d0a3a5fc3938
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogBlocker
@@ -1926,7 +1953,7 @@ ScriptsOnlyBuild:
     className: UICornerCut
   - hash:
       serializedVersion: 2
-      Hash: ae45a05f24fd614f67070ef5cf45bc3d
+      Hash: 02e2e0a144fef65cfc69d34fa12397ff
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: WelcomHandler
@@ -1962,7 +1989,7 @@ ScriptsOnlyBuild:
     className: PlaymodeTestsController
   - hash:
       serializedVersion: 2
-      Hash: 383d3b1ac1513fd71d68b1f7731ce214
+      Hash: 71e3dc9f59c2f7a4a9cbaaf7ccd195b6
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: RegisterBandHandler
