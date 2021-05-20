@@ -7,6 +7,8 @@ public class FlowerPageHandler : MonoBehaviour
     public GameObject WateringAnim;
     public static DataHandler.GardenLog CurrentLog;
     public static FlowerPageHandler Instance;
+    public FlowerPageMongMongHandler MongMong;
+    public GameObject AlertWindow;
     public FlowerPageSpotHandler SpotHandler;
     public GameObject WaterPrefab;
     public GameObject PeePrefab;
@@ -17,8 +19,11 @@ public class FlowerPageHandler : MonoBehaviour
     public List<GameObject> WaterIcons;
     public RectTransform TargetZone;
 
+    private int iconCount = 0;
+
     public string DateString;
     public static DataHandler.GardenLog TargetGardenLog;
+    public bool isTouchAble = true;
 
     public void Awake() {
         Instance = this;
@@ -97,24 +102,20 @@ public class FlowerPageHandler : MonoBehaviour
         }
 
         SpotHandler.InitSpot(TargetGardenLog);
-
-        int waterIconCount = (TargetGardenLog.log_water + TargetGardenLog.flower >= 10 ) ? 0 : TargetGardenLog.log_water;
-        int peeIconCount = (TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0) ? 1 : 0;
+        int rawWaterIcon = TargetGardenLog.log_water >= 10 ? 10 : TargetGardenLog.log_water;
+        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower > 10 ) ? 10 - TargetGardenLog.flower : TargetGardenLog.log_water;
+        int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
         int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
-        Debug.Log("TargetGardenLog.item_0 : " + TargetGardenLog.item_0);
-        Debug.Log("TargetGardenLog.log_pee : " + TargetGardenLog.log_pee);
-        Debug.Log("peeIconCount : " + peeIconCount);
-        Debug.Log("TargetGardenLog.item_1 : " + TargetGardenLog.item_1);
-        Debug.Log("TargetGardenLog.log_poop : " + TargetGardenLog.log_poop);
-        Debug.Log("pooIconCount : " + pooIconCount);
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
         WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
         int k = 0;
-        for(k = 0; k < waterIconCount; k++) {
+        iconCount = 0;
+        for (k = 0; k < waterIconCount; k++) {
             GameObject go = Instantiate(WaterPrefab, WaterSlot);
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2((k * 130),0);
             go.GetComponent<DraggableWaterIcon>().SetinitPos();
             WaterIcons.Add(go);
+            iconCount++;
         }
         if(peeIconCount > 0) {
             GameObject go = Instantiate(PeePrefab, WaterSlot);
@@ -122,51 +123,73 @@ public class FlowerPageHandler : MonoBehaviour
             go.GetComponent<DraggablePeeIcon>().SetinitPos();
             WaterIcons.Add(go);
             k++;
+            iconCount++;
         }
         if(pooIconCount > 0) {
             GameObject go = Instantiate(PooPrefab, WaterSlot);
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(( k * 130 ), 0);
             go.GetComponent<DraggablePooIcon>().SetinitPos();
             WaterIcons.Add(go);
+            iconCount++;
         }
     }
 
     public void BackButtonClicked() {
-        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
-        TotalManager.instance.TargetDateString = DateString;
-        FooterBarHandler.Instance.FooterButtonClick(1);
+        if (!isTouchAble) return;
+        if (iconCount == 0) BackButtonRealActive();
+        else {
+            AlertWindow.SetActive(true);
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
+        }
+    }
+
+    public void BackButtonRealActive() {
+        LogCanvasHandler.Instance.Fetching();
+        this.gameObject.SetActive(false);
     }
 
     public void Watering() {
         EffectSpawnZone.gameObject.SetActive(true);
+        isTouchAble = false;
+        StartCoroutine(TouchAbleControl(2.1f));
         StartCoroutine(EffectSpwanZoneOff());
         Instantiate(Ring, EffectSpawnZone);
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA3);
         TargetGardenLog.flower = ( TargetGardenLog.flower >= 10 ) ? 10 : TargetGardenLog.flower + 1;
+        MongMong.WaterDrop(TargetGardenLog.flower);
         TargetGardenLog.log_water = ( TargetGardenLog.log_water <= 0 ) ? 0 : TargetGardenLog.log_water - 1;
         SpotHandler.Watering();
         StartCoroutine(ReDrawSpot());
         WateringAnim.SetActive(true);
+        iconCount--;
     }
 
     public void DragPee() {
         EffectSpawnZone.gameObject.SetActive(true);
+        isTouchAble = false;
+        MongMong.PeeDrop();
+        StartCoroutine(TouchAbleControl(1.1f));
         StartCoroutine(EffectSpwanZoneOff());
         Instantiate(Ring, EffectSpawnZone);
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA5);
         TargetGardenLog.item_0 = 1;
         SpotHandler.DragPee();
         StartCoroutine(ReDrawSpot());
+        iconCount--;
     }
 
     public void DragPoo() {
         EffectSpawnZone.gameObject.SetActive(true);
+        isTouchAble = false;
+        MongMong.PooDrop();
+        StartCoroutine(TouchAbleControl(1.1f));
         StartCoroutine(EffectSpwanZoneOff());
         Instantiate(Ring, EffectSpawnZone);
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA5);
         TargetGardenLog.item_1 = 1;
         SpotHandler.DragPoo();
         StartCoroutine(ReDrawSpot());
+        iconCount--;
     }
 
     public void SpawnEffect() {
@@ -180,6 +203,11 @@ public class FlowerPageHandler : MonoBehaviour
         EffectSpawnZone.gameObject.SetActive(false);
     }
 
+    public IEnumerator TouchAbleControl(float timeAmount) {
+        yield return new WaitForSeconds(timeAmount);
+        isTouchAble = true;
+    }
+
     IEnumerator ReDrawSpot() {
         yield return new WaitForSeconds(0.2f);
         StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
@@ -188,17 +216,20 @@ public class FlowerPageHandler : MonoBehaviour
             WaterIcons[i] = null;
             Destroy(temp);
         }
+
+        for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++) {
+            if (DataHandler.Garden_logs.GardenLogs[i].log_id == TargetGardenLog.log_id) {
+                DataHandler.Garden_logs.GardenLogs[i] = TargetGardenLog;
+                break;
+            }
+        }
+
         WaterIcons.Clear();
-        int waterIconCount = ( TargetGardenLog.log_water + TargetGardenLog.flower >= 10 ) ? 0 : TargetGardenLog.log_water;
+        int rawWaterIcon = TargetGardenLog.log_water >= 10 ? 10 : TargetGardenLog.log_water;
+        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower > 10 ) ? 10 - TargetGardenLog.flower : TargetGardenLog.log_water;
         int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
         int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
-        Debug.Log("TargetGardenLog.item_0 : " + TargetGardenLog.item_0);
-        Debug.Log("TargetGardenLog.log_pee : " + TargetGardenLog.log_pee);
-        Debug.Log("peeIconCount : " + peeIconCount);
-        Debug.Log("TargetGardenLog.item_1 : " + TargetGardenLog.item_1);
-        Debug.Log("TargetGardenLog.log_poop : " + TargetGardenLog.log_poop);
-        Debug.Log("pooIconCount : " + pooIconCount);
         WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
         int k = 0;
         for (k = 0; k < waterIconCount; k++) {

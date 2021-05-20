@@ -32,10 +32,14 @@ public class FlowerPageSpriteHandler : MonoBehaviour
     }
 
     public void ChangeSprite(int step) {
+        Rect.anchoredPosition = new Vector2(offset_x[step], offset_y[step]);
+        Rect.sizeDelta = new Vector2(size_x[step], size_y[step]);
         Image.sprite = Sprites[step];
     }
 
     public void ChangeSprite_Up(int step) {
+        Rect.anchoredPosition = new Vector2(offset_x[step], offset_y[step]);
+        Rect.sizeDelta = new Vector2(size_x[step], size_y[step]);
         Image.sprite = Sprites_Up[step];
     }
 

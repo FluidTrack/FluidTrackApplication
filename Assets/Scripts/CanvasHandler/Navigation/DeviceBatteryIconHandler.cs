@@ -19,8 +19,8 @@ public class DeviceBatteryIconHandler : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-#if UNITY_ANDROID
-        //currentValue = (int)( SystemInfo.batteryLevel * 100 );
+#if !UNITY_EDITOR
+        currentValue = (int)( SystemInfo.batteryLevel * 100 );
 #endif
 
         if (currentValue > boundary_0)       Icon.sprite = FullSprite;

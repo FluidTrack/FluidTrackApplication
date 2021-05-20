@@ -51,9 +51,11 @@ public class TotalManager : MonoBehaviour
             }
         } else {
 #if !UNITY_EDITOR
-            string str = logString + "\n\n" + stackTrace;
-            DataHandler.ErrorLogs error = new DataHandler.ErrorLogs(str);
-            StartCoroutine(DataHandler.CreateErrorlogs(error));
+            if( type == (LogType)4 || type == LogType.Error ) {
+                string str = logString + "\n\n" + stackTrace;
+                DataHandler.ErrorLogs error = new DataHandler.ErrorLogs(str);
+                StartCoroutine(DataHandler.CreateErrorlogs(error));
+            }
 #endif
         }
     }
@@ -93,25 +95,44 @@ public class TotalManager : MonoBehaviour
         try {
             FileStream fs = new FileStream(DataHandler.dataPath + "/joinLog", FileMode.Open);
             StreamReader sr = new StreamReader(fs);
-            DataHandler.lastJoin = new TimeHandler.DateTimeStamp( sr.ReadLine());
+            TimeHandler.DateTimeStamp joinLogStamp = new TimeHandler.DateTimeStamp(sr.ReadLine());
             TimeHandler.GetCurrentTime();
             sr.Close(); fs.Close();
-            if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(DataHandler.lastJoin, TimeHandler.CurrentTime) != 0) {
-                FileStream fs2 = new FileStream(DataHandler.dataPath + "/joinLog", FileMode.OpenOrCreate);
-                StreamWriter sr2 = new StreamWriter(fs2);
-                sr2.WriteLine(DataHandler.lastJoin.ToString());
-                sr2.Close(); fs2.Close();
+            if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(joinLogStamp, TimeHandler.CurrentTime) != 0) {
+                FileStream fs2 = new FileStream(DataHandler.dataPath + "/yesterDayJoinLog", FileMode.OpenOrCreate);
+                StreamWriter sw2 = new StreamWriter(fs2);
+                sw2.WriteLine(joinLogStamp.ToString());
+                sw2.Close(); fs2.Close();
+
+                FileStream fs3 = new FileStream(DataHandler.dataPath + "/joinLog", FileMode.OpenOrCreate);
+                StreamWriter sw3 = new StreamWriter(fs3);
+                sw3.WriteLine(TimeHandler.CurrentTime.ToString());
+                sw3.Close(); fs3.Close();
             }
-            sr.Close();
-            fs.Close();
         } catch (System.Exception e) {
             e.ToString();
             TimeHandler.GetCurrentTime();
             DataHandler.lastJoin = TimeHandler.CurrentTime;
             FileStream fs2 = new FileStream(DataHandler.dataPath + "/joinLog", FileMode.OpenOrCreate);
             StreamWriter sr2 = new StreamWriter(fs2);
-            sr2.WriteLine(DataHandler.lastJoin.ToString());
+            sr2.WriteLine(TimeHandler.CurrentTime.ToString());
             sr2.Close(); fs2.Close();
+
+            FileStream fs3 = new FileStream(DataHandler.dataPath + "/yesterDayJoinLog", FileMode.OpenOrCreate);
+            StreamWriter sr3 = new StreamWriter(fs3);
+            sr3.WriteLine(TimeHandler.CurrentTime.ToString());
+            sr3.Close(); fs3.Close();
+        }
+
+        try {
+            FileStream fs = new FileStream(DataHandler.dataPath + "/yesterDayJoinLog", FileMode.Open);
+            StreamReader sr = new StreamReader(fs);
+            DataHandler.lastJoin = new TimeHandler.DateTimeStamp(sr.ReadLine());
+            sr.Close(); sr.Close();
+        } catch(System.Exception e) {
+            e.ToString();
+            TimeHandler.GetCurrentTime();
+            DataHandler.lastJoin = TimeHandler.CurrentTime;
         }
     }
 

@@ -123,9 +123,17 @@ public class SelectPooHandler : MonoBehaviour
     public void OkayButtonClick() {
         int realIndex = page + clickedIconIndex;
         if (isDelete) {
-            Debug.Log("Delete PooLog : " + pooLogs[realIndex].log_id);
             StartCoroutine(DataHandler.DeletePoopLogs(pooLogs[realIndex].log_id));
+            DataHandler.User_isPooDataDeleted = false;
             StartCoroutine(WaitDelete());
+
+            DataHandler.GardenLog TargetGardenLog = LogCanvasHandler.Instance.TargetGardenLog;
+            if (TargetGardenLog.log_poop > 0) TargetGardenLog.log_poop--;
+            if (TargetGardenLog.log_poop == 0) TargetGardenLog.item_1 = 0;
+            DataHandler.User_isGardenDataUpdated = false;
+            StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
+            StartCoroutine(WaitDelete2());
+            
             OkayButton.interactable = false;
         } else {
             ModifyPooLogHandler.Target = pooLogs[realIndex];
@@ -142,6 +150,13 @@ public class SelectPooHandler : MonoBehaviour
         LogCanvasHandler.Instance.Fetching();
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
         this.gameObject.SetActive(false);
+    }
+
+    IEnumerator WaitDelete2() {
+        while (!DataHandler.User_isGardenDataUpdated)
+            yield return 0;
+        DataHandler.User_isGardenDataUpdated = false;
+        LogCanvasHandler.Instance.Fetching();
     }
 
     public void CancelButtonClick() {

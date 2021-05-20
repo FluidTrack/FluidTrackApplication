@@ -79,10 +79,8 @@ public class MainPageMongMongHandler : MonoBehaviour
         if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(DataHandler.User_creation_date),
             TimeHandler.CurrentTime) == 0) {
             StartCoroutine(MongMongStep4());
-        } else if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.CurrentTime, DataHandler.lastJoin) == 0) {
-            StartCoroutine(MongMongStep2());
         } else if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.CurrentTime, DataHandler.lastJoin+1) == 0) {
-            StartCoroutine(MongMongStep4());
+            StartCoroutine(MongMongStep2());
         } else {
             // 몽몽이 버전 1
             AllMongMongOff();

@@ -23,9 +23,6 @@ public class DraggablePooIcon : MonoBehaviour, IDragHandler, IEndDragHandler, IB
         garo_init = (Screen.width - pageHandler.WaterSlot.GetComponent<RectTransform>().sizeDelta.x)/2;
         sero_init = ( Screen.height / 2 ) +   pageHandler.WaterSlot.GetComponent<RectTransform>().anchoredPosition.y
                                           - ( pageHandler.WaterSlot.GetComponent<RectTransform>().sizeDelta.y / 2 );
-
-        Debug.Log("anchoredPosition : " + TargetZone.anchoredPosition);
-        Debug.Log("sizeDelta : " + TargetZone.sizeDelta);
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData) {
@@ -37,7 +34,6 @@ public class DraggablePooIcon : MonoBehaviour, IDragHandler, IEndDragHandler, IB
     void IEndDragHandler.OnEndDrag(PointerEventData eventData) {
         if(moveId == initPosition.x) {
             Vector2 newPos = new Vector2(rect.anchoredPosition.x + (rect.sizeDelta.x / 2) + garo_init, rect.anchoredPosition.y + (rect.sizeDelta.y / 2) + sero_init);
-            Debug.Log(newPos);
             if(newPos.x >= TargetZone.anchoredPosition.x && newPos.x <= (TargetZone.anchoredPosition.x + TargetZone.sizeDelta.x) &&
                newPos.y >= TargetZone.anchoredPosition.y && newPos.y <= ( TargetZone.anchoredPosition.y + TargetZone.sizeDelta.y ) ) {
                 pageHandler.DragPoo();
@@ -52,7 +48,8 @@ public class DraggablePooIcon : MonoBehaviour, IDragHandler, IEndDragHandler, IB
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {
-        if(moveId == -10f) {
+        if (!FlowerPageHandler.Instance.isTouchAble) return;
+        if (moveId == -10f) {
             SoundHandler.Instance.Play_SFX(SoundHandler.SFX.POPED);
             moveId = initPosition.x;
         }
@@ -60,6 +57,5 @@ public class DraggablePooIcon : MonoBehaviour, IDragHandler, IEndDragHandler, IB
 
     public void SetinitPos() {
         initPosition = rect.anchoredPosition;
-        Debug.Log(initPosition);
     }
 }

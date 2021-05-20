@@ -201,7 +201,9 @@ public class HomeHandler : MonoBehaviour
             start = start + 1;
             index++;
         }
+
         Debug.Log(index);
+        DateCount = index+1;
 
         if (DataHandler.User_periode == 4) {
             Debug.Log(Week4Pivot_x[index] + "," + Week4Pivot_y[index]);
@@ -211,7 +213,7 @@ public class HomeHandler : MonoBehaviour
             Week4MongMongPivot[1] = Week4MongMong_y[index];
             Week4MongMongIsRight = Week4MongMong_isRight[index];
         } else if (DataHandler.User_periode == 6) {
-            Debug.Log(Week6Pivot_x[index] + "," + Week6Pivot_y[index]);
+    
             Week6TempPivot[0] = Week6Pivot_x[index];
             Week6TempPivot[1] = Week6Pivot_y[index];
             Week6MongMongPivot[0] = Week6MongMong_x[index];
@@ -298,7 +300,6 @@ public class HomeHandler : MonoBehaviour
     }
 
     public void InitGardenSpot() {
-        int passedDay = 0;
         TimeHandler.DateTimeStamp inputDate =
             new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
         DataHandler.GardenLog[] logs = DataHandler.Garden_logs.GardenLogs;
@@ -316,27 +317,17 @@ public class HomeHandler : MonoBehaviour
 
         foreach (GardenSpotHandler spot in Spots) {
             DataHandler.GardenLog inputData = null;
-            while(true) {
-                if (index < logs.Length) {
-                    TimeHandler.DateTimeStamp targetDate =
-                        new TimeHandler.DateTimeStamp(logs[index].timestamp);
-                    int cmpResult = TimeHandler.DateTimeStamp.CmpDateTimeStamp(
-                        inputDate.ToDateString(), targetDate.ToDateString());
-                    if (cmpResult == 0) {
-                        inputData = logs[index];
-                        index++;
-                        break;
-                    } else if ( cmpResult == -1 ) { break; }
-                      else if ( cmpResult ==  1 ) { index++; }
-                }else { break; }
+            for(int i = 0; i < logs.Length; i++) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                    new TimeHandler.DateTimeStamp(logs[i].timestamp), inputDate)
+                    == 0) {
+                    inputData = logs[i];
+                    break;
+                }
             }
-            spot.InitSpot(inputData,inputDate);
-            if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(
-                TimeHandler.HomeCanvasTime,inputDate    
-            ) >= 0 ) passedDay++;
+                spot.InitSpot(inputData,inputDate);
             inputDate = inputDate+1;
         }
-        DateCount = passedDay;
         if(DataHandler.User_periode == 4) {
             Week4Objects[2].GetComponent<BigCloudController>().ChangeCloudState(DateCount);
             Week4Objects[3].GetComponent<SmallCloudController>().ChangeCloudState(DateCount);

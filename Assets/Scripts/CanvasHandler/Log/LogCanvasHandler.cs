@@ -96,7 +96,7 @@ public class LogCanvasHandler : MonoBehaviour
     private List<DataHandler.PeeLog>   todayPeeLogs;
     private List<DataHandler.PoopLog>  todayPoopLogs;
     private List<GameObject>           spawnObjects;
-    private DataHandler.GardenLog      TargetGardenLog;
+    internal DataHandler.GardenLog     TargetGardenLog;
     private int todayFirstHour;
     private int todayLastHour;
     public int currentFirstHour;
@@ -715,7 +715,6 @@ public class LogCanvasHandler : MonoBehaviour
             StartCoroutine(FetchGardenLogId());
             TargetGardenLog = newGarden;
         }
-
         DrawLogs();
     }
 
@@ -753,7 +752,6 @@ public class LogCanvasHandler : MonoBehaviour
             TargetGardenLog = newGarden;
         }
 
-        DrawLogs();
         DrawLogs();
     }
 
@@ -930,6 +928,7 @@ public class LogCanvasHandler : MonoBehaviour
         //StartCoroutine(writeWaterLogId(newLog));
         TargetGardenLog.log_water++;
         Debug.Log(TargetGardenLog.log_water);
+        Debug.Log(TargetGardenLog.flower);
         StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
         StartCoroutine(Redraw_Water());
     }
@@ -1320,20 +1319,30 @@ public class LogCanvasHandler : MonoBehaviour
             if (PressLogType == LOG_TYPE.WATER) {
                 if (TargetGardenLog.log_water > 0) TargetGardenLog.log_water--;
                 else if ( TargetGardenLog.flower > 0) TargetGardenLog.flower--;
+                DataHandler.User_isGardenDataUpdated = false;
                 StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
+                StartCoroutine(DeleteUpdateCheck());
             } else if (PressLogType == LOG_TYPE.PEE) {
                 if (TargetGardenLog.log_pee > 0) TargetGardenLog.log_pee--;
-                else if (TargetGardenLog.item_0 > 0) TargetGardenLog.item_0--;
+                if (TargetGardenLog.log_pee == 0) TargetGardenLog.item_0 = 0;
+                DataHandler.User_isGardenDataUpdated = false;
                 StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
+                StartCoroutine(DeleteUpdateCheck());
             } 
 
             SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
             LogBlocker.Instance.BlockOff();
             int tempCurrent = currentFirstHour;
-            Fetching();
+            StartCoroutine(DeleteUpdateCheck());
             moveTimeZone(tempCurrent);
         }
 
+    }
+
+    IEnumerator DeleteUpdateCheck() {
+        while (!DataHandler.User_isGardenDataUpdated) yield return 0;
+        DataHandler.User_isGardenDataUpdated = false;
+        Fetching();
     }
 
     public void RealRemovePooLog() {

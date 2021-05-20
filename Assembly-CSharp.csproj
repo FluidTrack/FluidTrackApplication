@@ -95,6 +95,8 @@
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\ZoomedViewHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Mission\MissionCanvasHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\CalendarPageMongMongHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MongMong\FlowerAlertPageMongMongHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MongMong\FlowerPageMongMongHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\GreetingMongMong.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\LogPageMongMongHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\MainPageMongMongHandler.cs" />
