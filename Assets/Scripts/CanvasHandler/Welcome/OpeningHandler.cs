@@ -57,6 +57,7 @@ public class OpeningHandler : MonoBehaviour
             FileStream fs = new FileStream(DataHandler.dataPath + "/userData", FileMode.Open);
             StreamReader sr = new StreamReader(fs);
             DataHandler.User_id = int.Parse(sr.ReadLine());
+            sr.Close(); fs.Close();
         } catch ( System.Exception e ) {
             e.ToString();
             flag = false;

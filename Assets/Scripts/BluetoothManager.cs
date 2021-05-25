@@ -14,6 +14,8 @@ public class BluetoothManager : MonoBehaviour {
 	public string ServiceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
 	public string SendUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 	public string ReceiveUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
+	public Text StatusText;
+
 	public ProtocolHandler Protocol;
 
 	public enum States {
@@ -31,7 +33,7 @@ public class BluetoothManager : MonoBehaviour {
 	internal float _timeout = 0f;
 	internal States _state = States.None;
 	internal bool _foundID = false;
-
+	internal bool isConnected = false;
 
 	void Reset() {
 		_workingFoundDevice = false;    // used to guard against trying to connect to a second device while still connecting to the first
@@ -78,6 +80,7 @@ public class BluetoothManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		StatusText.text = _state.ToString() + ", " + _connected.ToString();
 		if (_timeout > 0f) {
 			_timeout -= Time.deltaTime;
 			if (_timeout <= 0f) {
@@ -132,6 +135,7 @@ public class BluetoothManager : MonoBehaviour {
 								_connected = true;
                                 StartCoroutine(ConnectAndQuery());
                                 SetState(States.Subscribe, 2f);
+								isConnected = true;
 								TotalManager.instance.BlindControl(true);
                                 if (Welcome5Handler.GetInstance() != null &&
                                     Welcome5Handler.GetInstance().gameObject.activeSelf)
@@ -205,6 +209,7 @@ public class BluetoothManager : MonoBehaviour {
                             _state = States.None;
 						});
 					}
+					isConnected = false;
 					break;
 				}
 			}

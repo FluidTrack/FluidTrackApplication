@@ -338,12 +338,14 @@ public class DataHandler : MonoBehaviour
         string url = "read_users";
         url += "?id=" + target_id;
 
+        Debug.Log(url);
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
                 QuitApplication();
             else {
                 string jsonString = request.downloadHandler.text;
+                Debug.Log(jsonString);
                 UserLogsJson data = JsonParsing<UserLogsJson>(jsonString);
                 //Debug.Log(data.UserLogs[0].name);
                 User_name = data.UserLogs[0].name;

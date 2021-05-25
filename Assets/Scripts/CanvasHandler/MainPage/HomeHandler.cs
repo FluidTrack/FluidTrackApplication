@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using UnityEngine.UI;
 
 public class HomeHandler : MonoBehaviour
@@ -180,6 +181,28 @@ public class HomeHandler : MonoBehaviour
 
     public void OnEnable() {
         TimeHandler.GetCurrentTime();
+        ReadUserID();
+    }
+
+    private bool isRead = false;
+
+    public void ReadUserID() {
+        if(!isRead) {
+            DataHandler.dataPath = Application.persistentDataPath;
+            try {
+                FileStream fs = new FileStream(DataHandler.dataPath + "/userData", FileMode.Open);
+                StreamReader sr = new StreamReader(fs);
+                DataHandler.User_id = int.Parse(sr.ReadLine());
+                sr.Close();
+                fs.Close();
+            } catch (System.Exception e) {
+                e.ToString();
+                Debug.Log(DataHandler.dataPath + "/userData"+"\n\nCannot found userData\nDataHandler.User_id set 1 as default value.");
+                DataHandler.User_id = 1;
+            }
+            isRead = true;
+        }
+
         DataHandler.User_isDataLoaded = false;
         StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
         StartCoroutine(CheckUserDataLoad());
