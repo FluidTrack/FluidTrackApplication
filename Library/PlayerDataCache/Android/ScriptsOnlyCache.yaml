@@ -89,8 +89,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -829,7 +831,7 @@ ScriptsOnlyBuild:
     className: BestFitOutline
   - hash:
       serializedVersion: 2
-      Hash: db9f5159e3229781399ebc2005b401fa
+      Hash: f3d1ca50b26aa24565824540c258082b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BluetoothManager

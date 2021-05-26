@@ -136,9 +136,9 @@ public class TotalManager : MonoBehaviour
             DataHandler.lastJoin = TimeHandler.CurrentTime;
         }
 
-        //#if !UNITY_EDITOR
+        #if !UNITY_EDITOR
             StartCoroutine(BLE_Check());
-        //#endif
+        #endif
     }
 
     public void font_change(FONT_FAMILY ff,CANVAS can) {
@@ -195,13 +195,21 @@ public class TotalManager : MonoBehaviour
             yield return 0;
         yield return new WaitForSeconds(0.5f);
 
-        if (DataHandler.User_moa_band_name != "") {
+        while(true) {
+            if(BluetoothManager.GetInstance().isConnected == false) {
+                if (DataHandler.User_moa_band_name != "") {
                     instance.targetName = DataHandler.User_moa_band_name;
                     BluetoothManager.GetInstance().OnConnectStart
                         (DataHandler.User_moa_band_name, "", "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
                                                              "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
                                                              "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
+                }
+                //while(!BluetoothManager.GetInstance().isConnected)
+                    yield return new WaitForSeconds(10f);
+            }
+            yield return 0;
         }
+
         yield return 0;
     }
 

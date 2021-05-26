@@ -63,7 +63,7 @@ public class ScanPanelHandler : MonoBehaviour
                     }
                 }, null);
             }, (error) => {
-                AlertHandler.GetInstance().Pop_Error("BT 스캐너 에러");
+                //AlertHandler.GetInstance().Pop_Error("BT 스캐너 에러");
                 BluetoothLEHardwareInterface.Log("BLE Error: " + error);
 
             });

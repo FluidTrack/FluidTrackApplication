@@ -62,6 +62,7 @@ public class BluetoothManager : MonoBehaviour {
             if(Welcome5Handler.GetInstance() != null &&
                 Welcome5Handler.GetInstance().gameObject.activeSelf)
 			    Welcome5Handler.GetInstance().BlindControl(false);
+			isConnected = false;
 		});
 	}
 
@@ -80,7 +81,6 @@ public class BluetoothManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		StatusText.text = _state.ToString() + ", " + _connected.ToString();
 		if (_timeout > 0f) {
 			_timeout -= Time.deltaTime;
 			if (_timeout <= 0f) {
@@ -135,7 +135,6 @@ public class BluetoothManager : MonoBehaviour {
 								_connected = true;
                                 StartCoroutine(ConnectAndQuery());
                                 SetState(States.Subscribe, 2f);
-								isConnected = true;
 								TotalManager.instance.BlindControl(true);
                                 if (Welcome5Handler.GetInstance() != null &&
                                     Welcome5Handler.GetInstance().gameObject.activeSelf)
@@ -148,7 +147,8 @@ public class BluetoothManager : MonoBehaviour {
                                 Welcome5Handler.GetInstance().BlindControl(false);
                         TotalManager.instance.BlindControl(false);
 						BluetoothLEHardwareInterface.Log("Device disconnected: " + disconnectedAddress);
-						AlertHandler.GetInstance().Pop_Discon(DeviceName);
+						isConnected = false;
+						//AlertHandler.GetInstance().Pop_Discon(DeviceName);
 					});
 					break;
 
@@ -190,6 +190,7 @@ public class BluetoothManager : MonoBehaviour {
 					case States.Unsubscribe:
 					BluetoothLEHardwareInterface.UnSubscribeCharacteristic(MacAddress, ServiceUUID, ReceiveUUID, null);
 					SetState(States.Disconnect, 4f);
+					isConnected = false;
 					break;
 
 					case States.Disconnect:
@@ -268,7 +269,7 @@ public class BluetoothManager : MonoBehaviour {
 
 	void SendBytes(byte[] data) {
 		if (!_connected) {
-			AlertHandler.GetInstance().Pop_Alert("모아밴드와 연결을 먼저 해 주세요");
+			//AlertHandler.GetInstance().Pop_Alert("모아밴드와 연결을 먼저 해 주세요");
 			return;
 		}
 		// notice that the 6th parameter is false. this is because the TouchW32 doesn't support withResponse writing to its characteristic.
@@ -309,11 +310,27 @@ public class BluetoothManager : MonoBehaviour {
         yield return new WaitForSeconds(3f);
         if (TotalManager.instance.isRegisterMode)
             Welcome5Handler.Instance.RegisterUI.SetActive(true);
-        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CONNECT);
         ProtocolHandler.SetTimerToCurrent();
         QueryHistory();
-        QueryBattery();
-        if (MoabandStatusHandler.Instance != null && MoabandStatusHandler.Instance.gameObject.activeSelf)
+		isConnected = true;
+		StartCoroutine(ConnectionCheck());
+		//QueryBattery();
+		if (MoabandStatusHandler.Instance != null && MoabandStatusHandler.Instance.gameObject.activeSelf)
             MoabandStatusHandler.Instance.ConnectTimeRefresh();
+    }
+
+	public bool ConnectFlag = false;
+	int testCount = 0;
+	IEnumerator ConnectionCheck() {
+		while (true) {
+			ConnectFlag = false;
+			QueryBattery();
+			yield return new WaitForSeconds(2f);
+			if(!ConnectFlag) {
+				break;
+			}
+		}
+		SetState(States.Disconnect, 0.1f);
+		yield return 0;
     }
 }

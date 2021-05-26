@@ -14,12 +14,13 @@ public class ConnectingWindowHandler : MonoBehaviour
 
     public IEnumerator AutoDelete() {
         yield return new WaitForSeconds(2.5f);
-        this.gameObject.SetActive(false);
         if(!TotalManager.instance.isRegisterMode) {
             MoabandStatusHandler.Instance.ConnectTimeRefresh();
-            SettingWindowHandler.Instance.MoabandStatusText.text =
-                MoabandStatusHandler.Instance.MakingConnectTime();
+            if(SettingWindowHandler.Instance != null)
+                SettingWindowHandler.Instance.MoabandStatusText.text =
+                    MoabandStatusHandler.Instance.MakingConnectTime();
         }
+        this.gameObject.SetActive(false);
     }
 
     public void OnDisable() {
