@@ -37,11 +37,12 @@ public class GreetingMongMong : MonoBehaviour
     }
 
     public void Update() {
-        if (isPlayedVoice) return;
+        if (isPlayedVoice || !Anim.transform.parent.gameObject.activeSelf) return;
         if(Anim.GetCurrentAnimatorStateInfo(0).IsName("Greeting_Idle")) {
             SoundHandler.Instance.MongMongSource.PlayOneShot(greetingVoice[rand]);
             isPlayedVoice = true;
         }
+        
     }
 
     public void OkayButton() {

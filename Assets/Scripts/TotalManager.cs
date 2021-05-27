@@ -209,8 +209,6 @@ public class TotalManager : MonoBehaviour
             }
             yield return 0;
         }
-
-        yield return 0;
     }
 
     public void Connect() {

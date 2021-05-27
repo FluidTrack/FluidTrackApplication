@@ -76,6 +76,8 @@ public class MissionCanvasHandler : MonoBehaviour
     }
 
     public void OnEnable() {
+        StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
+        DataHandler.User_isDataLoaded = false;
         StartCoroutine(FetchCheck_User());
     }
 
@@ -112,12 +114,12 @@ public class MissionCanvasHandler : MonoBehaviour
         TimeHandler.GetCurrentTime();
         string currentTimeStamp = TimeHandler.TableCanvasTime.ToDateString();
         TimeHandler.DateTimeStamp stamp = new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
-        int length = TotalDateCount;
         isOverflowed = true;
         dateCount = 0;
         dateList.Clear();
 
         TotalDateCount = 7 * DataHandler.User_periode;
+        int length = TotalDateCount;
         PannelAnimator.SetInteger("Weeks", DataHandler.User_periode);
         Line_4_Weeks.SetActive(true);
         Line_6_Weeks.SetActive(DataHandler.User_periode >= 6);
@@ -139,7 +141,7 @@ public class MissionCanvasHandler : MonoBehaviour
                 Line[i].color = ActiveColor;
                 string tempStr = stamp.ToDateString();
                 dateList.Add(tempStr,i);
-                if(isOverflowed) dateCount++;
+                if (isOverflowed) dateCount++;
                 if (tempStr == currentTimeStamp) {
                     TodayMark.anchoredPosition = hole[i].GetComponent<RectTransform>().anchoredPosition;
                     TodayMarkText.anchoredPosition = hole[i].GetComponent<RectTransform>().anchoredPosition;

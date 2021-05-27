@@ -34,12 +34,10 @@ public class ProtocolHandler : MonoBehaviour
             // 배터리 확인
             //==============================================================================
             case 0x07:
-                Debug.LogError("First : " + BluetoothManager.GetInstance().ConnectFlag);
                 if (MoabandStatusHandler.Instance != null &&
                     MoabandStatusHandler.Instance.gameObject.activeSelf)
                     MoabandStatusHandler.Instance.value = (int)bytes[2];
                 BluetoothManager.GetInstance().ConnectFlag = true;
-                Debug.LogError("battery : " + (int)bytes[2] + "," + BluetoothManager.GetInstance().ConnectFlag);
             break;  
 
             //==============================================================================

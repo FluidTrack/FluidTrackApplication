@@ -21,7 +21,7 @@ public class MissionPageMongMongHandler : MonoBehaviour
 
     public void OnEnable() {
         DefaultObject[0].SetActive(true);
-        DefaultObject[1].SetActive(true);
+        DefaultObject[1].SetActive(false);
         CongratulationObject[0].SetActive(false);
         CongratulationObject[1].SetActive(false);
         ComplimentObject.SetActive(false);
