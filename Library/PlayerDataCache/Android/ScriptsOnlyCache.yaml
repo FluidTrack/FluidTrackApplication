@@ -89,10 +89,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -645,7 +643,7 @@ ScriptsOnlyBuild:
     className: ShineEffect
   - hash:
       serializedVersion: 2
-      Hash: 5e6fffcf705269482b95ff9365f05607
+      Hash: e4ed4d25949b81911534f7b21c9d2eab
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BigCloudController
@@ -831,7 +829,7 @@ ScriptsOnlyBuild:
     className: BestFitOutline
   - hash:
       serializedVersion: 2
-      Hash: f3d1ca50b26aa24565824540c258082b
+      Hash: d1d7ab66f78e2b3c7fda8142eb39c838
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BluetoothManager
@@ -1869,7 +1867,7 @@ ScriptsOnlyBuild:
     className: ScrollRectLinker
   - hash:
       serializedVersion: 2
-      Hash: 782fcebda4c0909b5cd0615dd569d1ed
+      Hash: 151cfbf8b048b3a08efddb5276f33e88
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SoundHandler

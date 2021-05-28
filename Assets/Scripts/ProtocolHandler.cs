@@ -79,18 +79,34 @@ public class ProtocolHandler : MonoBehaviour
                             StartCoroutine(DataHandler.CreatePeelogs(log3));
                         break;
                     }
-                } else {
-                    if(RegisterBandHandler.Instance != null && 
-                        RegisterBandHandler.Instance.gameObject.activeSelf) {
-                        RegisterBandHandler register = RegisterBandHandler.Instance;
-                        switch (bytes[6]) {
-                            case 3: register.PooButtonClick();  break;
-                            case 1: register.WaterButtonClick(); break;
-                            case 2: register.PeeButtonClick(); break;
+
+                    SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DATA2);
+                    if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
+                        HomeHandler.Instance.Redrawmap();
+                        MainPageHeaderHandler.Instance.DataReload();
+                    } else if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
+
+                    }
+
+                    TimeHandler.GetCurrentTime();
+                    DataHandler.GardenLog targetGardenLog = null;
+                    for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++) {
+                        if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                            TimeHandler.CurrentTime, new TimeHandler.DateTimeStamp(stamp)) == 0) {
+                            
                         }
                     }
+                } else {
+                        if(RegisterBandHandler.Instance != null && 
+                            RegisterBandHandler.Instance.gameObject.activeSelf) {
+                            RegisterBandHandler register = RegisterBandHandler.Instance;
+                            switch (bytes[6]) {
+                                case 3: register.PooButtonClick();  break;
+                                case 1: register.WaterButtonClick(); break;
+                                case 2: register.PeeButtonClick(); break;
+                            }
+                        }
                 }
-                
             break;
 
             //==============================================================================
@@ -130,6 +146,14 @@ public class ProtocolHandler : MonoBehaviour
                     }
                 } catch (System.Exception e) {
                     e.ToString();
+                }
+
+                SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DATA);
+                if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
+                    HomeHandler.Instance.Redrawmap();
+                    MainPageHeaderHandler.Instance.DataReload();
+                } else if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
+
                 }
             break;
             default: break;

@@ -401,4 +401,9 @@ public class HomeHandler : MonoBehaviour
     public void ReturnButtonClick() {
         ReturnButtonClick(false);
     }
+
+    public void Redrawmap() {
+        StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
+        StartCoroutine(CheckGardenDataLoad());
+    }
 }

@@ -36,6 +36,8 @@ public class SoundHandler : MonoBehaviour
     public AudioClip SFX_MongMongJump;
     public AudioClip SFX_MongMongHello;
     public AudioClip SFX_MongMongBeep;
+    public AudioClip SFX_Data;
+    public AudioClip SFX_Data2;
 
     public AudioSource SFXSource;
     public AudioSource SFXSource2;
@@ -49,7 +51,6 @@ public class SoundHandler : MonoBehaviour
     public bool SFX_Enable = false;
     public bool isMusicPlaying = false;
 
-
     public void Awake() {
         Instance = this;
     }
@@ -59,7 +60,7 @@ public class SoundHandler : MonoBehaviour
         TADA1, TADA2, TADA3, YEAH, SCAN,
         CONNECT, DISCONNECT, COIN, BACK, SMALL_PING,
         ERROR, CLICKED2, CLICKED3, CLICKED4, SMALLEST_VEIW,WATER,
-        TADA4, TADA5,MONG_JUMP, MONG_HELLO, MONG_BEEP,
+        TADA4, TADA5,MONG_JUMP, MONG_HELLO, MONG_BEEP,DATA,DATA2
     }
 
     public enum MUSIC {
@@ -147,6 +148,12 @@ public class SoundHandler : MonoBehaviour
             break;
             case SFX.MONG_BEEP:
                 SFXSource2.PlayOneShot(SFX_MongMongBeep);
+            break;
+            case SFX.DATA:
+                SFXSource2.PlayOneShot(SFX_Data);
+            break;
+            case SFX.DATA2:
+                SFXSource2.PlayOneShot(SFX_Data2);
             break;
         }
     }
