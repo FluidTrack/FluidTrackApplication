@@ -72,28 +72,6 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         }
     }
 
-    //public void OnPointerClick(PointerEventData eventData) {
-    //    SoundHandler.Instance.Play_SFX(SoundHandler.SFX.COIN);
-    //    if (!handler.WaterButtonClicked &&
-    //       !handler.DrinkButtonClicked &&
-    //       !handler.PooButtonClicked &&
-    //       !handler.PeeButtonClicked) {
-    //        Debug.Log(log.Log_id);
-    //        Debug.Log(log.TimeStamp);
-    //        Debug.Log(log.LogType);
-    //        Debug.Log(log.Type);
-    //        handler.DebugText.text = "[ " + log.Log_id + "] : ";
-    //        handler.DebugText.text += "|" + log.TimeStamp + "| ";
-    //        handler.DebugText.text += log.LogType;
-    //        if (log.LogType == LOG.DRINK)
-    //            handler.DebugText.text += " / volume : " + log.Type;
-    //        else if (log.LogType == LOG.POO)
-    //            handler.DebugText.text += " / type : " + log.Type;
-    //    }
-    //    Debug.Log(log.TimeStamp.Hours - LogCanvasHandler.Instance.currentFirstHour);
-    //    int index = log.TimeStamp.Hours - LogCanvasHandler.Instance.currentFirstHour;
-
-    //}
     public void OnPointerDown(PointerEventData eventData) {
         isPress = true;
     }

@@ -682,6 +682,33 @@ public class LogCanvasHandler : MonoBehaviour
         }
     }
 
+    private bool isModifying = false;
+    private bool isModifyingWater = false;
+    private bool isModifyingDrink = false;
+    private bool isModifyingPoo = false;
+    private bool isModifyingPee = false;
+    private int modifyingTargetId = 0;
+
+
+    public void CancelTimeLineModify() {
+        DownShield.SetActive(false);
+        UpShield.SetActive(false);
+        LogBlocker.Instance.BlockOff();
+        TimeLeftButton2.gameObject.SetActive(false);
+        TimeRightButton2.gameObject.SetActive(false);
+        isModifying = false;
+    }
+
+    public void TimeLineModifyInit(bool isUp) {
+        if(isUp) { UpShield.SetActive(true); }
+        else     { DownShield.SetActive(true); }
+
+        LogBlocker.Instance.BlockOn(isUp);
+        TimeLeftButton2.gameObject.SetActive(true);
+        TimeRightButton2.gameObject.SetActive(true);
+        isModifying = true;
+    }
+
     public void DataLeftButtonClick() {
         if (DataHandler.User_creation_date == null) return;
         DrawOff();
@@ -758,7 +785,6 @@ public class LogCanvasHandler : MonoBehaviour
     public void TodayButtonClick() {
         DrawOff();
         TimeHandler.GetCurrentTime();
-        Debug.Log("move to today");
         DrawLogs();
     }
 
@@ -866,10 +892,102 @@ public class LogCanvasHandler : MonoBehaviour
     }
 
     public void TimeBarClick_Add(int index) {
-        if      (WaterButtonClicked) TimeBarClick_AddWater(index);
-        else if (DrinkButtonClicked) TimeBarClick_AddDrink(index);
-        else if (PeeButtonClicked)   TimeBarClick_AddPee(index);
-        else if (PooButtonClicked)   TimeBarClick_AddPoo(index);
+        if(isModifying) {
+            if      (WaterButtonClicked) TimeBarClick_AddWater(index);
+            else if (DrinkButtonClicked) TimeBarClick_AddDrink(index);
+            else if (PeeButtonClicked)   TimeBarClick_AddPee(index);
+            else if (PooButtonClicked)   TimeBarClick_AddPoo(index);
+        } else {
+            if      (isModifyingWater) TimeBarClick_ModifyWater(index);
+            else if (isModifyingDrink) TimeBarClick_ModifyDrink(index);
+            else if (isModifyingPee)   TimeBarClick_ModifyPee(index);
+            else if (isModifyingPoo)   TimeBarClick_ModifyPoo(index);
+        }
+    }
+
+    public IEnumerator ModifyingTimeLineUpdate() {
+        while(true) {
+            if (DataHandler.User_isWaterDataUpdated ||
+                DataHandler.User_isDrinkDataUpdated ||
+                DataHandler.User_isPooDataUpdated   ||
+                DataHandler.User_isPeeDataUpdated   )
+                break;
+            else yield return 0;
+        }
+        DataHandler.User_isWaterDataUpdated = false;
+        DataHandler.User_isDrinkDataUpdated = false;
+        DataHandler.User_isPooDataUpdated   = false;
+        DataHandler.User_isPeeDataUpdated   = false;
+        Fetching();
+        yield return 0;
+    }
+
+    public void TimeBarClick_ModifyWater(int index) {
+        DataHandler.WaterLog log = null;
+        foreach (DataHandler.WaterLog targetLog in DataHandler.Water_logs.WaterLogs)
+            if(modifyingTargetId == targetLog.log_id) {
+                log = targetLog;
+                break;
+            }
+        if (log == null) return;
+
+        string timestamp = log.timestamp.Split(' ')[0] + " " +
+                           ( currentFirstHour + index ) + ":59:59";
+        log.timestamp = timestamp;
+        DataHandler.User_isWaterDataUpdated = false;
+        StartCoroutine(DataHandler.UpdateWaterLogs(log));
+        StartCoroutine(ModifyingTimeLineUpdate());
+    }
+
+    public void TimeBarClick_ModifyDrink(int index) {
+        DataHandler.DrinkLog log = null;
+        foreach (DataHandler.DrinkLog targetLog in DataHandler.Drink_logs.DrinkLogs)
+            if (modifyingTargetId == targetLog.log_id) {
+                log = targetLog;
+                break;
+            }
+        if (log == null) return;
+
+        string timestamp = log.timestamp.Split(' ')[0] + " " +
+                           ( currentFirstHour + index ) + ":59:59";
+        log.timestamp = timestamp;
+        DataHandler.User_isDrinkDataUpdated = false;
+        StartCoroutine(DataHandler.UpdateDrinkLogs(log));
+        StartCoroutine(ModifyingTimeLineUpdate());
+    }
+
+    public void TimeBarClick_ModifyPee(int index) {
+        DataHandler.PeeLog log = null;
+        foreach (DataHandler.PeeLog targetLog in DataHandler.Pee_logs.PeeLogs)
+            if (modifyingTargetId == targetLog.log_id) {
+                log = targetLog;
+                break;
+            }
+        if (log == null) return;
+
+        string timestamp = log.timestamp.Split(' ')[0] + " " +
+                           ( currentFirstHour + index ) + ":59:59";
+        log.timestamp = timestamp;
+        DataHandler.User_isPeeDataUpdated = false;
+        StartCoroutine(DataHandler.UpdatePeeLogs(log));
+        StartCoroutine(ModifyingTimeLineUpdate());
+    }
+
+    public void TimeBarClick_ModifyPoo(int index) {
+        DataHandler.PoopLog log = null;
+        foreach (DataHandler.PoopLog targetLog in DataHandler.Poop_logs.PoopLogs)
+            if (modifyingTargetId == targetLog.log_id) {
+                log = targetLog;
+                break;
+            }
+        if (log == null) return;
+
+        string timestamp = log.timestamp.Split(' ')[0] + " " +
+                           ( currentFirstHour + index ) + ":59:59";
+        log.timestamp = timestamp;
+        DataHandler.User_isPooDataUpdated = false;
+        StartCoroutine(DataHandler.UpdatePoopLogs(log));
+        StartCoroutine(ModifyingTimeLineUpdate());
     }
 
     IEnumerator writeWaterLogId(DataHandler.WaterLog log) {
@@ -877,7 +995,6 @@ public class LogCanvasHandler : MonoBehaviour
             yield return 0;
         DataHandler.User_isWaterDataCreated = false;
         log.log_id = DataHandler.User_isWaterDataCreatedId;
-        Debug.Log("Log_id : " + DataHandler.User_isWaterDataCreatedId);
     }
 
     IEnumerator writeDrinkLogId(DataHandler.DrinkLog log) {
@@ -885,8 +1002,6 @@ public class LogCanvasHandler : MonoBehaviour
             yield return 0;
         DataHandler.User_isDrinkDataCreated = false;
         log.log_id = DataHandler.User_isDrinkDataCreatedId;
-        Debug.Log("Log_id : " + DataHandler.User_isDrinkDataCreatedId);
-
     }
 
     IEnumerator writePooLogId(DataHandler.PoopLog log) {
@@ -894,7 +1009,6 @@ public class LogCanvasHandler : MonoBehaviour
             yield return 0;
         DataHandler.User_isPooDataCreated = false;
         log.log_id = DataHandler.User_isPooDataCreatedId;
-        Debug.Log("Log_id : " + DataHandler.User_isPooDataCreatedId);
 
     }
 
@@ -903,7 +1017,6 @@ public class LogCanvasHandler : MonoBehaviour
             yield return 0;
         DataHandler.User_isPeeDataCreated = false;
         log.log_id = DataHandler.User_isPeeDataCreatedId;
-        Debug.Log("Log_id : " + DataHandler.User_isPeeDataCreatedId);
 
     }
 
@@ -912,7 +1025,6 @@ public class LogCanvasHandler : MonoBehaviour
             yield return 0;
         DataHandler.User_isGardenDataCreated = false;
         log.log_id = DataHandler.User_isGardenDataCreatedId;
-        Debug.Log("Log_id : " + DataHandler.User_isGardenDataCreatedId);
 
     }
 
@@ -1038,7 +1150,7 @@ public class LogCanvasHandler : MonoBehaviour
         PooWindow_Index = index;
         for (int i = 1; i < 8; i++)
             PooButtonIcons[i].color = new Color(1f,1f,1f,1f);
-        PooButtonIcons[0].color = new Color(0.8f,0.8f,0.81f,1f);
+        PooButtonIcons[0].color = new Color(0.8f,0.8f,0.8f,1f);
         int showTime = currentFirstHour + index;
         string str = "새벽";
         if (showTime >= 6 && showTime <= 11) str = "아침";
@@ -1357,11 +1469,8 @@ public class LogCanvasHandler : MonoBehaviour
         moveTimeZone(tempCurrent);
     }
 
-
     public void ModifyLog() {
-        if (PressLogType == LOG_TYPE.NONE ||
-            PressLogType == LOG_TYPE.WATER ||
-            PressLogType == LOG_TYPE.PEE ) return;
+        if (PressLogType == LOG_TYPE.NONE) return;
 
         int hour = currentFirstHour + PressLogIndex;
         autoLogId = new List<int>();
@@ -1374,7 +1483,7 @@ public class LogCanvasHandler : MonoBehaviour
                     if (log.auto == 1) autoLogId.Add(log.log_id);
                     else noneAutoLogId.Add(log.log_id);
             }
-        } else {
+        } else if (PressLogType == LOG_TYPE.POOP) {
             foreach (DataHandler.PoopLog log in DataHandler.Poop_logs.PoopLogs) {
                 TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
                 if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
@@ -1382,8 +1491,23 @@ public class LogCanvasHandler : MonoBehaviour
                     if (log.auto == 1) autoLogId.Add(log.log_id);
                     else noneAutoLogId.Add(log.log_id);
             }
+        } else if (PressLogType == LOG_TYPE.WATER) {
+            foreach (DataHandler.WaterLog log in DataHandler.Water_logs.WaterLogs) {
+                TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
+                if (target.Hours == hour)
+                    if (log.auto == 1) autoLogId.Add(log.log_id);
+                    else noneAutoLogId.Add(log.log_id);
+            }
+        } else if (PressLogType == LOG_TYPE.PEE) {
+            foreach (DataHandler.PeeLog log in DataHandler.Pee_logs.PeeLogs) {
+                TimeHandler.DateTimeStamp target = new TimeHandler.DateTimeStamp(log.timestamp);
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.LogCanvasTime, target) != 0) continue;
+                if (target.Hours == hour)
+                    if (log.auto == 1) autoLogId.Add(log.log_id);
+                    else noneAutoLogId.Add(log.log_id);
+            }
         }
-
 
         if (PressLogType == LOG_TYPE.DRINK || PressLogType == LOG_TYPE.POOP) {
             if (PressLogType == LOG_TYPE.DRINK) {
@@ -1403,11 +1527,16 @@ public class LogCanvasHandler : MonoBehaviour
                 SelectPooUI.SetActive(true);
                 LogBlocker.Instance.BlockOff();
             }
+        } else {
+            if(PressLogType == LOG_TYPE.WATER || PressLogType == LOG_TYPE.PEE) {
+                if (noneAutoLogId.Count > 0)
+                    modifyingTargetId = noneAutoLogId[0];
+                else if (autoLogId.Count > 0)
+                    modifyingTargetId = autoLogId[0];
+                TimeLineModifyInit(LOG_TYPE.WATER == PressLogType);
+            }
         }
     }
-
-
-
 
     public void InitDrinkModify(int type,int hour) {
         LogBlocker.Instance.BlockOff();

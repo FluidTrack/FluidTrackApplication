@@ -199,7 +199,7 @@ public class LogBlocker : MonoBehaviour
     }
 
     public void BlockOnDetailWater(int index) {
-        BlockOnDetailUp(index, false, false);
+        BlockOnDetailUp(index, false, true);
         RectTransform targetTransform = Up_WaterShield;
         targetTransform.gameObject.SetActive(true);
         targetTransform.anchoredPosition =
@@ -210,11 +210,14 @@ public class LogBlocker : MonoBehaviour
             targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
         );
 
-        DeleteButton.GetComponent<RectTransform>().anchoredPosition = ButtonOffset;
+        DeleteButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x - 87.5f, ButtonOffset.y);
+        ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x + 87.5f, ButtonOffset.y);
     }
 
     public void BlockOnDetailPee(int index) {
-        BlockOnDetailDown(index, false, false);
+        BlockOnDetailDown(index, false, true);
         RectTransform targetTransform = Down_PeeShield;
         targetTransform.gameObject.SetActive(true);
         targetTransform.anchoredPosition =
@@ -225,7 +228,10 @@ public class LogBlocker : MonoBehaviour
             targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
         );
 
-        DeleteButton.GetComponent<RectTransform>().anchoredPosition = ButtonOffset;
+        DeleteButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x - 87.5f, ButtonOffset.y);
+        ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x + 87.5f, ButtonOffset.y);
     }
 
     public void BlockOnDetailPoo(int index) {
