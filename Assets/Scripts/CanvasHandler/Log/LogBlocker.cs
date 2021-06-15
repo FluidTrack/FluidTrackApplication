@@ -53,6 +53,20 @@ public class LogBlocker : MonoBehaviour
         BlockOff();
     }
 
+    public void DisableDetailShield() {
+        Up_WaterShield.gameObject.SetActive(false);
+        Up_DrinkShield.gameObject.SetActive(false);
+        Down_PooShield.gameObject.SetActive(false);
+        Down_PeeShield.gameObject.SetActive(false);
+    }
+
+    public void DisableButtons() {
+        Up_WaterShield.gameObject.SetActive(false);
+        Up_DrinkShield.gameObject.SetActive(false);
+        Down_PooShield.gameObject.SetActive(false);
+        Down_PeeShield.gameObject.SetActive(false);
+    }
+
     public void BlockOn(bool isUp) {
         BlockOn(isUp,true,false);
     }

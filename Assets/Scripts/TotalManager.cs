@@ -43,13 +43,12 @@ public class TotalManager : MonoBehaviour
     }
 
     private void HandleLog(string logString, string stackTrace, LogType type) {
-        if (isDebugMode) {
+
             if( type == (LogType)4 || type == LogType.Error ) {
                 SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
                 ErrorHandler.gameObject.SetActive(true);
                 ErrorHandler.ErrorMsg(logString + "\n\n" + stackTrace);
             }
-        } else {
 #if !UNITY_EDITOR
             if( type == (LogType)4 || type == LogType.Error ) {
                 string str = logString + "\n\n" + stackTrace;
@@ -57,7 +56,6 @@ public class TotalManager : MonoBehaviour
                 StartCoroutine(DataHandler.CreateErrorlogs(error));
             }
 #endif
-        }
     }
 
     public void Awake() {

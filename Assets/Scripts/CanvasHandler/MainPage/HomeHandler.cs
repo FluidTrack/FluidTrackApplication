@@ -406,4 +406,13 @@ public class HomeHandler : MonoBehaviour
         StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
         StartCoroutine(CheckGardenDataLoad());
     }
+
+    public void Redrawmap2() {
+        StartCoroutine(RedrawmapIE());
+    }
+
+    IEnumerator RedrawmapIE() {
+        yield return new WaitForSeconds(0.1f);
+        Redrawmap();
+    }
 }

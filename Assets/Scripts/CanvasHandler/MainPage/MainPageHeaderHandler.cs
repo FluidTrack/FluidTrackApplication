@@ -42,8 +42,7 @@ public class MainPageHeaderHandler : MonoBehaviour
     }
 
     public IEnumerator CheckUserDataLoaded() {
-        while(!DataHandler.User_isDataLoaded)
-            yield return 0;
+            yield return new WaitForSeconds(0.1f);
         StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadDrinkLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));

@@ -53,7 +53,37 @@ public class ModifyPooLogHandler : MonoBehaviour
         isClicked = false;
     }
 
+    public void UpdateLog() {
+        LogCanvasHandler.Instance.WaterButton.GetComponent<Button>().enabled = false;
+        LogCanvasHandler.Instance.PeeButton.GetComponent<Button>().enabled = false;
+        LogCanvasHandler.Instance.PooButton.GetComponent<Button>().enabled = false;
+        LogCanvasHandler.Instance.DrinkButton.GetComponent<Button>().enabled = false;
+        LogCanvasHandler.Instance.WaterButton2.interactable = false;
+        LogCanvasHandler.Instance.PeeButton2.interactable = false;
+        LogCanvasHandler.Instance.PooButton2.interactable = false;
+        LogCanvasHandler.Instance.DrinkButton2.interactable = false;
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
+        LogCanvasHandler.Instance.modifyingTargetId =  Target.log_id;
+        LogCanvasHandler.Instance.isModifyingPoo = true;
+        LogBlocker.Instance.DisableDetailShield();
+        LogCanvasHandler.Instance.TimeLineModifyInit(false);
+        this.gameObject.SetActive(false);
+    }
+
     public void CloseButtonClick() {
+        LogCanvasHandler.Instance.isModifying = false;
+        LogCanvasHandler.Instance.isModifyingWater = false;
+        LogCanvasHandler.Instance.isModifyingDrink = false;
+        LogCanvasHandler.Instance.isModifyingPoo = false;
+        LogCanvasHandler.Instance.isModifyingPee = false;
+        LogCanvasHandler.Instance.WaterButton.GetComponent<Button>().enabled = true;
+        LogCanvasHandler.Instance.PeeButton.GetComponent<Button>().enabled = true;
+        LogCanvasHandler.Instance.PooButton.GetComponent<Button>().enabled = true;
+        LogCanvasHandler.Instance.DrinkButton.GetComponent<Button>().enabled = true;
+        LogCanvasHandler.Instance.WaterButton2.interactable = true;
+        LogCanvasHandler.Instance.PeeButton2.interactable = true;
+        LogCanvasHandler.Instance.PooButton2.interactable = true;
+        LogCanvasHandler.Instance.DrinkButton2.interactable = true;
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
         this.gameObject.SetActive(false);
     }

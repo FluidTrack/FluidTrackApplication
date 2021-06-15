@@ -20,6 +20,23 @@ public class ModifyDrinkLogHandler : MonoBehaviour
         isClicked = true;
     }
 
+    public void UpdateLog() {
+        LogCanvasHandler.Instance.WaterButton.GetComponent<Button>().enabled = false;
+        LogCanvasHandler.Instance.PeeButton.GetComponent<Button>().enabled = false;
+        LogCanvasHandler.Instance.PooButton.GetComponent<Button>().enabled = false;
+        LogCanvasHandler.Instance.DrinkButton.GetComponent<Button>().enabled = false;
+        LogCanvasHandler.Instance.WaterButton2.interactable = false;
+        LogCanvasHandler.Instance.PeeButton2.interactable = false;
+        LogCanvasHandler.Instance.PooButton2.interactable = false;
+        LogCanvasHandler.Instance.DrinkButton2.interactable = false;
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
+        LogCanvasHandler.Instance.modifyingTargetId = Target.log_id;
+        LogCanvasHandler.Instance.isModifyingDrink = true;
+        LogBlocker.Instance.DisableDetailShield();
+        LogCanvasHandler.Instance.TimeLineModifyInit(true);
+        this.gameObject.SetActive(false);
+    }
+
     public void OnEnable() {
         OkayButton.interactable = false;
         if(Target != null) {
