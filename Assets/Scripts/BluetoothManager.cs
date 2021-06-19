@@ -285,7 +285,12 @@ public class BluetoothManager : MonoBehaviour {
         SendBytes(data);
     }
 
-    public void SetRedLED() {
+	public void SetCurrentTimeZone() {
+		var data = ProtocolHandler.SetTimerToCurrent();
+		SendBytes(data);
+	}
+
+	public void SetRedLED() {
         var data = ProtocolHandler.GetRedLEDOn();
         SendBytes(data);
     }
@@ -309,8 +314,8 @@ public class BluetoothManager : MonoBehaviour {
         yield return new WaitForSeconds(3f);
         if (TotalManager.instance.isRegisterMode)
             Welcome5Handler.Instance.RegisterUI.SetActive(true);
-        ProtocolHandler.SetTimerToCurrent();
-        QueryHistory();
+		SetCurrentTimeZone();
+		QueryHistory();
 		isConnected = true;
 		StartCoroutine(ConnectionCheck());
 		//QueryBattery();
