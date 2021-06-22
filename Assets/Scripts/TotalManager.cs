@@ -134,10 +134,12 @@ public class TotalManager : MonoBehaviour
             DataHandler.lastJoin = TimeHandler.CurrentTime;
         }
 
-        #if !UNITY_EDITOR
-            StartCoroutine(BLE_Check());
-        #endif
+#if !UNITY_EDITOR
+            BLECheckCoroutine = StartCoroutine(BLE_Check());
+#endif
     }
+
+    public Coroutine BLECheckCoroutine;
 
     public void font_change(FONT_FAMILY ff,CANVAS can) {
         foreach (GameObject go in OtherCanvas)
@@ -188,13 +190,13 @@ public class TotalManager : MonoBehaviour
         }
     }
 
-    IEnumerator BLE_Check() {
+    internal IEnumerator BLE_Check() {
         while (!OtherCanvas[(int)CANVAS.HOME].activeSelf)
             yield return 0;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
-        while(true) {
-            if(BluetoothManager.GetInstance().isConnected == false) {
+        while (true) {
+            if (BluetoothManager.GetInstance().isConnected == false) {
                 if (DataHandler.User_moa_band_name != "") {
                     instance.targetName = DataHandler.User_moa_band_name;
                     BluetoothManager.GetInstance().OnConnectStart
@@ -203,9 +205,9 @@ public class TotalManager : MonoBehaviour
                                                              "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
                 }
                 //while(!BluetoothManager.GetInstance().isConnected)
-                    yield return new WaitForSeconds(10f);
+                yield return new WaitForSeconds(10f);
             }
-            yield return 0;
+            yield return new WaitForSeconds(2f);
         }
     }
 

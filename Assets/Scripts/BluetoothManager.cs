@@ -33,6 +33,7 @@ public class BluetoothManager : MonoBehaviour {
 	internal States _state = States.None;
 	internal bool _foundID = false;
 	internal bool isConnected = false;
+	internal bool isReconnectEnable = false;
 
 	void Reset() {
 		_workingFoundDevice = false;    // used to guard against trying to connect to a second device while still connecting to the first
@@ -58,10 +59,10 @@ public class BluetoothManager : MonoBehaviour {
 		}, (error) => {
 			//AlertHandler.GetInstance().Pop_Error("BT Init실패");
 			BluetoothLEHardwareInterface.Log("Error: " + error);
+			//Debug.LogError("BT Init실패\n" + error);
             if(Welcome5Handler.GetInstance() != null &&
                 Welcome5Handler.GetInstance().gameObject.activeSelf)
 			    Welcome5Handler.GetInstance().BlindControl(false);
-			isConnected = false;
 		});
 	}
 
@@ -133,7 +134,7 @@ public class BluetoothManager : MonoBehaviour {
 
 								_connected = true;
                                 StartCoroutine(ConnectAndQuery());
-                                SetState(States.Subscribe, 2f);
+                                SetState(States.Subscribe, 1f);
 								TotalManager.instance.BlindControl(true);
                                 if (Welcome5Handler.GetInstance() != null &&
                                     Welcome5Handler.GetInstance().gameObject.activeSelf)
@@ -147,6 +148,7 @@ public class BluetoothManager : MonoBehaviour {
                         TotalManager.instance.BlindControl(false);
 						BluetoothLEHardwareInterface.Log("Device disconnected: " + disconnectedAddress);
 						isConnected = false;
+						isReconnectEnable = true;
 						//AlertHandler.GetInstance().Pop_Discon(DeviceName);
 					});
 					break;
@@ -189,7 +191,6 @@ public class BluetoothManager : MonoBehaviour {
 					case States.Unsubscribe:
 					BluetoothLEHardwareInterface.UnSubscribeCharacteristic(MacAddress, ServiceUUID, ReceiveUUID, null);
 					SetState(States.Disconnect, 4f);
-					isConnected = false;
 					break;
 
 					case States.Disconnect:
@@ -198,7 +199,7 @@ public class BluetoothManager : MonoBehaviour {
 							BluetoothLEHardwareInterface.DeInitialize(() => {
 								TotalManager.instance.Disconnect();
 								_connected = false;
-                                SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DISCONNECT);
+								SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DISCONNECT);
                                 _state = States.None;
 							});
 						});
@@ -210,6 +211,7 @@ public class BluetoothManager : MonoBehaviour {
 						});
 					}
 					isConnected = false;
+					isReconnectEnable = true;
 					break;
 				}
 			}
@@ -317,8 +319,8 @@ public class BluetoothManager : MonoBehaviour {
 		SetCurrentTimeZone();
 		QueryHistory();
 		isConnected = true;
+		isReconnectEnable = true;
 		StartCoroutine(ConnectionCheck());
-		//QueryBattery();
 		if (MoabandStatusHandler.Instance != null && MoabandStatusHandler.Instance.gameObject.activeSelf)
             MoabandStatusHandler.Instance.ConnectTimeRefresh();
     }
@@ -326,6 +328,7 @@ public class BluetoothManager : MonoBehaviour {
 	public bool ConnectFlag = false;
 	int testCount = 0;
 	IEnumerator ConnectionCheck() {
+		yield return new WaitForSeconds(4f);
 		while (true) {
 			ConnectFlag = false;
 			QueryBattery();

@@ -28,24 +28,24 @@ public class Welcome2_1Handler : MonoBehaviour {
     private TimeHandler.DateTimeStamp currentTime;
     private TimeHandler.DateTimeStamp todayTime;
 
-    public void Start() {
-        if (DataHandler.User_name == null)
-            StartCoroutine(SetLabel());
-        else {
-            string labelText = DataHandler.User_name.Remove(0, 1);
-            if (KoreanUnderChecker.UnderCheck(labelText))
-                labelText += "이는...";
-            else labelText += "는...";
-            subtext.text = labelText;
-        }
+    //public void Start() {
+    //    if (DataHandler.User_name == null)
+    //        StartCoroutine(SetLabel());
+    //    else {
+    //        string labelText = DataHandler.User_name.Remove(0, 1);
+    //        if (KoreanUnderChecker.UnderCheck(labelText))
+    //            labelText += "이는...";
+    //        else labelText += "는...";
+    //        subtext.text = labelText;
+    //    }
 
-        TimeHandler.GetCurrentTime();
-        currentTime = TimeHandler.CurrentTime;
-        todayTime = new TimeHandler.DateTimeStamp(TimeHandler.CurrentTime);
-        SetBirthDay();
-        for (int i = 0; i < 5; i++)
-            YearsMinusButtonClick();
-    }
+    //    TimeHandler.GetCurrentTime();
+    //    currentTime = TimeHandler.CurrentTime;
+    //    todayTime = new TimeHandler.DateTimeStamp(TimeHandler.CurrentTime);
+    //    SetBirthDay();
+    //    for (int i = 0; i < 5; i++)
+    //        YearsMinusButtonClick();
+    //}
 
     public void SetBirthDay() {
         if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(currentTime, todayTime) == 1) {
@@ -79,6 +79,25 @@ public class Welcome2_1Handler : MonoBehaviour {
 
         if (currentTime.Days <= 0) DaysMinusButton.interactable = false;
         else DaysMinusButton.interactable = true;
+    }
+
+    public void OnEnable() {
+        if (DataHandler.User_name == null)
+            StartCoroutine(SetLabel());
+        else {
+            string labelText = DataHandler.User_name.Remove(0, 1);
+            if (KoreanUnderChecker.UnderCheck(labelText))
+                labelText += "이는...";
+            else labelText += "는...";
+            subtext.text = labelText;
+        }
+
+        TimeHandler.GetCurrentTime();
+        currentTime = TimeHandler.CurrentTime;
+        todayTime = new TimeHandler.DateTimeStamp(TimeHandler.CurrentTime);
+        SetBirthDay();
+        for (int i = 0; i < 5; i++)
+            YearsMinusButtonClick();
     }
 
     IEnumerator SetLabel() {

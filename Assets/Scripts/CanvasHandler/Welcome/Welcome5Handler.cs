@@ -77,7 +77,7 @@ public class Welcome5Handler : MonoBehaviour
             colorBlock.highlightedColor = BlueColor;
             colorBlock.pressedColor = BlueColor2;
             colorBlock.selectedColor = BlueColor;
-            ScanButtonText.text = "모아밴드 시작";
+            ScanButtonText.text = "모아밴드 스캔";
             RectTransform view = ScrollView.gameObject.GetComponent<RectTransform>();
             BluetoothLEHardwareInterface.StopScan();
         }

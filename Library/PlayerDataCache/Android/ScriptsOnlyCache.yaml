@@ -16,6 +16,8 @@ ScriptsOnlyBuild:
     - DataHandler
     - DeviceBatteryIconHandler
     - DeviceListHandler
+    - DeviceLog2
+    - Disconnecting
     - DraggablePeeIcon
     - DraggablePooIcon
     - DraggableWaterIcon
@@ -45,6 +47,7 @@ ScriptsOnlyBuild:
     - MainPageMongMongHandler
     - MissionCanvasHandler
     - MissionPageMongMongHandler
+    - MoabandReconnection
     - MoabandStatusHandler
     - ModifyDrinkLogHandler
     - ModifyPooLogHandler
@@ -89,8 +92,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -308,6 +313,12 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14880}
     - Class: 114
       Script: {instanceID: 14896}
+    - Class: 114
+      Script: {instanceID: 125258}
+    - Class: 114
+      Script: {instanceID: 436274}
+    - Class: 114
+      Script: {instanceID: 3030014}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -691,7 +702,7 @@ ScriptsOnlyBuild:
     className: SignalAsset
   - hash:
       serializedVersion: 2
-      Hash: 5615fd092781434c3a46e03593ac096d
+      Hash: f60b4491216b7a39d24820bd6c8b738a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SettingWindowHandler
@@ -2117,7 +2128,31 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 2f1139fc17591a08304efeab00e8720b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MoabandReconnection
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GeneralScanningUI
+  - hash:
+      serializedVersion: 2
+      Hash: e6d8f7beb9c91568e11cebd802a64059
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DeviceLog2
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Disconnecting
   platform: 13
   scenePathNames:
   - Assets/Scenes/MainScene.unity
-  playerPath: C:/Users/movie/Desktop/test.apk
+  playerPath: C:/Users/movie/Desktop/moa_garden_1.0.2.apk

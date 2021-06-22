@@ -13,6 +13,10 @@ public class SettingWindowHandler : MonoBehaviour
     public CheckBoxButton musicEnable;
     public CheckBoxButton sfxEnable;
     public Text MoabandStatusText;
+    public GameObject Reconnect;
+    public GameObject Shutdown;
+
+    private bool isConnected = false;
 
     public void Awake() {
         Instance = this;
@@ -47,6 +51,28 @@ public class SettingWindowHandler : MonoBehaviour
     public void ToggleSFXEnable() {
         SoundHandler.Instance.SFXSource.enabled = !SoundHandler.Instance.SFXSource.enabled;
         SoundHandler.Instance.SFXSource2.enabled = !SoundHandler.Instance.SFXSource2.enabled;
+    }
+
+    public void ReconnectButton() {
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
+            //if (!BluetoothManager.GetInstance().isReconnectEnable) return;
+        if(TotalManager.instance.BLECheckCoroutine!=null)
+            StopCoroutine(TotalManager.instance.BLECheckCoroutine);
+        TotalManager.instance.BLECheckCoroutine = null;
+        BluetoothManager.GetInstance().isReconnectEnable = false;
+        //BluetoothManager.GetInstance().SetState(BluetoothManager.States.Disconnect, 0f);
+        Shutdown.SetActive(true);
+
+        StartCoroutine(ReconnectButtonLoop());
+    }
+
+    IEnumerator ReconnectButtonLoop() {
+        yield return new WaitForSeconds(3f);
+        Reconnect.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        if (TotalManager.instance.BLECheckCoroutine == null)
+            TotalManager.instance.BLECheckCoroutine =
+                StartCoroutine(TotalManager.instance.BLE_Check());
     }
 
     private void OnDisable() {

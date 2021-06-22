@@ -109,7 +109,9 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\AddPooLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\CheckBoxButton.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ConnectingWindowHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\Disconnecting.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\DrinkSelectIcon.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\GeneralScanningUI.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ModifyDrinkLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ModifyPooLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\PooSelectIcon.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome4Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome5Handler.cs" />
     <Compile Include="Assets\Scripts\DataHandler.cs" />
+    <Compile Include="Assets\Scripts\DeviceLog2.cs" />
     <Compile Include="Assets\Scripts\DraggablePeeIcon.cs" />
     <Compile Include="Assets\Scripts\DraggablePooIcon.cs" />
     <Compile Include="Assets\Scripts\DraggableWaterIcon.cs" />
@@ -138,6 +141,7 @@
     <Compile Include="Assets\Scripts\KDH_Script\InputFieldHandler.cs" />
     <Compile Include="Assets\Scripts\KDH_Script\PeeLogHandler2.cs" />
     <Compile Include="Assets\Scripts\KoreanUnderChecker.cs" />
+    <Compile Include="Assets\Scripts\MoabandReconnection.cs" />
     <Compile Include="Assets\Scripts\PlayOneShotAnimation.cs" />
     <Compile Include="Assets\Scripts\PopUpHandler\PopUpHandler.cs" />
     <Compile Include="Assets\Scripts\ProtocolHandler.cs" />
