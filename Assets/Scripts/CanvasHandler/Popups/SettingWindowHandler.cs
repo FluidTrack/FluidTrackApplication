@@ -15,6 +15,7 @@ public class SettingWindowHandler : MonoBehaviour
     public Text MoabandStatusText;
     public GameObject Reconnect;
     public GameObject Shutdown;
+    public Button ReconnectButtons;
 
     private bool isConnected = false;
 
@@ -29,6 +30,8 @@ public class SettingWindowHandler : MonoBehaviour
         musicEnable.ChangeStatus(SoundHandler.Instance.MusicSource.enabled);
         sfxEnable.ChangeStatus(SoundHandler.Instance.SFXSource.enabled);
         MoabandStatusText.text = MoabandStatusHandler.Instance.statusText.text;
+        if (DataHandler.User_moa_band_name == "" || DataHandler.User_moa_band_name == null)
+            ReconnectButtons.interactable = false;
     }
 
     public void ChangeMusicVolume() {
@@ -55,24 +58,40 @@ public class SettingWindowHandler : MonoBehaviour
 
     public void ReconnectButton() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
-            //if (!BluetoothManager.GetInstance().isReconnectEnable) return;
+        try {
+            BluetoothLEHardwareInterface.StopScan();
+        } catch (System.Exception e) { e.ToString(); }
+
+        if (!BluetoothManager.GetInstance().isReconnectEnable) return;
         if(TotalManager.instance.BLECheckCoroutine!=null)
             StopCoroutine(TotalManager.instance.BLECheckCoroutine);
         TotalManager.instance.BLECheckCoroutine = null;
+        isConnected = BluetoothManager.GetInstance().isConnected;
         BluetoothManager.GetInstance().isReconnectEnable = false;
-        //BluetoothManager.GetInstance().SetState(BluetoothManager.States.Disconnect, 0f);
-        Shutdown.SetActive(true);
+        BluetoothManager.GetInstance().AutoConnect = false;
+        try {
+            BluetoothLEHardwareInterface.StopScan();
+        } catch (System.Exception e) { e.ToString(); }
+
+        if (isConnected) {
+            Shutdown.SetActive(true);
+            try {
+                BluetoothManager.GetInstance().SetState(BluetoothManager.States.Disconnect, 0.1f);
+                try {
+                    BluetoothLEHardwareInterface.DisconnectAll();
+                } catch (System.Exception e) { e.ToString(); }
+            } catch(System.Exception e) { Debug.LogError(e.ToString()); }
+        }
 
         StartCoroutine(ReconnectButtonLoop());
     }
 
     IEnumerator ReconnectButtonLoop() {
-        yield return new WaitForSeconds(3f);
+        if(isConnected) {
+            yield return new WaitForSeconds(3f);
+        }
         Reconnect.SetActive(true);
-        yield return new WaitForSeconds(5f);
-        if (TotalManager.instance.BLECheckCoroutine == null)
-            TotalManager.instance.BLECheckCoroutine =
-                StartCoroutine(TotalManager.instance.BLE_Check());
+        yield return 0;
     }
 
     private void OnDisable() {

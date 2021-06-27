@@ -11,7 +11,7 @@ public class RegisterBandHandler : MonoBehaviour
     public Color ActiveColor_Icon;
     public Color InactiveColor_Circle;
     public Color InactiveColor_Icon;
-
+    public Button CancelButton;
     public Image WaterCircle;
     public Image PeeCircle;
     public Image PooCircle;
@@ -27,6 +27,7 @@ public class RegisterBandHandler : MonoBehaviour
 
     public void Awake() {
         Instance = this;
+        CancelButton.interactable = true;
         WaterCircle.color = InactiveColor_Circle;
         PeeCircle.color = InactiveColor_Circle;
         PooCircle.color = InactiveColor_Circle;
@@ -73,8 +74,12 @@ public class RegisterBandHandler : MonoBehaviour
         PeeButtonClicked = false;
         PooButtonClicked = false;
         TotalManager.instance.targetName = "";
-        BluetoothManager.GetInstance()
-                .SetState(BluetoothManager.States.Disconnect, 0.1f);
+        try {
+            BluetoothLEHardwareInterface.DisconnectAll();
+            BluetoothManager.GetInstance()
+                    .SetState(BluetoothManager.States.Disconnect, 0.1f);
+        }catch (System.Exception e) { e.ToString(); }
+
         Invoke("TurnOff", 0.15f);
     }
 
@@ -82,13 +87,32 @@ public class RegisterBandHandler : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    private string temp = "";
     public IEnumerator ButtonClickCheck() {
         if(WaterButtonClicked && PeeButtonClicked && PooButtonClicked &&
             TotalManager.instance.targetName != "") {
+            CancelButton.interactable = false;
+            temp = TotalManager.instance.targetName;
             TotalManager.instance.isRegisterMode = false;
+            TotalManager.instance.targetName = "";
+            //try {
+            //    BluetoothLEHardwareInterface.DisconnectAll();
+            //    BluetoothManager.GetInstance()
+            //            .SetState(BluetoothManager.States.Disconnect, 0.1f);
+            //} catch (System.Exception e) { e.ToString(); }
+            TotalManager.instance.isDebugMode = false;
+            if (TotalManager.instance.BLECheckCoroutine != null) {
+                try { 
+                    StopCoroutine(TotalManager.instance.BLECheckCoroutine);
+                } catch(System.Exception e) { e.ToString(); }
+                try {
+                    TotalManager.instance.BLECheckCoroutine = null;
+                } catch (System.Exception e) { e.ToString(); }
+            }
             yield return new WaitForSeconds(1f);
             SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA1);
             FinalWindow.SetActive(true);
+
         }
         yield return 0;
     }
@@ -102,7 +126,7 @@ public class RegisterBandHandler : MonoBehaviour
         DataHandler.User_font_size = 40;
         DataHandler.User_creation_date = TimeHandler.GetCurrentTime();
         DataHandler.User_periode = 4;
-        DataHandler.User_moa_band_name = TotalManager.instance.targetName;
+        DataHandler.User_moa_band_name = temp;
         StartCoroutine(DataHandler.CreateUsers());
         StartCoroutine(FinalCheck());
     }

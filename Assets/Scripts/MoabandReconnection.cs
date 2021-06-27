@@ -13,17 +13,17 @@ public class MoabandReconnection : MonoBehaviour
     public RectTransform ScrollView;
     public ScrollRect Scroll;
     public Button CancelButton;
+    public GameObject ConnectError;
     public bool isScanning = false;
 
     public void OnEnable() {
         DeviceList = new List<GameObject>();
         CancelButton.interactable = true;
-        //if(DataHandler.User_moa_band_name == null) {
-        //    StartCoroutine(readUsers());
-        //} else {
-        //    ScanBand();
-        //}
-        ScanBand();
+        if (DataHandler.User_moa_band_name == null) {
+            StartCoroutine(readUsers());
+        } else {
+            ScanBand();
+        }
     }
 
     IEnumerator readUsers() {
@@ -47,6 +47,7 @@ public class MoabandReconnection : MonoBehaviour
     }
 
     Coroutine checkName = null;
+    Coroutine checkList = null;
     bool isFindDevice = false;
     private BluetoothManager BT;
     private string address_;
@@ -54,8 +55,11 @@ public class MoabandReconnection : MonoBehaviour
     IEnumerator checkingName() {
         while(true) {
             if(isFindDevice) {
-                yield return new WaitForSeconds(1f);
-                BluetoothLEHardwareInterface.StopScan();
+                yield return new WaitForSeconds(0.5f);
+                try {
+                    BluetoothLEHardwareInterface.StopScan();
+                } catch (System.Exception e) { e.ToString(); }
+
                 isFindDevice = false;
                 CancelButton.interactable = false;
                 TotalManager.instance.targetName = DataHandler.User_moa_band_name;
@@ -64,7 +68,10 @@ public class MoabandReconnection : MonoBehaviour
                     "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
                     "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
                     "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
-                yield return new WaitForSeconds(3f);
+
+                StartCoroutine(checkingConnect());
+                while(!BluetoothManager.GetInstance().isConnected)
+                    yield return 0;
                 CancelButtonClick();
                 break;
             } 
@@ -73,9 +80,59 @@ public class MoabandReconnection : MonoBehaviour
         yield return 0;
     }
 
+    IEnumerator checkingConnect() {
+        yield return new WaitForSeconds(10f);
+        if(!BluetoothManager.GetInstance().isConnected) {
+            ConnectError.SetActive(true);
+            BluetoothManager.GetInstance().isReconnectEnable = true;
+            CancelButtonClick();
+        }
+    }
+
+    IEnumerator checkingList() {
+        yield return new WaitForSeconds(1.5f);
+        if(DeviceList.Count == 0) {
+            try {
+                BluetoothLEHardwareInterface.StopScan();
+            } catch (System.Exception e) { e.ToString(); }
+            isScanning = true;
+            yield return new WaitForSeconds(0.2f);
+            StartCoroutine(checkingList());
+            BluetoothLEHardwareInterface.Initialize(true, false, () => {
+                BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) => {
+                    if (name.Contains("Touch")) {
+                        DeviceList.Add(Instantiate(WatchPrefab, ScrollView));
+                        DeviceList[DeviceList.Count - 1].GetComponent<DeviceLog2>()
+                            .Init(DeviceList.Count - 1, name, address, true);
+                        if (name == DataHandler.User_moa_band_name) {
+                            address_ = address;
+                            isFindDevice = true;
+                        }
+                    } else {
+                        DeviceList.Add(Instantiate(NormalPrefab, ScrollView));
+                        DeviceList[DeviceList.Count - 1].GetComponent<DeviceLog2>()
+                            .Init(DeviceList.Count - 1, name, address, false);
+                    }
+                    ScrollView.sizeDelta = new Vector2(377.22f, 80f * DeviceList.Count);
+                    Scroll.verticalNormalizedPosition = 0f;
+                }, null);
+            }, (error) => {
+                Debug.LogError("BLE Error : " + error);
+                BluetoothLEHardwareInterface.Log("BLE Error: " + error);
+            });
+        }
+        yield return 0;
+    }
+
+
     public void ScanBand() {
+        try {
+            BluetoothLEHardwareInterface.StopScan();
+        } catch (System.Exception e) { e.ToString(); }
+
         isScanning = true;
-        //checkName = StartCoroutine(checkingName());
+        checkName = StartCoroutine(checkingName());
+        StartCoroutine(checkingList());
         BluetoothLEHardwareInterface.Initialize(true, false, () => {
             BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) => {
                 if (name.Contains("Touch")) {
@@ -103,7 +160,9 @@ public class MoabandReconnection : MonoBehaviour
     public void CancelButtonClick() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
         if (isScanning) {
-            BluetoothLEHardwareInterface.StopScan();
+            try {
+                BluetoothLEHardwareInterface.StopScan();
+            } catch (System.Exception e) { e.ToString(); }
             isFindDevice = false;
         }
         try {
@@ -114,9 +173,13 @@ public class MoabandReconnection : MonoBehaviour
         } catch (System.Exception e) {
             e.ToString();
         }
-
-        if(checkName != null)
+        if (checkName != null)
             StopCoroutine(checkName);
+        BluetoothManager.GetInstance().AutoConnect = true;
+        if(TotalManager.instance.BLECheckCoroutine == null) {
+            TotalManager.instance.BLECheckCoroutine
+                = StartCoroutine(TotalManager.instance.BLE_Check());
+        }
         Parents.gameObject.SetActive(false);
     }
 

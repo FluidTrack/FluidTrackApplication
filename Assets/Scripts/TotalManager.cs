@@ -43,7 +43,7 @@ public class TotalManager : MonoBehaviour
     }
 
     private void HandleLog(string logString, string stackTrace, LogType type) {
-
+        if (logString.StartsWith("AndroidJavaException") || logString.StartsWith("Coroutine continue failure")) return;
             if( type == (LogType)4 || type == LogType.Error ) {
                 SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
                 ErrorHandler.gameObject.SetActive(true);
@@ -134,9 +134,7 @@ public class TotalManager : MonoBehaviour
             DataHandler.lastJoin = TimeHandler.CurrentTime;
         }
 
-#if !UNITY_EDITOR
-            BLECheckCoroutine = StartCoroutine(BLE_Check());
-#endif
+        BLECheckCoroutine = StartCoroutine(BLE_Check());
     }
 
     public Coroutine BLECheckCoroutine;
@@ -190,26 +188,153 @@ public class TotalManager : MonoBehaviour
         }
     }
 
+    //internal IEnumerator BLE_Check() {
+    //    while (!OtherCanvas[(int)CANVAS.HOME].activeSelf)
+    //        yield return 0;
+    //    yield return new WaitForSeconds(0.2f);
+
+    //    while (true) {
+    //        if (BluetoothManager.GetInstance().isConnected == false) {
+    //            if (DataHandler.User_moa_band_name != "") {
+    //                instance.targetName = DataHandler.User_moa_band_name;
+    //                BluetoothManager.GetInstance().OnConnectStart
+    //                    (DataHandler.User_moa_band_name, "", "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
+    //                                                         "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
+    //                                                         "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
+    //            }
+    //            //while(!BluetoothManager.GetInstance().isConnected)
+    //            yield return new WaitForSeconds(10f);
+    //        }
+    //        yield return new WaitForSeconds(2f);
+    //    }
+    //}
+
+    internal void ResetCoroutine() {
+        try {
+            BluetoothLEHardwareInterface.BluetoothEnable(true);
+        } catch(System.Exception e) { e.ToString(); }
+
+        try {
+            if (BLECheckCoroutine != null)
+                StopCoroutine(BLECheckCoroutine);
+        } catch(System.Exception e) { e.ToString(); }
+        isReset = true;
+        BLECheckCoroutine = StartCoroutine(BLE_Check2());
+    }
+    private bool isReset = false;
+    private bool isFind = false;
+
     internal IEnumerator BLE_Check() {
         while (!OtherCanvas[(int)CANVAS.HOME].activeSelf)
             yield return 0;
         yield return new WaitForSeconds(0.2f);
 
-        while (true) {
-            if (BluetoothManager.GetInstance().isConnected == false) {
-                if (DataHandler.User_moa_band_name != "") {
-                    instance.targetName = DataHandler.User_moa_band_name;
-                    BluetoothManager.GetInstance().OnConnectStart
-                        (DataHandler.User_moa_band_name, "", "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
-                                                             "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
-                                                             "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
-                }
-                //while(!BluetoothManager.GetInstance().isConnected)
-                yield return new WaitForSeconds(10f);
-            }
+        if (isReset) {
             yield return new WaitForSeconds(2f);
+            isReset = false;
         }
+        bool flag = true;
+        try {
+            BluetoothLEHardwareInterface.StopScan();
+        } catch(System.Exception e) { e.ToString(); }
+            yield return new WaitForSeconds(0.5f);
+
+        while (DataHandler.User_moa_band_name == null)
+            yield return 0;
+        isFind = false;
+        BluetoothLEHardwareInterface.Initialize(true, false, () => {
+            BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) => {
+                if (name.Contains("Touch") && name == DataHandler.User_moa_band_name) {
+                    Connection(name, address);
+                    isFind = true;
+                }
+            }, null);
+        }, (error) => {
+            //BLECheckCoroutine = StartCoroutine(BLE_Check());
+            flag = false;
+        });
+
+        StartCoroutine(checkingList());
+        while (flag) yield return 0;
+        yield return new WaitForSeconds(3f);
     }
+
+    internal IEnumerator BLE_Check2() {
+        yield return new WaitForSeconds(1f);
+        isReset = false;
+        bool flag = true;
+        try {
+            BluetoothLEHardwareInterface.StopScan();
+        } catch (System.Exception e) { e.ToString(); }
+        yield return new WaitForSeconds(0.5f);
+        isFind = false;
+        BluetoothLEHardwareInterface.Initialize(true, false, () => {
+            BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) => {
+                if (name.Contains("Touch") && name == DataHandler.User_moa_band_name) {
+                    Connection(name, address);
+                    isFind = true;
+                }
+            }, null);
+        }, (error) => {
+            //BLECheckCoroutine = StartCoroutine(BLE_Check());
+            flag = false;
+        });
+
+        StartCoroutine(checkingList());
+        while (flag) yield return 0;
+        yield return new WaitForSeconds(3f);
+    }
+
+
+
+    private int count = 0;
+    public IEnumerator checkingList() {
+        if(BLECheckCoroutine != null) {
+            yield return new WaitForSeconds(5f);
+
+            if (( ConnectingWindowHandler.Instance == null ||
+                 !ConnectingWindowHandler.Instance.gameObject.activeSelf ) && isFind == false) {
+                try {
+                    BluetoothLEHardwareInterface.StopScan();
+                } catch (System.Exception e) { e.ToString(); }
+
+                yield return new WaitForSeconds(0.5f);
+
+                BluetoothLEHardwareInterface.Initialize(true, false, () => {
+                    BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) => {
+                        if (name.Contains("Touch") && name == DataHandler.User_moa_band_name) {
+                            Connection(name, address);
+                            isFind = true;
+                        }
+                    }, null);
+                }, (error) => {
+                    Debug.LogError("BLE Error : " + error);
+                    BluetoothLEHardwareInterface.Log("BLE Error: " + error);
+                });
+                StartCoroutine(checkingList());
+            }
+        }
+        yield return 0;
+    }
+
+
+    public void Connection(string bandName,string address) {
+        StopCoroutine(BLECheckCoroutine);
+        BLECheckCoroutine = null;
+        try {
+            BluetoothLEHardwareInterface.StopScan();
+        } catch(System.Exception e) { e.ToString(); }
+        TotalManager.instance.targetName = DataHandler.User_moa_band_name;
+        BluetoothManager BT = GameObject.Find("[SYSTEM] Total Manager").GetComponent<BluetoothManager>();
+        BT.OnConnectStart(bandName, address,
+            "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
+            "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
+            "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
+    }
+
+
+
+
 
     public void Connect() {
 

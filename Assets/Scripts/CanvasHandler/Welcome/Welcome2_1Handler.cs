@@ -85,7 +85,7 @@ public class Welcome2_1Handler : MonoBehaviour {
         if (DataHandler.User_name == null)
             StartCoroutine(SetLabel());
         else {
-            string labelText = DataHandler.User_name.Remove(0, 1);
+            string labelText = DataHandler.User_name_back;
             if (KoreanUnderChecker.UnderCheck(labelText))
                 labelText += "이는...";
             else labelText += "는...";

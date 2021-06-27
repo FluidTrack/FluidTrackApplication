@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class ConnectingWindowHandler : MonoBehaviour
 {
+    static public ConnectingWindowHandler Instance;
+
     public void PlaySFX() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.SMALL_PING);
     }
 
     public void OnEnable() {
         StartCoroutine(AutoDelete());
+        Instance = this;
     }
 
     public IEnumerator AutoDelete() {
