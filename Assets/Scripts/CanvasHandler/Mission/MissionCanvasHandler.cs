@@ -187,7 +187,7 @@ public class MissionCanvasHandler : MonoBehaviour
         foreach(DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
             try {
                 int index = dateList[log.timestamp.Split(' ')[0]];
-                flowers[index] = log.flower;
+                flowers[index] = log.log_water;
             } catch(System.Exception e) { e.ToString(); }
         }
 

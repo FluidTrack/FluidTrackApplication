@@ -64,6 +64,7 @@ public class MainPageMongMongHandler : MonoBehaviour
     }
 
     private int rand = 0;
+    private bool isStep1MongMongShow = false;
 
     IEnumerator MongMongStep1() {
         yield return new WaitForSeconds(0.2f);
@@ -79,7 +80,7 @@ public class MainPageMongMongHandler : MonoBehaviour
         if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(DataHandler.User_creation_date),
             TimeHandler.CurrentTime) == 0) {
             StartCoroutine(MongMongStep4());
-        } else if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.CurrentTime, DataHandler.lastJoin+1) == 0) {
+        } else if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(TimeHandler.CurrentTime, DataHandler.lastJoin+1) == 0 || isStep1MongMongShow) {
             StartCoroutine(MongMongStep2());
         } else {
             // 몽몽이 버전 1
@@ -90,6 +91,7 @@ public class MainPageMongMongHandler : MonoBehaviour
             SoundHandler.Instance.MongMongSource.PlayOneShot(GloomyVoice[rand]);
             float spendTime = GloomyVoice[rand].length;
             yield return new WaitForSeconds(spendTime + 1f);
+            isStep1MongMongShow = true;
             StartCoroutine(MongMongStep2());
         }
 

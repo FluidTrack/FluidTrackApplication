@@ -30,11 +30,31 @@ public class LogBlocker : MonoBehaviour
     private bool isPressLog = false;
 
     public void OnSideClick() {
-        if(isPressLog) {
+        if (isPressLog) {
             SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
             isPressLog = false;
-            BlockOff();
+        } else if (log.WaterButtonClicked || log.DrinkButtonClicked ||
+                   log.PooButtonClicked || log.PeeButtonClicked) {
+            log.WaterButton.GetComponent<Button>().enabled = true;
+            log.DrinkButton.GetComponent<Button>().enabled = true;
+            log.PeeButton.GetComponent<Button>().enabled = true;
+            log.PooButton.GetComponent<Button>().enabled = true;
+
+            log.WaterButton2.interactable = true;
+            log.DrinkButton2.interactable = true;
+            log.PeeButton2.interactable = true;
+            log.PooButton2.interactable = true;
+
+            log.WaterButtonClicked = false;
+            log.DrinkButtonClicked = false;
+            log.PooButtonClicked = false;
+            log.PeeButtonClicked = false;
+
+            log.UpShield.SetActive(false);
+            log.DownShield.SetActive(false);
+
         }
+        BlockOff();
     }
 
     public void Awake() {

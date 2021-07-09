@@ -103,7 +103,7 @@ public class FlowerPageHandler : MonoBehaviour
 
         SpotHandler.InitSpot(TargetGardenLog);
         int rawWaterIcon = TargetGardenLog.log_water >= 10 ? 10 : TargetGardenLog.log_water;
-        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower > 10 ) ? 10 - TargetGardenLog.flower : TargetGardenLog.log_water;
+        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower >= 10 ) ? 10 - TargetGardenLog.flower : rawWaterIcon;
         int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
         int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
@@ -226,7 +226,7 @@ public class FlowerPageHandler : MonoBehaviour
 
         WaterIcons.Clear();
         int rawWaterIcon = TargetGardenLog.log_water >= 10 ? 10 : TargetGardenLog.log_water;
-        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower > 10 ) ? 10 - TargetGardenLog.flower : TargetGardenLog.log_water;
+        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower >= 10 ) ? 10 - TargetGardenLog.flower : rawWaterIcon;
         int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
         int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;

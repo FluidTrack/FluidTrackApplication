@@ -22,6 +22,8 @@ public class AddDrinkLogHandler : MonoBehaviour
     public void OnEnable() {
         LogCanvasHandler.Instance.DrinkWindow_ScrollAutoAdjust = true;
         OkayButton.interactable = false;
+        isClicked = false;
+        isChanged = false;
     }
 
     public void OnDisable() {

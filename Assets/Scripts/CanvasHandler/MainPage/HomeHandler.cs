@@ -184,6 +184,10 @@ public class HomeHandler : MonoBehaviour
         ReadUserID();
     }
 
+    public void OnApplicationPause(bool pause) {
+        Debug.Log("Error : " + pause.ToString());
+    }
+
     private bool isRead = false;
 
     public void ReadUserID() {

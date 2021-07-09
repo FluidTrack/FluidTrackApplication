@@ -131,6 +131,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome4Handler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\Welcome5Handler.cs" />
     <Compile Include="Assets\Scripts\DataHandler.cs" />
+    <Compile Include="Assets\Scripts\DateCheckHandler.cs" />
     <Compile Include="Assets\Scripts\DeviceLog2.cs" />
     <Compile Include="Assets\Scripts\DraggablePeeIcon.cs" />
     <Compile Include="Assets\Scripts\DraggablePooIcon.cs" />
