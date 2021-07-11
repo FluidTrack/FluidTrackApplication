@@ -74,7 +74,7 @@ public class SelectPooHandler : MonoBehaviour
                 else icon.Image.color = new Color(1, 1, 1, 0.3f);
             } else icon.Image.color = new Color(1, 1, 1, 1);
 
-            icon.OtherText.SetActive(pooLogs[i].type == 0);
+            icon.OtherText.SetActive(pooLogs[i].type == 0 || pooLogs[i].type == 8);
             string str = "\n" + icon.strings[pooLogs[i].type] + "\n";
             TimeHandler.DateTimeStamp tempStamp = new TimeHandler.DateTimeStamp(pooLogs[i].timestamp);
             int showTime = tempStamp.Hours;

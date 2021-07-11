@@ -17,6 +17,7 @@ public class LogCanvasHandler : MonoBehaviour
     public GameObject PeeButton;
     public GameObject PooButton;
     public GameObject DrinkButton;
+    public GameObject FlowerCircle;
 
     public Button WaterButton2;
     public Button PeeButton2;
@@ -170,14 +171,18 @@ public class LogCanvasHandler : MonoBehaviour
 
 
     public void BLE_Redraw() {
+        DataHandler.User_isWaterDataLoaded = false;
+        DataHandler.User_isDrinkDataLoaded = false;
+        DataHandler.User_isPeeDataLoaded = false;
+        DataHandler.User_isPooDataLoaded = false;
+        DataHandler.User_isGardenDataLoaded = false;
         StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadDrinkLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
-        StartCoroutine(FetchAllData());
+        StartCoroutine(FetchAllData2());
     }
-
 
     public void DrawOff() {
         try {
@@ -242,7 +247,11 @@ public class LogCanvasHandler : MonoBehaviour
         while(!DataHandler.User_isDataLoaded) {
             yield return 0;
         }
-
+        DataHandler.User_isWaterDataLoaded = false;
+        DataHandler.User_isDrinkDataLoaded = false;
+        DataHandler.User_isPeeDataLoaded = false;
+        DataHandler.User_isPooDataLoaded = false;
+        DataHandler.User_isGardenDataLoaded = false;
         StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadDrinkLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
@@ -301,6 +310,18 @@ public class LogCanvasHandler : MonoBehaviour
             TargetGardenLog = newGarden;
         }
 
+        bool ThereAreTodos = false;
+        if (DataHandler.Garden_logs != null)
+            foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), targetDate) == 0) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
+                        ThereAreTodos = true;
+                        break;
+                    }
+                }
+            }
+        FlowerCircle.SetActive(ThereAreTodos);
+
         foreach (DataHandler.WaterLog log in DataHandler.Water_logs.WaterLogs)
             totalLog.Add(new Log(log));
         foreach (DataHandler.DrinkLog log in DataHandler.Drink_logs.DrinkLogs)
@@ -350,11 +371,12 @@ public class LogCanvasHandler : MonoBehaviour
         bool isThereLog = false;
         DrinkTempList = new List<KeyValuePair<DataHandler.DrinkLog, int>>();
         int count_water = 0, count_drink = 0, count_pee = 0, count_poo = 0;
-        for(int  i = 0; i < wrongPooCheck.Length; i++)
+        bool MongMongPoo_Flag = true;
+        for (int i = 0; i < wrongPooCheck.Length; i++)
             wrongPooCheck[i] = false;
         foreach (Log log in totalLog) {
-            if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(
-                TimeHandler.LogCanvasTime,log.Time) == 0 ) {
+            if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                TimeHandler.LogCanvasTime, log.Time) == 0) {
                 if (!isThereLog) {
                     isThereLog = true;
                     currentFirstHour = log.Time.Hours;
@@ -370,23 +392,22 @@ public class LogCanvasHandler : MonoBehaviour
                     if (currentFirstHour <= 0) {
                         TimeLeftButton.transform.parent.GetComponent<Button>().interactable = false;
                         TimeLeftButton2.interactable = false;
-                    }
-                    else {
+                    } else {
                         TimeLeftButton.transform.parent.GetComponent<Button>().interactable = true;
                         TimeLeftButton2.interactable = true;
                     }
                     moveTimeZone(currentFirstHour);
                 }
-                switch(log.LogType) {
-                    case LOG_TYPE.WATER: CreateWaterLog(log.WaterLog,log.Time.Hours); count_water++; break;
-                    case LOG_TYPE.DRINK: DrinkTempList.Add(new KeyValuePair<DataHandler.DrinkLog,int>(log.DrinkLog,log.Time.Hours));
-                                         count_drink++; break;
-                    case LOG_TYPE.PEE:   CreatePeeLog(log.PeeLog,log.Time.Hours);     count_pee++; break;
-                    case LOG_TYPE.POOP:  CreatePoopLog(log.PoopLog, log.Time.Hours);  count_poo++; break;
+                switch (log.LogType) {
+                    case LOG_TYPE.WATER: CreateWaterLog(log.WaterLog, log.Time.Hours); count_water++; break;
+                    case LOG_TYPE.DRINK: DrinkTempList.Add(new KeyValuePair<DataHandler.DrinkLog, int>(log.DrinkLog, log.Time.Hours)); count_drink++; break;
+                    case LOG_TYPE.PEE:   CreatePeeLog(log.PeeLog, log.Time.Hours); count_pee++; break;
+                    case LOG_TYPE.POOP:  CreatePoopLog(log.PoopLog, log.Time.Hours); count_poo++;
+                                         if (log.PoopLog.type == 8) { MongMongPoo_Flag = false; } break;
                 }
             }
         }
-        for(int i = 0; i < wrongPooCheck.Length; i++) {
+        for (int i = 0; i < wrongPooCheck.Length; i++) {
             if (DownSlot[i].GetComponent<SlotHandler>().PooTop == null) continue;
 
             DownSlot[i].GetComponent<SlotHandler>().
@@ -394,7 +415,18 @@ public class LogCanvasHandler : MonoBehaviour
                     ( wrongPooCheck[i] ) ? wrongPoo : normalPoo;
         }
 
+        if(!MongMongPoo_Flag) {
+            isLogMongMong_Poo = true;
+            MongMongHand.SetActive(true);
+            Circle.SetActive(true);
+        } else if (MongMongPoo_Flag) {
+            isLogMongMong_Poo = false;
+            MongMongHand.SetActive(false);
+            Circle.SetActive(false);
+        }
+
         CreateDrinkLog();
+        StartCoroutine(ProtocolHandler.Instance.ReadGardenLogsRoutine());
         if (currentFirstHour <= 0) {
             TimeLeftButton.transform.parent.GetComponent<Button>().interactable = false;
             TimeLeftButton2.interactable = false;
@@ -575,16 +607,8 @@ public class LogCanvasHandler : MonoBehaviour
                 slot.PooTop.Number.text = " ";
             }
             GameObject newLog = Instantiate(PoopLogPrefab, DownSlot[index]);
-            if(log.type == 0) {
-                isLogMongMong_Poo = true;
-                MongMongHand.SetActive(true);
-                Circle.SetActive(true);
+            if(log.type == 0 || log.type ==8)
                 wrongPooCheck[index] = true;
-            } else {
-                isLogMongMong_Poo = false;
-                MongMongHand.SetActive(false);
-                Circle.SetActive(false);
-            }
             spawnObjects.Add(newLog);
             slot.PooCount++;
             slot.PooTop = newLog.GetComponent<LogSpriteHandler>();
@@ -765,6 +789,20 @@ public class LogCanvasHandler : MonoBehaviour
             StartCoroutine(FetchGardenLogId());
             TargetGardenLog = newGarden;
         }
+
+        bool ThereAreTodos = false;
+        if (DataHandler.Garden_logs != null)
+            foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.LogCanvasTime) == 0) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
+                        ThereAreTodos = true;
+                        break;
+                    }
+                }
+            }
+
+        FlowerCircle.SetActive(ThereAreTodos);
+
         DrawLogs();
     }
 
@@ -801,13 +839,36 @@ public class LogCanvasHandler : MonoBehaviour
             StartCoroutine(FetchGardenLogId());
             TargetGardenLog = newGarden;
         }
+        bool ThereAreTodos = false;
+        if (DataHandler.Garden_logs != null)
+            foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.LogCanvasTime) == 0) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
+                        ThereAreTodos = true;
+                        break;
+                    }
+                }
+            }
 
+        FlowerCircle.SetActive(ThereAreTodos);
         DrawLogs();
     }
 
     public void TodayButtonClick() {
         DrawOff();
         TimeHandler.GetCurrentTime();
+        bool ThereAreTodos = false;
+        if (DataHandler.Garden_logs != null)
+            foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.LogCanvasTime) == 0) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
+                        ThereAreTodos = true;
+                        break;
+                    }
+                }
+            }
+
+        FlowerCircle.SetActive(ThereAreTodos);
         DrawLogs();
     }
 
@@ -1059,7 +1120,6 @@ public class LogCanvasHandler : MonoBehaviour
     }
 
     public void TimeBarClick_AddWater(int index) {
-        Debug.Log("test");
         string timestamp = TargetGardenLog.timestamp.Split(' ')[0] + " " +
                            ( currentFirstHour + index ) + ":59:59";
         DataHandler.WaterLog newLog = new DataHandler.WaterLog();
@@ -1070,8 +1130,6 @@ public class LogCanvasHandler : MonoBehaviour
         StartCoroutine(DataHandler.CreateWaterlogs(newLog));
         //StartCoroutine(writeWaterLogId(newLog));
         TargetGardenLog.log_water++;
-        Debug.Log(TargetGardenLog.log_water);
-        Debug.Log(TargetGardenLog.flower);
         StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
         StartCoroutine(Redraw_Water());
     }
@@ -1237,52 +1295,59 @@ public class LogCanvasHandler : MonoBehaviour
     }
 
     IEnumerator Redraw_Water() {
-        while (!DataHandler.User_isWaterDataCreated) { yield return 0; }
-        DataHandler.User_isWaterDataCreated = false;
+        //while (!DataHandler.User_isWaterDataCreated) { yield return 0; }
+        //DataHandler.User_isWaterDataCreated = false;
+        yield return new WaitForSeconds(0.05f);
         Fetching();
     }
 
     IEnumerator Redraw_Drink() {
-        while (!DataHandler.User_isDrinkDataCreated) { yield return 0; }
-        DataHandler.User_isDrinkDataCreated = false;
+        //while (!DataHandler.User_isDrinkDataCreated) { yield return 0; }
+        //DataHandler.User_isDrinkDataCreated = false;
+        yield return new WaitForSeconds(0.05f);
         Fetching();
     }
 
     IEnumerator Redraw_Pee() {
-        while (!DataHandler.User_isPeeDataCreated) { yield return 0; }
-        DataHandler.User_isPeeDataCreated = false;
+        //while (!DataHandler.User_isPeeDataCreated) { yield return 0; }
+        //DataHandler.User_isPeeDataCreated = false;
+        yield return new WaitForSeconds(0.05f);
         Fetching();
     }
 
     IEnumerator Redraw_Poo() {
-        while (!DataHandler.User_isPooDataCreated) { yield return 0; }
-        DataHandler.User_isPooDataCreated = false;
+        //while (!DataHandler.User_isPooDataCreated) { yield return 0; }
+        //DataHandler.User_isPooDataCreated = false;
+        yield return new WaitForSeconds(0.05f);
         Fetching();
     }
 
     public void Fetching() {
+        DataHandler.User_isWaterDataLoaded = false;
+        DataHandler.User_isDrinkDataLoaded = false;
+        DataHandler.User_isPeeDataLoaded = false;
+        DataHandler.User_isPooDataLoaded = false;
+        DataHandler.User_isGardenDataLoaded = false;
         StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadDrinkLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
         StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
-        StartCoroutine(FetchAllData());
+        StartCoroutine(FetchAllData2());
     }
 
     IEnumerator FetchAllData() {
-        while (!DataHandler.User_isWaterDataLoaded) { yield return 0; }
-        DataHandler.User_isWaterDataLoaded = false;
+        while (!DataHandler.User_isWaterDataLoaded && 
+               !DataHandler.User_isDrinkDataLoaded &&
+               !DataHandler.User_isPeeDataLoaded &&
+               !DataHandler.User_isPooDataLoaded &&
+               !DataHandler.User_isGardenDataLoaded)
+        { yield return 0; }
 
-        while (!DataHandler.User_isDrinkDataLoaded) { yield return 0; }
         DataHandler.User_isDrinkDataLoaded = false;
-
-        while (!DataHandler.User_isPeeDataLoaded) { yield return 0; }
         DataHandler.User_isPeeDataLoaded = false;
-
-        while (!DataHandler.User_isPooDataLoaded) { yield return 0; }
         DataHandler.User_isPooDataLoaded = false;
-
-        while (!DataHandler.User_isGardenDataLoaded) { yield return 0; }
+        DataHandler.User_isWaterDataLoaded = false;
         DataHandler.User_isGardenDataLoaded = false;
 
         TargetGardenLog = null;
@@ -1334,6 +1399,8 @@ public class LogCanvasHandler : MonoBehaviour
         yield return 0;
         DrinkTempList = new List<KeyValuePair<DataHandler.DrinkLog, int>>();
         int count_water = 0, count_drink = 0, count_pee = 0, count_poo = 0;
+        bool MongMongPoo_Flag = true;
+
         for (int i = 0; i < wrongPooCheck.Length; i++)
             wrongPooCheck[i] = false;
         foreach (Log log in totalLog) {
@@ -1345,7 +1412,8 @@ public class LogCanvasHandler : MonoBehaviour
                     DrinkTempList.Add(new KeyValuePair<DataHandler.DrinkLog, int>(log.DrinkLog, log.Time.Hours));
                     count_drink++; break;
                     case LOG_TYPE.PEE: CreatePeeLog(log.PeeLog, log.Time.Hours); count_pee++; break;
-                    case LOG_TYPE.POOP: CreatePoopLog(log.PoopLog, log.Time.Hours); count_poo++; break;
+                    case LOG_TYPE.POOP: CreatePoopLog(log.PoopLog, log.Time.Hours); count_poo++;
+                                        if (log.PoopLog.type == 8) { MongMongPoo_Flag = false; } break;
                 }
             }
         }
@@ -1356,7 +1424,29 @@ public class LogCanvasHandler : MonoBehaviour
                 PooTop.gameObject.GetComponent<Image>().sprite =
                     ( wrongPooCheck[i] ) ? wrongPoo : normalPoo;
         }
+        if (!MongMongPoo_Flag) {
+            isLogMongMong_Poo = true;
+            MongMongHand.SetActive(true);
+            Circle.SetActive(true);
+        } else if (MongMongPoo_Flag) {
+            isLogMongMong_Poo = false;
+            MongMongHand.SetActive(false);
+            Circle.SetActive(false);
+        }
         CreateDrinkLog();
+        bool ThereAreTodos = false;
+        if (DataHandler.Garden_logs != null)
+            foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.LogCanvasTime) == 0) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
+                        ThereAreTodos = true;
+                        break;
+                    }
+                }
+            }
+        FlowerCircle.SetActive(ThereAreTodos);
+        Debug.Log("FlowerCircle : " + FlowerCircle.ToString());
+        StartCoroutine(ProtocolHandler.Instance.ReadGardenLogsRoutine());
         WaterCountText.text = count_water.ToString();
         DrinkCountText.text = count_drink.ToString();
         PeeCountText.text = count_pee.ToString();
@@ -1436,6 +1526,7 @@ public class LogCanvasHandler : MonoBehaviour
         yield return 0;
         DrinkTempList = new List<KeyValuePair<DataHandler.DrinkLog, int>>();
         int count_water = 0, count_drink = 0, count_pee = 0, count_poo = 0;
+        bool MongMongPoo_Flag = true;
         for (int i = 0; i < wrongPooCheck.Length; i++)
             wrongPooCheck[i] = false;
         foreach (Log log in totalLog) {
@@ -1447,7 +1538,8 @@ public class LogCanvasHandler : MonoBehaviour
                     DrinkTempList.Add(new KeyValuePair<DataHandler.DrinkLog, int>(log.DrinkLog, log.Time.Hours));
                     count_drink++; break;
                     case LOG_TYPE.PEE: CreatePeeLog(log.PeeLog, log.Time.Hours); count_pee++; break;
-                    case LOG_TYPE.POOP: CreatePoopLog(log.PoopLog, log.Time.Hours); count_poo++; break;
+                    case LOG_TYPE.POOP: CreatePoopLog(log.PoopLog, log.Time.Hours); count_poo++;
+                                        if (log.PoopLog.type == 8) { MongMongPoo_Flag = false; } break;
                 }
             }
         }
@@ -1458,7 +1550,17 @@ public class LogCanvasHandler : MonoBehaviour
                 PooTop.gameObject.GetComponent<Image>().sprite =
                     ( wrongPooCheck[i] ) ? wrongPoo : normalPoo;
         }
+        if (!MongMongPoo_Flag) {
+            isLogMongMong_Poo = true;
+            MongMongHand.SetActive(true);
+            Circle.SetActive(true);
+        } else if (MongMongPoo_Flag) {
+            isLogMongMong_Poo = false;
+            MongMongHand.SetActive(false);
+            Circle.SetActive(false);
+        }
         CreateDrinkLog();
+        StartCoroutine(ProtocolHandler.Instance.ReadGardenLogsRoutine());
         WaterCountText.text = count_water.ToString();
         DrinkCountText.text = count_drink.ToString();
         PeeCountText.text = count_pee.ToString();

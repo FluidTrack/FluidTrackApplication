@@ -478,7 +478,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_garden_logs";
         url += "?id=" + target_id;
-
+        Debug.Log("t5");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
@@ -575,7 +575,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_water_logs";
         url += "?id=" + target_id;
-
+        Debug.Log("t1");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
@@ -686,7 +686,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_drink_logs";
         url += "?id=" + target_id;
-
+        Debug.Log("t2");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
@@ -796,7 +796,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_poop_logs";
         url += "?id=" + target_id;
-
+        Debug.Log("t4");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
@@ -903,7 +903,7 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_pee_logs";
         url += "?id=" + target_id;
-
+        Debug.Log("t3");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)

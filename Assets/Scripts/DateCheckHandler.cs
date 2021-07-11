@@ -36,6 +36,7 @@ public class DateCheckHandler : MonoBehaviour
                     for (int i = 0; i < UIObjects.Length; i++)
                         UIObjects[i].SetActive(false);
                     Footer.FooterButtonClick(0);
+                    ProtocolHandler.Instance.ReadGardenLogs();
                     if(LogCanvas.gameObject.activeSelf)
                         Blocker.OnSideClick();
                 }

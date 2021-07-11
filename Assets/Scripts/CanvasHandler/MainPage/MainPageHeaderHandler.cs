@@ -59,15 +59,16 @@ public class MainPageHeaderHandler : MonoBehaviour
     }
 
     public IEnumerator CheckLogDataLoaded() {
-        while( !DataHandler.User_isWaterDataLoaded ||
-               !DataHandler.User_isDrinkDataLoaded ||
-               !DataHandler.User_isPeeDataLoaded   ||
-               !DataHandler.User_isPooDataLoaded   )
-            yield return 0;
-        DataHandler.User_isWaterDataLoaded = false;
-        DataHandler.User_isDrinkDataLoaded = false;
-        DataHandler.User_isPeeDataLoaded = false;
-        DataHandler.User_isPooDataLoaded = false;
+        //while( !DataHandler.User_isWaterDataLoaded ||
+        //       !DataHandler.User_isDrinkDataLoaded ||
+        //       !DataHandler.User_isPeeDataLoaded   ||
+        //       !DataHandler.User_isPooDataLoaded   )
+        //    yield return 0;
+        //DataHandler.User_isWaterDataLoaded = false;
+        //DataHandler.User_isDrinkDataLoaded = false;
+        //DataHandler.User_isPeeDataLoaded = false;
+        //DataHandler.User_isPooDataLoaded = false;
+        yield return new WaitForSeconds(0.1f);
 
         int water_num = 0, drink_num = 0, pee_num = 0, poo_num = 0;
 

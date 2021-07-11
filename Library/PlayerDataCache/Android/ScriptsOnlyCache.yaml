@@ -14,6 +14,7 @@ ScriptsOnlyBuild:
     - CloudTransition
     - ConnectingWindowHandler
     - DataHandler
+    - DateCheckHandler
     - DeviceBatteryIconHandler
     - DeviceListHandler
     - DeviceLog2
@@ -290,33 +291,35 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14642}
     - Class: 114
-      Script: {instanceID: 14702}
+      Script: {instanceID: 14668}
     - Class: 114
-      Script: {instanceID: 14718}
+      Script: {instanceID: 14704}
     - Class: 114
-      Script: {instanceID: 14762}
+      Script: {instanceID: 14720}
     - Class: 114
-      Script: {instanceID: 14768}
+      Script: {instanceID: 14764}
     - Class: 114
-      Script: {instanceID: 14774}
+      Script: {instanceID: 14770}
     - Class: 114
-      Script: {instanceID: 14792}
+      Script: {instanceID: 14776}
     - Class: 114
-      Script: {instanceID: 14800}
+      Script: {instanceID: 14794}
     - Class: 114
-      Script: {instanceID: 14830}
+      Script: {instanceID: 14802}
     - Class: 114
-      Script: {instanceID: 14842}
+      Script: {instanceID: 14832}
     - Class: 114
-      Script: {instanceID: 14858}
+      Script: {instanceID: 14844}
     - Class: 114
       Script: {instanceID: 14860}
     - Class: 114
-      Script: {instanceID: 14886}
+      Script: {instanceID: 14862}
     - Class: 114
-      Script: {instanceID: 14902}
+      Script: {instanceID: 14888}
     - Class: 114
-      Script: {instanceID: 14938}
+      Script: {instanceID: 14904}
+    - Class: 114
+      Script: {instanceID: 14940}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -856,7 +859,7 @@ ScriptsOnlyBuild:
     className: UI_ScrollRectOcclusion
   - hash:
       serializedVersion: 2
-      Hash: 4f7f3bfbc48bc1d2aa27973b9e69c4b7
+      Hash: 72492e69a2e1aa423d5e45cac02d8b6c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogCanvasHandler
@@ -1222,7 +1225,7 @@ ScriptsOnlyBuild:
     className: TextPic
   - hash:
       serializedVersion: 2
-      Hash: 42bbe165238ac51c2475028b079e398c
+      Hash: 783bc336e76e80ce44944b02e1fdd442
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ProtocolHandler
@@ -1922,6 +1925,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: UnityEngine.UI.Extensions
     className: ReorderableListDebug
+  - hash:
+      serializedVersion: 2
+      Hash: a5eb9a9c43cba079188a57aad7e04e89
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DateCheckHandler
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f

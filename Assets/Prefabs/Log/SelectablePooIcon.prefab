@@ -73,6 +73,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d71aa92f3117f4f4aaac453e570deabd, type: 3}
   - {fileID: 21300000, guid: 32245188f5b897a4caf34dea9e52c02a, type: 3}
   - {fileID: 21300000, guid: efed9259d171230459effebc81b685f1, type: 3}
+  - {fileID: 21300000, guid: 40c6e74bc6073aa4396eeadf5f7c0e05, type: 3}
   strings:
   - "\uC798 \uBAA8\uB984"
   - "1\uBC88"
@@ -82,6 +83,7 @@ MonoBehaviour:
   - "5\uBC88"
   - "6\uBC88"
   - "7\uBC88"
+  - "\uC798 \uBAA8\uB984"
   index: 0
 --- !u!114 &5046274191711648309
 MonoBehaviour:

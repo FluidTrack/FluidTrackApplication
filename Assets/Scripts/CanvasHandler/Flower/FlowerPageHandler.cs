@@ -74,7 +74,6 @@ public class FlowerPageHandler : MonoBehaviour
             yield return 0;
         DataHandler.User_isGardenDataCreated = false;
         log.log_id = DataHandler.User_isGardenDataCreatedId;
-        Debug.Log("Log_id : " + DataHandler.User_isGardenDataCreatedId);
     }
 
     public IEnumerator FetchData() {
