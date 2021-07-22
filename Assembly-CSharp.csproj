@@ -137,10 +137,6 @@
     <Compile Include="Assets\Scripts\DraggablePooIcon.cs" />
     <Compile Include="Assets\Scripts\DraggableWaterIcon.cs" />
     <Compile Include="Assets\Scripts\EffectAnimatorAutoDelete.cs" />
-    <Compile Include="Assets\Scripts\KDH_Script\CalendarHandler.cs" />
-    <Compile Include="Assets\Scripts\KDH_Script\GaugeHandler.cs" />
-    <Compile Include="Assets\Scripts\KDH_Script\InputFieldHandler.cs" />
-    <Compile Include="Assets\Scripts\KDH_Script\PeeLogHandler2.cs" />
     <Compile Include="Assets\Scripts\KoreanUnderChecker.cs" />
     <Compile Include="Assets\Scripts\MoabandReconnection.cs" />
     <Compile Include="Assets\Scripts\PlayOneShotAnimation.cs" />
