@@ -123,8 +123,15 @@ public class SelectPooHandler : MonoBehaviour
     public void OkayButtonClick() {
         int realIndex = page + clickedIconIndex;
         if (isDelete) {
+
+            int index = 0;
+            DataHandler.PoopLog[] array1 = new DataHandler.PoopLog[DataHandler.Poop_logs.PoopLogs.Length - 1];
+            for (int i = 0; i < DataHandler.Poop_logs.PoopLogs.Length; i++) {
+                if (DataHandler.Poop_logs.PoopLogs[i].log_id == pooLogs[realIndex].log_id) continue;
+                array1[index++] = DataHandler.Poop_logs.PoopLogs[i];
+            }
             StartCoroutine(DataHandler.DeletePoopLogs(pooLogs[realIndex].log_id));
-            DataHandler.User_isPooDataDeleted = false;
+            DataHandler.Poop_logs.PoopLogs = array1;
             StartCoroutine(WaitDelete());
 
             DataHandler.GardenLog TargetGardenLog = LogCanvasHandler.Instance.TargetGardenLog;
@@ -144,9 +151,7 @@ public class SelectPooHandler : MonoBehaviour
     }
 
     IEnumerator WaitDelete() {
-        while (!DataHandler.User_isPooDataDeleted)
-            yield return 0;
-        DataHandler.User_isPooDataDeleted = false;
+        yield return 0;
         LogCanvasHandler.Instance.Fetching();
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
         this.gameObject.SetActive(false);

@@ -50,6 +50,11 @@ public class DataHandler : MonoBehaviour
     internal static bool User_isPooDataDeleted = false;
     internal static bool User_isPeeDataDeleted = false;
 
+    internal static Queue<int> CreateGardenIndex;
+    internal static Queue<int> CreateWaterIndex;
+    internal static Queue<int> CreateDrinkIndex;
+    internal static Queue<int> CreatePooIndex;
+    internal static Queue<int> CreatePeeIndex;
 
 
     internal static string dataPath;
@@ -330,6 +335,7 @@ public class DataHandler : MonoBehaviour
         }
     }
 
+
     //=====================================================================================================================================
     //  ▶ read_users
     //=====================================================================================================================================
@@ -467,6 +473,11 @@ public class DataHandler : MonoBehaviour
                 tempText = request.downloadHandler.text;
                 User_isGardenDataCreated = true;
                 User_isGardenDataCreatedId = int.Parse(tempText);
+                if(CreateGardenIndex.Count > 0) {
+                    int target = CreateGardenIndex.Dequeue();
+                    Debug.Log(target +"aaaaaaa");
+                    Garden_logs.GardenLogs[target].log_id = User_isGardenDataCreatedId;
+                }
             }
         }
     }
@@ -478,7 +489,6 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_garden_logs";
         url += "?id=" + target_id;
-        Debug.Log("t5");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
@@ -563,6 +573,15 @@ public class DataHandler : MonoBehaviour
             else {
                 User_isWaterDataCreated = true;
                 User_isWaterDataCreatedId = int.Parse(request.downloadHandler.text);
+
+                Debug.Log("Start CreateWaterIndex.Count : " + CreateWaterIndex.Count);
+                if (CreateWaterIndex.Count > 0) {
+                    int target = CreateWaterIndex.Dequeue();
+                    Debug.Log("target : " + target);
+                    Water_logs.WaterLogs[target].log_id = User_isWaterDataCreatedId;
+                    
+                }
+                Debug.Log("Start CreateWaterIndex.Count : " + CreateWaterIndex.Count);
             }
 
         }
@@ -575,7 +594,6 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_water_logs";
         url += "?id=" + target_id;
-        Debug.Log("t1");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
@@ -674,6 +692,10 @@ public class DataHandler : MonoBehaviour
             else {
                 User_isDrinkDataCreated = true;
                 User_isDrinkDataCreatedId = int.Parse(request.downloadHandler.text);
+                if (CreateDrinkIndex.Count > 0) {
+                    int target = CreateDrinkIndex.Dequeue();
+                    Drink_logs.DrinkLogs[target].log_id = User_isDrinkDataCreatedId;
+                }
             }
 
         }
@@ -686,7 +708,6 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_drink_logs";
         url += "?id=" + target_id;
-        Debug.Log("t2");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
@@ -784,6 +805,10 @@ public class DataHandler : MonoBehaviour
             else {
                 User_isPooDataCreated = true;
                 User_isPooDataCreatedId = int.Parse(request.downloadHandler.text);
+                if (CreatePooIndex.Count > 0) {
+                    int target = CreatePooIndex.Dequeue();
+                    Poop_logs.PoopLogs[target].log_id = User_isPooDataCreatedId;
+                }
             }
 
         }
@@ -796,7 +821,6 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_poop_logs";
         url += "?id=" + target_id;
-        Debug.Log("t4");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)
@@ -891,6 +915,10 @@ public class DataHandler : MonoBehaviour
             else {
                 User_isPeeDataCreated = true;
                 User_isPeeDataCreatedId = int.Parse(request.downloadHandler.text);
+                if (CreatePeeIndex.Count > 0) {
+                    int target = CreatePeeIndex.Dequeue();
+                    Pee_logs.PeeLogs[target].log_id = User_isPeeDataCreatedId;
+                }
             }
 
         }
@@ -903,7 +931,6 @@ public class DataHandler : MonoBehaviour
         UnityWebRequest request = new UnityWebRequest();
         string url = "read_pee_logs";
         url += "?id=" + target_id;
-        Debug.Log("t3");
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)

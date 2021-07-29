@@ -42,19 +42,11 @@ public class MainPageHeaderHandler : MonoBehaviour
     }
 
     public IEnumerator CheckUserDataLoaded() {
-            yield return new WaitForSeconds(0.1f);
-        StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
-        StartCoroutine(DataHandler.ReadDrinkLogs(DataHandler.User_id));
-        StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
-        StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
+        yield return 0;
         StartCoroutine(CheckLogDataLoaded());
     }
 
     public void DataReload() {
-        StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
-        StartCoroutine(DataHandler.ReadDrinkLogs(DataHandler.User_id));
-        StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
-        StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
         StartCoroutine(CheckLogDataLoaded());
     }
 
@@ -68,8 +60,7 @@ public class MainPageHeaderHandler : MonoBehaviour
         //DataHandler.User_isDrinkDataLoaded = false;
         //DataHandler.User_isPeeDataLoaded = false;
         //DataHandler.User_isPooDataLoaded = false;
-        yield return new WaitForSeconds(0.1f);
-
+        yield return 0;
         int water_num = 0, drink_num = 0, pee_num = 0, poo_num = 0;
 
         TimeHandler.DateTimeStamp currentDate = TimeHandler.HomeCanvasTime;

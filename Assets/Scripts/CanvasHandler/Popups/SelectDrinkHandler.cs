@@ -26,7 +26,6 @@ public class SelectDrinkHandler : MonoBehaviour
 
     public void OnEnable() {
         Instance = this;
-        Debug.Log(noneauto.Count + ", " + auto.Count);
         spwan = new List<GameObject>();
         drinkLogs = new List<DataHandler.DrinkLog>();
 
@@ -126,7 +125,16 @@ public class SelectDrinkHandler : MonoBehaviour
         int realIndex = page + clickedIconIndex;
         if(isDelete) {
             Debug.Log("Delete DrinkLog : " + drinkLogs[realIndex].log_id);
+
+            int index = 0;
+            DataHandler.DrinkLog[] array1 = new DataHandler.DrinkLog[DataHandler.Drink_logs.DrinkLogs.Length - 1];
+            for (int i = 0; i < DataHandler.Drink_logs.DrinkLogs.Length; i++) {
+                if (DataHandler.Drink_logs.DrinkLogs[i].log_id == drinkLogs[realIndex].log_id) continue;
+                array1[index++] = DataHandler.Drink_logs.DrinkLogs[i];
+            }
             StartCoroutine(DataHandler.DeleteDrinkLogs(drinkLogs[realIndex].log_id));
+            DataHandler.Drink_logs.DrinkLogs = array1;
+
             StartCoroutine(WaitDelete());
             OkayButton.interactable = false;
         } else {
@@ -138,9 +146,7 @@ public class SelectDrinkHandler : MonoBehaviour
     }
 
     IEnumerator WaitDelete() {
-        while (!DataHandler.User_isDrinkDataDeleted)
-            yield return 0;
-        DataHandler.User_isDrinkDataDeleted = false;
+        yield return 0;
         LogCanvasHandler.Instance.Fetching();
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
         this.gameObject.SetActive(false);

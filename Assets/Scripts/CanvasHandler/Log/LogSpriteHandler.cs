@@ -64,7 +64,7 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void Update() {
         if (isPress) {
             count++;
-            if(count >= 180) {
+            if(count >= 90) {
                 PressLog();
                 isPress = false;
                 count = 0;
@@ -78,7 +78,7 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerUp(PointerEventData eventData) {
         if (isPress) {
-            if (count >= 120)
+            if (count >= 45)
                 PressLog();
             isPress = false;
             count = 0;
@@ -86,7 +86,6 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     }
 
     public void PressLog() {
-        Debug.Log(log.TimeStamp.Hours - LogCanvasHandler.Instance.currentFirstHour);
         int index = log.TimeStamp.Hours - LogCanvasHandler.Instance.currentFirstHour;
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.POPED2);
         if (log.LogType == LOG.POO)

@@ -105,6 +105,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\DeviceBatteryIconHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\MoabandStatusHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Navigation\NavigationHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\NewHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\AddDrinkLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\AddPooLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\CheckBoxButton.cs" />

@@ -68,9 +68,33 @@ public class OpeningHandler : MonoBehaviour
             ProgressBar.sizeDelta = new Vector2(230f, 24f);
             StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
 
-            while(true) {
+
+            while (true) {
                 yield return 0;
                 if(DataHandler.User_isDataLoaded) {
+                    DataHandler.Garden_logs = new DataHandler.GardenLogsJson();
+                    DataHandler.Water_logs = new DataHandler.WaterLogsJson();
+                    DataHandler.Drink_logs = new DataHandler.DrinkLogsJson();
+                    DataHandler.Poop_logs = new DataHandler.PoopLogsJson();
+                    DataHandler.Pee_logs = new DataHandler.PeeLogsJson();
+                    DataHandler.Garden_logs.GardenLogs = new DataHandler.GardenLog[0];
+                    DataHandler.Water_logs.WaterLogs = new DataHandler.WaterLog[0];
+                    DataHandler.Drink_logs.DrinkLogs = new DataHandler.DrinkLog[0];
+                    DataHandler.Poop_logs.PoopLogs = new DataHandler.PoopLog[0];
+                    DataHandler.Pee_logs.PeeLogs = new DataHandler.PeeLog[0];
+                    DataHandler.CreateGardenIndex = new Queue<int> ();
+                    DataHandler.CreateDrinkIndex = new Queue<int>();
+                    DataHandler.CreateWaterIndex = new Queue<int>();
+                    DataHandler.CreatePooIndex = new Queue<int>();
+                    DataHandler.CreatePeeIndex = new Queue<int>();
+                    StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
+                    StartCoroutine(DataHandler.ReadDrinkLogs(DataHandler.User_id));
+                    StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
+                    StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
+                    StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
+
+                    yield return new WaitForSeconds(0.5f);
+
                     TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FOOTER_BAR].SetActive(true);
                     TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].SetActive(true);
                     TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.NAVI_BAR].SetActive(true);
@@ -85,6 +109,21 @@ public class OpeningHandler : MonoBehaviour
         } else {
             Debug.Log("초기화 실패");
             ProgressLog.text = "초기화 실패";
+            DataHandler.Garden_logs = new DataHandler.GardenLogsJson();
+            DataHandler.Water_logs = new DataHandler.WaterLogsJson();
+            DataHandler.Drink_logs = new DataHandler.DrinkLogsJson();
+            DataHandler.Poop_logs = new DataHandler.PoopLogsJson();
+            DataHandler.Pee_logs = new DataHandler.PeeLogsJson();
+            DataHandler.Garden_logs.GardenLogs = new DataHandler.GardenLog[0];
+            DataHandler.Water_logs.WaterLogs = new DataHandler.WaterLog[0];
+            DataHandler.Drink_logs.DrinkLogs = new DataHandler.DrinkLog[0];
+            DataHandler.Poop_logs.PoopLogs = new DataHandler.PoopLog[0];
+            DataHandler.Pee_logs.PeeLogs = new DataHandler.PeeLog[0];
+            DataHandler.CreateGardenIndex = new Queue<int>();
+            DataHandler.CreateDrinkIndex = new Queue<int>();
+            DataHandler.CreateWaterIndex = new Queue<int>();
+            DataHandler.CreatePooIndex = new Queue<int>();
+            DataHandler.CreatePeeIndex = new Queue<int>();
             ProgressBar.sizeDelta = new Vector2(230f, 24f);
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME].SetActive(true);
             this.gameObject.SetActive(false);

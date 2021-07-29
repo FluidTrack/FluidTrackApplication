@@ -95,6 +95,15 @@ public class FlowerPageHandler : MonoBehaviour
             newGarden.flower = 0;
             newGarden.log_water = 0; newGarden.log_poop = 0; newGarden.log_pee = 0;
             newGarden.item_0 = 0; newGarden.item_1 = 0; newGarden.item_2 = 0; newGarden.item_3 = 0; newGarden.item_4 = 0;
+
+            DataHandler.GardenLog[] array =
+                            new DataHandler.GardenLog[DataHandler.Garden_logs.GardenLogs.Length + 1];
+            DataHandler.CreateGardenIndex.Enqueue(array.Length - 1);
+            for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++)
+                array[i] = DataHandler.Garden_logs.GardenLogs[i];
+            array[array.Length - 1] = newGarden;
+            DataHandler.Garden_logs.GardenLogs = array;
+
             StartCoroutine(DataHandler.CreateGardenlogs(newGarden));
             StartCoroutine(writeGardenLogId(newGarden));
             TargetGardenLog = newGarden;

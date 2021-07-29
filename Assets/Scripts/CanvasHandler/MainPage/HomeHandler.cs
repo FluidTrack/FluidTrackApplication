@@ -313,16 +313,11 @@ public class HomeHandler : MonoBehaviour
             Spots = Week8Objects[1].GetComponentsInChildren<GardenSpotHandler>();
         }
 
-        StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
         StartCoroutine(CheckGardenDataLoad());
     }
 
     public IEnumerator CheckGardenDataLoad() {
         yield return 0;
-        while (!DataHandler.User_isGardenDataLoaded) {
-            yield return 0;
-        }
-        DataHandler.User_isGardenDataLoaded = false;
         InitGardenSpot();
     }
 
@@ -330,6 +325,7 @@ public class HomeHandler : MonoBehaviour
         TimeHandler.DateTimeStamp inputDate =
             new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
         DataHandler.GardenLog[] logs = DataHandler.Garden_logs.GardenLogs;
+
         int index = 0;
 
         if (GardenSpotHandler.weeklyData == null) {
