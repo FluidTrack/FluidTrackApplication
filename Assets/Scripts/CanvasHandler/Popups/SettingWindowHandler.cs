@@ -30,7 +30,8 @@ public class SettingWindowHandler : MonoBehaviour
         musicEnable.ChangeStatus(SoundHandler.Instance.MusicSource.enabled);
         sfxEnable.ChangeStatus(SoundHandler.Instance.SFXSource.enabled);
         MoabandStatusText.text = MoabandStatusHandler.Instance.statusText.text;
-        if (DataHandler.User_moa_band_name == "" || DataHandler.User_moa_band_name == null)
+        ReconnectButtons.interactable = true;
+        if (DataHandler.User_moa_band_name == "" || DataHandler.User_moa_band_name == null || BluetoothManager.GetInstance().isConnected)
             ReconnectButtons.interactable = false;
     }
 
