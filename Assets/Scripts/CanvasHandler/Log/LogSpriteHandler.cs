@@ -64,7 +64,7 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void Update() {
         if (isPress) {
             count++;
-            if(count >= 90) {
+            if(count >= 30) {
                 PressLog();
                 isPress = false;
                 count = 0;
@@ -78,7 +78,7 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerUp(PointerEventData eventData) {
         if (isPress) {
-            if (count >= 45)
+            if (count >= 25)
                 PressLog();
             isPress = false;
             count = 0;

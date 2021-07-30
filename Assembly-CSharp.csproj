@@ -120,6 +120,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ScrollbarSound.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\SelectDrinkHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\SelectPooHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\SendingServerWindowHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\SettingWindowHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\TouchAndMouseManager.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Welcome\NoBandConfirmUI.cs" />

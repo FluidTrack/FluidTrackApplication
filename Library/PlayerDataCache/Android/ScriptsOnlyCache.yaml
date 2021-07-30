@@ -64,6 +64,7 @@ ScriptsOnlyBuild:
     - ScrollbarSound
     - SelectDrinkHandler
     - SelectPooHandler
+    - SendingServerWindowHandler
     - SettingWindowHandler
     - SlotHandler
     - SmallCloudController
@@ -112,7 +113,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Scrollbar
     - UnityEngine.UI.Text
   sceneClasses:
-    Assets/Scenes/MainScene.unity:
+    Assets/Scenes/TempTemp.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -314,11 +315,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14884}
     - Class: 114
-      Script: {instanceID: 14900}
+      Script: {instanceID: 14896}
     - Class: 114
-      Script: {instanceID: 14936}
+      Script: {instanceID: 14902}
     - Class: 114
-      Script: {instanceID: 33634}
+      Script: {instanceID: 14938}
+    - Class: 114
+      Script: {instanceID: 33154}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1212,7 +1215,7 @@ ScriptsOnlyBuild:
     className: TextPic
   - hash:
       serializedVersion: 2
-      Hash: 783bc336e76e80ce44944b02e1fdd442
+      Hash: 94af663c64942a33cac6f64f39a094ca
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ProtocolHandler
@@ -2100,6 +2103,12 @@ ScriptsOnlyBuild:
     className: Welcome3Handler
   - hash:
       serializedVersion: 2
+      Hash: 30a0ba7cd560d92b612e1621813d3aed
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SendingServerWindowHandler
+  - hash:
+      serializedVersion: 2
       Hash: a459eaabe707ad2046b0e09161951914
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -2142,5 +2151,5 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   platform: 13
   scenePathNames:
-  - Assets/Scenes/MainScene.unity
+  - Assets/Scenes/TempTemp.unity
   playerPath: C:/Users/movie/Desktop/moa_garden_1.0.4.apk

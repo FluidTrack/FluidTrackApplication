@@ -5,14 +5,16 @@ using UnityEngine.UI;
 using System.Text;
 using System;
 
-public class ProtocolHandler : MonoBehaviour
-{
+public class ProtocolHandler : MonoBehaviour {
     public static ProtocolHandler Instance;
     public BluetoothManager BT;
     public TotalManager Main;
     public Text DebugText;
     public GameObject LogCircle;
     public GameObject FlowerCircle;
+
+    public GameObject SendingServerObject;
+    public SendingServerWindowHandler SendingServer;
 
     DataHandler.GardenLog[] array;
     DataHandler.PoopLog[] array1;
@@ -23,13 +25,19 @@ public class ProtocolHandler : MonoBehaviour
     DataHandler.WaterLog log2;
     DataHandler.PeeLog log3;
 
+    private Coroutine checkHistoryRoutine = null;
+
     public void Awake() {
         Instance = this;
+        WaterQueue = new Queue<DataHandler.WaterLog>();
+        PooQueue = new Queue<DataHandler.PoopLog>();
+        PeeQueue = new Queue<DataHandler.PeeLog>();
+        GardenList = new List<DataHandler.GardenLog>();
         StartCoroutine(UserCheck());
     }
 
     IEnumerator UserCheck() {
-        while(true) {
+        while (true) {
             if (DataHandler.User_name != null && DataHandler.User_name != "")
                 break;
             yield return 0;
@@ -77,6 +85,7 @@ public class ProtocolHandler : MonoBehaviour
         ReadGardenLogs();
     }
 
+    List<DataHandler.GardenLog> GardenList;
 
     public void ParsingBytes(byte[] bytes) {
         int length = bytes.Length;
@@ -152,7 +161,6 @@ public class ProtocolHandler : MonoBehaviour
                     StartCoroutine(DataHandler.CreatePeelogs(log3));
                 }
 
-                TimeHandler.GetCurrentTime();
                 DataHandler.GardenLog targetGardenLog = null;
                 int targetIndex = -1;
                 for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++) {
@@ -215,49 +223,35 @@ public class ProtocolHandler : MonoBehaviour
                 else if ((int)bytes[1] == 10) Length = 2;
                 else if ((int)bytes[1] == 5) Length = 1;
                 if (Length == 0) return;
+                Debug.LogError("History : " + Length);
+                if(checkHistoryRoutine != null) {
+                    StopCoroutine(checkHistoryRoutine);
+                    checkHistoryRoutine = null;
+                }
                 for (int i = 0; i < Length; i++) {
                     string historyStamp = MakeTimeStamp(bytes[2 + 5 * i], bytes[3 + 5 * i], bytes[4 + 5 * i], bytes[5 + 5 * i]);
                     if (bytes[6 + 5 * i] == 3) {
-                        log1 = new DataHandler.PoopLog();
+                        DataHandler.PoopLog log1 = new DataHandler.PoopLog();
                         log1.id = DataHandler.User_id;
                         log1.auto = 1;
                         log1.timestamp = historyStamp;
                         log1.type = 8;
-                        array1 = new DataHandler.PoopLog[DataHandler.Poop_logs.PoopLogs.Length + 1];
-                        DataHandler.CreatePooIndex.Enqueue(array1.Length - 1);
-                        for (int j = 0; j < DataHandler.Poop_logs.PoopLogs.Length; j++)
-                            array1[j] = DataHandler.Poop_logs.PoopLogs[j];
-                        array1[array1.Length - 1] = log1;
-                        DataHandler.Poop_logs.PoopLogs = array1;
-                        StartCoroutine(DataHandler.CreatePooplogs(log1));
+                        PooQueue.Enqueue(log1);
                     } else if (bytes[6 + 5 * i] == 1) {
-                        log2 = new DataHandler.WaterLog();
+                        DataHandler.WaterLog log2 = new DataHandler.WaterLog();
                         log2.id = DataHandler.User_id;
                         log2.auto = 1;
                         log2.timestamp = historyStamp;
                         log2.type = 0;
-                        array2 = new DataHandler.WaterLog[DataHandler.Water_logs.WaterLogs.Length + 1];
-                        DataHandler.CreateWaterIndex.Enqueue(array2.Length - 1);
-                        for (int j = 0; j < DataHandler.Water_logs.WaterLogs.Length; j++)
-                            array2[j] = DataHandler.Water_logs.WaterLogs[j];
-                        array2[array2.Length - 1] = log2;
-                        DataHandler.Water_logs.WaterLogs = array2;
-                        StartCoroutine(DataHandler.CreateWaterlogs(log2));
+                        WaterQueue.Enqueue(log2);
                     } else if (bytes[6 + 5 * i] == 2) {
-                        log3 = new DataHandler.PeeLog();
+                        DataHandler.PeeLog log3 = new DataHandler.PeeLog();
                         log3.id = DataHandler.User_id;
                         log3.auto = 1;
                         log3.timestamp = historyStamp;
-                        array3 = new DataHandler.PeeLog[DataHandler.Pee_logs.PeeLogs.Length + 1];
-                        DataHandler.CreatePeeIndex.Enqueue(array3.Length - 1);
-                        for (int j = 0; j < DataHandler.Pee_logs.PeeLogs.Length; j++)
-                            array3[j] = DataHandler.Pee_logs.PeeLogs[j];
-                        array3[array3.Length - 1] = log3;
-                        DataHandler.Pee_logs.PeeLogs = array3;
-                        StartCoroutine(DataHandler.CreatePeelogs(log3));
+                        PeeQueue.Enqueue(log3);
                     }
 
-                    TimeHandler.GetCurrentTime();
                     DataHandler.GardenLog targetGardenLog = null;
                     int targetIndex = -1;
                     for (int j = 0; j < DataHandler.Garden_logs.GardenLogs.Length; j++) {
@@ -275,33 +269,106 @@ public class ProtocolHandler : MonoBehaviour
                         targetGardenLog.id = DataHandler.User_id;
                         targetGardenLog.timestamp = historyStamp;
                         targetGardenLog.flower = 0;
+                        targetGardenLog.log_water = 0; targetGardenLog.log_pee = 0; targetGardenLog.log_poop = 0;
                         if (bytes[6 + 5 * i] == 1) targetGardenLog.log_water = 1;
                         else if (bytes[6 + 5 * i] == 2) targetGardenLog.log_pee = 1;
                         else if (bytes[6 + 5 * i] == 3) targetGardenLog.log_poop = 1;
                         array = new DataHandler.GardenLog[DataHandler.Garden_logs.GardenLogs.Length + 1];
                         DataHandler.CreateGardenIndex.Enqueue(array.Length - 1);
                         array[array.Length - 1] = targetGardenLog;
-                        DataHandler.Garden_logs.GardenLogs = array;
                         for (int j = 0; j < DataHandler.Garden_logs.GardenLogs.Length; j++)
                             array[j] = DataHandler.Garden_logs.GardenLogs[j];
+                        DataHandler.Garden_logs.GardenLogs = array;
                         StartCoroutine(DataHandler.CreateGardenlogs(targetGardenLog));
                     } else {
                         if (bytes[6 + 5 * i] == 1) DataHandler.Garden_logs.GardenLogs[targetIndex].log_water += 1;
                         else if (bytes[6 + 5 * i] == 2) DataHandler.Garden_logs.GardenLogs[targetIndex].log_pee += 1;
                         else if (bytes[6 + 5 * i] == 3) DataHandler.Garden_logs.GardenLogs[targetIndex].log_poop += 1;
-                        StartCoroutine(DataHandler.UpdateGardenLogs(DataHandler.Garden_logs.GardenLogs[targetIndex]));
+
+                        DataHandler.GardenLog target = DataHandler.Garden_logs.GardenLogs[targetIndex];
+                        bool flag = false;
+                        for(int k = 0; k < GardenList.Count; k++) {
+                            if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                                new TimeHandler.DateTimeStamp(GardenList[k].timestamp),
+                                new TimeHandler.DateTimeStamp(target.timestamp)) == 0) {
+                                GardenList[k] = target; flag = true;
+                                break;
+                            }
+                        }
+                        if(!flag) GardenList.Add(target);
                     }
                 }
-
-                //SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DATA);
-                if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
-                    HomeHandler.Instance.Redrawmap2();
-                    MainPageHeaderHandler.Instance.DataReload();
-                } else if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.LOG) {
-                    LogCanvasHandler.Instance.BLE_Redraw();
-                }
+                checkHistoryRoutine = StartCoroutine(CheckHistory());
             }
         }
+    }
+
+    private Queue<DataHandler.WaterLog> WaterQueue;
+    private Queue<DataHandler.PoopLog> PooQueue;
+    private Queue<DataHandler.PeeLog> PeeQueue;
+
+
+    private IEnumerator CheckHistory() {
+        SendingServerObject.SetActive(true);
+        int totalDataNum = WaterQueue.Count + PeeQueue.Count + PooQueue.Count;
+        int currentNum = 0;
+        SendingServer.DrawBar(totalDataNum, currentNum);
+        yield return new WaitForSeconds(1f);
+        while (WaterQueue.Count > 0) {
+            array2 = new DataHandler.WaterLog[DataHandler.Water_logs.WaterLogs.Length + 1];
+            DataHandler.CreateWaterIndex.Enqueue(array2.Length - 1);
+            for (int j = 0; j < DataHandler.Water_logs.WaterLogs.Length; j++)
+                array2[j] = DataHandler.Water_logs.WaterLogs[j];
+            array2[array2.Length - 1] = WaterQueue.Dequeue();
+            DataHandler.Water_logs.WaterLogs = array2;
+            StartCoroutine(DataHandler.CreateWaterlogs(array2[array2.Length - 1]));
+            yield return new WaitForSeconds(0.1f);
+            currentNum++;
+            SendingServer.DrawBar(totalDataNum, currentNum);
+        }
+
+        while (PeeQueue.Count > 0) {
+            array3 = new DataHandler.PeeLog[DataHandler.Pee_logs.PeeLogs.Length + 1];
+            DataHandler.CreatePeeIndex.Enqueue(array3.Length - 1);
+            for (int j = 0; j < DataHandler.Pee_logs.PeeLogs.Length; j++)
+                array3[j] = DataHandler.Pee_logs.PeeLogs[j];
+            array3[array3.Length - 1] = PeeQueue.Dequeue();
+            DataHandler.Pee_logs.PeeLogs = array3;
+            StartCoroutine(DataHandler.CreatePeelogs(array3[array3.Length - 1]));
+            yield return new WaitForSeconds(0.1f);
+            currentNum++;
+            SendingServer.DrawBar(totalDataNum, currentNum);
+        }
+
+        while (PooQueue.Count > 0) {
+            array1 = new DataHandler.PoopLog[DataHandler.Poop_logs.PoopLogs.Length + 1];
+            DataHandler.CreatePooIndex.Enqueue(array1.Length - 1);
+            for (int j = 0; j < DataHandler.Poop_logs.PoopLogs.Length; j++)
+                array1[j] = DataHandler.Poop_logs.PoopLogs[j];
+            array1[array1.Length - 1] = PooQueue.Dequeue();
+            DataHandler.Poop_logs.PoopLogs = array1;
+            StartCoroutine(DataHandler.CreatePooplogs(array1[array1.Length - 1]));
+            yield return new WaitForSeconds(0.1f);
+            currentNum++;
+            SendingServer.DrawBar(totalDataNum, currentNum);
+        }
+
+        for (int i = 0; i < GardenList.Count; i++) {
+            StartCoroutine(DataHandler.UpdateGardenLogs(GardenList[i]));
+            yield return new WaitForSeconds(0.1f);
+        }
+        GardenList.Clear();
+
+        if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
+            HomeHandler.Instance.Redrawmap2();
+            MainPageHeaderHandler.Instance.DataReload();
+        } else if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.LOG) {
+            LogCanvasHandler.Instance.BLE_Redraw();
+        }
+        yield return new WaitForSeconds(1f);
+        SendingServerObject.SetActive(false);
+
+        checkHistoryRoutine = null;
     }
 
     static public byte[] SetTimerToCurrent() {
