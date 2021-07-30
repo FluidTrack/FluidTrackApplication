@@ -325,10 +325,11 @@ public class BluetoothManager : MonoBehaviour {
         if (TotalManager.instance.isRegisterMode)
             Welcome5Handler.Instance.RegisterUI.SetActive(true);
 		SetCurrentTimeZone();
-		QueryHistory();
 		isConnected = true;
 		isReconnectEnable = true;
 		StartCoroutine(ConnectionCheck());
+		yield return new WaitForSeconds(0.7f);
+		QueryHistory();
 		AutoConnect = true;
 		if (MoabandStatusHandler.Instance != null && MoabandStatusHandler.Instance.gameObject.activeSelf)
             MoabandStatusHandler.Instance.ConnectTimeRefresh();
