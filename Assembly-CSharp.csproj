@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Bluetooth\AlertHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Bluetooth\DeviceListHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Bluetooth\ScanPanelHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Calendar\CalendarHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\CanvasDisableAnimationContoller.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\ErrorOcurredWindowHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\FlashHandler.cs" />

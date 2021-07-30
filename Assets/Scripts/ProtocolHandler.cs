@@ -257,7 +257,6 @@ public class ProtocolHandler : MonoBehaviour
                         StartCoroutine(DataHandler.CreatePeelogs(log3));
                     }
 
-                    TimeHandler.GetCurrentTime();
                     DataHandler.GardenLog targetGardenLog = null;
                     int targetIndex = -1;
                     for (int j = 0; j < DataHandler.Garden_logs.GardenLogs.Length; j++) {
@@ -294,6 +293,8 @@ public class ProtocolHandler : MonoBehaviour
                 }
 
                 //SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DATA);
+                SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DATA2);
+                StartCoroutine(ReadGardenLogsRoutine());
                 if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
                     HomeHandler.Instance.Redrawmap2();
                     MainPageHeaderHandler.Instance.DataReload();

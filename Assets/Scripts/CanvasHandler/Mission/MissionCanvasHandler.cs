@@ -76,8 +76,6 @@ public class MissionCanvasHandler : MonoBehaviour
     }
 
     public void OnEnable() {
-        StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
-        DataHandler.User_isDataLoaded = false;
         StartCoroutine(FetchCheck_User());
     }
 
@@ -108,9 +106,7 @@ public class MissionCanvasHandler : MonoBehaviour
 
     IEnumerator FetchCheck_User() {
         yield return new WaitForSeconds(0.3f);
-        while (!DataHandler.User_isDataLoaded) {
-            yield return 0;
-        }
+        yield return 0;
         TimeHandler.GetCurrentTime();
         string currentTimeStamp = TimeHandler.TableCanvasTime.ToDateString();
         TimeHandler.DateTimeStamp stamp = new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
@@ -167,18 +163,12 @@ public class MissionCanvasHandler : MonoBehaviour
             }
 
         }
-        DataHandler.User_isGardenDataLoaded = false;
-        StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
         StartCoroutine(FetchCheck_Garden());
     }
 
 
     IEnumerator FetchCheck_Garden() {
-        yield return new WaitForSeconds(0.3f);
-        while (!DataHandler.User_isGardenDataLoaded) {
-            yield return 0;
-        }
-        DataHandler.User_isGardenDataLoaded = false;
+        yield return 0;
 
         List<int> flowers = new List<int>();
         for(int i = 0; i < TotalDateCount; i++)
