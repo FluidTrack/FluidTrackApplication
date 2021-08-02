@@ -27,7 +27,6 @@ public class MissionPageMongMongHandler : MonoBehaviour
         ComplimentObject.SetActive(false);
         GloomingObject.SetActive(false);
         DataHandler.User_isGardenDataLoaded = false;
-        StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
         StartCoroutine(FetchData());
         StartCoroutine(SayQuotes());
     }
@@ -104,9 +103,7 @@ public class MissionPageMongMongHandler : MonoBehaviour
     }
 
     public IEnumerator FetchData() {
-        while (!DataHandler.User_isGardenDataLoaded)
-            yield return 0;
-        DataHandler.User_isGardenDataLoaded = false;
+        yield return 0;
 
         TimeHandler.GetCurrentTime();
         TimeHandler.DateTimeStamp today = TimeHandler.CurrentTime;
@@ -117,10 +114,10 @@ public class MissionPageMongMongHandler : MonoBehaviour
         for(int i = 0; i < count; i++) {
             if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                     yesterday, new TimeHandler.DateTimeStamp(logs[i].timestamp)) == 0)
-                yesterdayLog = logs[i].flower;
+                yesterdayLog = (logs[i].flower + logs[i].log_water);
             else if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                     today, new TimeHandler.DateTimeStamp(logs[i].timestamp)) == 0) {
-                todayLog = logs[i].flower;
+                todayLog = (logs[i].flower + logs[i].log_water );
                 break;
             }
         }

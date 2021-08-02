@@ -170,14 +170,14 @@ public class MissionCanvasHandler : MonoBehaviour
     IEnumerator FetchCheck_Garden() {
         yield return 0;
 
-        List<int> flowers = new List<int>();
+        List<int> waters = new List<int>();
         for(int i = 0; i < TotalDateCount; i++)
-            flowers.Add(0);
+            waters.Add(0);
 
         foreach(DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
             try {
                 int index = dateList[log.timestamp.Split(' ')[0]];
-                flowers[index] = log.log_water;
+                waters[index] = (log.log_water + log.flower);
             } catch(System.Exception e) { e.ToString(); }
         }
 
@@ -185,8 +185,8 @@ public class MissionCanvasHandler : MonoBehaviour
         TotalText.text = linkCount + " 일";
         int max = -1, count = 0;
         for (int i = 0; i < TotalDateCount; i++) {
-            //Debug.Log(i + " : " + flowers[i]);
-            if (flowers[i] < Goal) { 
+            Debug.Log(i + " : " + waters[i]);
+            if (waters[i] < Goal) { 
                 max = ( max < count ) ? count : max;
                 count = 0;
                 continue;
@@ -198,7 +198,7 @@ public class MissionCanvasHandler : MonoBehaviour
             TotalText.text = linkCount + " 일";
             hole[i].sprite = Success;
             hole[i].GetComponent<Animator>().SetTrigger("Pop");
-            if (i > 0 && flowers[i-1] >= Goal) link[i - 1].SetActive(true);
+            if (i > 0 && waters[i-1] >= Goal) link[i - 1].SetActive(true);
             SoundHandler.Instance.Play_SFX(1);
             yield return new WaitForSeconds(0.13f);
         }

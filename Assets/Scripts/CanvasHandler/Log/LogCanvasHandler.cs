@@ -579,7 +579,7 @@ public class LogCanvasHandler : MonoBehaviour
                 slot.PooTop.Number.text = " ";
             }
             GameObject newLog = Instantiate(PoopLogPrefab, DownSlot[index]);
-            if(log.type == 0 || log.type ==8)
+            if(log.type ==8)
                 wrongPooCheck[index] = true;
             spawnObjects.Add(newLog);
             slot.PooCount++;

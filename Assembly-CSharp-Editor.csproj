@@ -64,7 +64,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Shatalmic\Editor\BluetoothPostProcessBuild.cs" />
     <Compile Include="Assets\unity-ui-extensions\Editor\AccordionElementEditor.cs" />
     <Compile Include="Assets\unity-ui-extensions\Editor\BezierLineRendererEditor.cs" />
     <Compile Include="Assets\unity-ui-extensions\Editor\BoxSliderEditor.cs" />
@@ -276,9 +275,6 @@
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.2f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.WebGL.Extensions">
-      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.2f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Android.Extensions">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.2f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>

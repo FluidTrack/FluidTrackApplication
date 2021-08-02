@@ -151,17 +151,6 @@
     <Compile Include="Assets\Scripts\TimerHandler2.cs" />
     <Compile Include="Assets\Scripts\TotalManager.cs" />
     <Compile Include="Assets\Scripts\WateringAnimationSound.cs" />
-    <Compile Include="Assets\Shatalmic\Example\ArduinoHM10Test\ArduinoHM10Test.cs" />
-    <Compile Include="Assets\Shatalmic\Example\MultipleLevels\DeviceObject.cs" />
-    <Compile Include="Assets\Shatalmic\Example\MultipleLevels\FoundDeviceListScript.cs" />
-    <Compile Include="Assets\Shatalmic\Example\MultipleLevels\Level1Script.cs" />
-    <Compile Include="Assets\Shatalmic\Example\MultipleLevels\Level2Script.cs" />
-    <Compile Include="Assets\Shatalmic\Example\ScannerTest\ScannedItemScript.cs" />
-    <Compile Include="Assets\Shatalmic\Example\ScannerTest\ScannerTestScript.cs" />
-    <Compile Include="Assets\Shatalmic\Example\SensorBugTest\SensorBugTest.cs" />
-    <Compile Include="Assets\Shatalmic\Example\StartingExample\StartingExample.cs" />
-    <Compile Include="Assets\Shatalmic\Example\iBeaconExample\iBeaconExampleScript.cs" />
-    <Compile Include="Assets\Shatalmic\Example\iBeaconExample\iBeaconItemScript.cs" />
     <Compile Include="Assets\unity-ui-extensions\Runtime\Scripts\Controls\Accordion\Accordion.cs" />
     <Compile Include="Assets\unity-ui-extensions\Runtime\Scripts\Controls\Accordion\AccordionElement.cs" />
     <Compile Include="Assets\unity-ui-extensions\Runtime\Scripts\Controls\Accordion\Tweening\FloatTween.cs" />

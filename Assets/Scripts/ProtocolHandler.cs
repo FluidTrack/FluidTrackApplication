@@ -223,8 +223,8 @@ public class ProtocolHandler : MonoBehaviour {
                 else if ((int)bytes[1] == 10) Length = 2;
                 else if ((int)bytes[1] == 5) Length = 1;
                 if (Length == 0) return;
-                Debug.LogError("History : " + Length);
-                if(checkHistoryRoutine != null) {
+
+                if (checkHistoryRoutine != null) {
                     StopCoroutine(checkHistoryRoutine);
                     checkHistoryRoutine = null;
                 }
@@ -285,29 +285,18 @@ public class ProtocolHandler : MonoBehaviour {
                         else if (bytes[6 + 5 * i] == 2) DataHandler.Garden_logs.GardenLogs[targetIndex].log_pee += 1;
                         else if (bytes[6 + 5 * i] == 3) DataHandler.Garden_logs.GardenLogs[targetIndex].log_poop += 1;
 
-<<<<<<< HEAD
-                //SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DATA);
-                SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DATA2);
-                StartCoroutine(ReadGardenLogsRoutine());
-                if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
-                    HomeHandler.Instance.Redrawmap2();
-                    MainPageHeaderHandler.Instance.DataReload();
-                } else if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.LOG) {
-                    LogCanvasHandler.Instance.BLE_Redraw();
-=======
                         DataHandler.GardenLog target = DataHandler.Garden_logs.GardenLogs[targetIndex];
                         bool flag = false;
-                        for(int k = 0; k < GardenList.Count; k++) {
-                            if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(
+                        for (int k = 0; k < GardenList.Count; k++) {
+                            if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(
                                 new TimeHandler.DateTimeStamp(GardenList[k].timestamp),
                                 new TimeHandler.DateTimeStamp(target.timestamp)) == 0) {
                                 GardenList[k] = target; flag = true;
                                 break;
                             }
                         }
-                        if(!flag) GardenList.Add(target);
+                        if (!flag) GardenList.Add(target);
                     }
->>>>>>> 63f48466d7ba1f0e20e01d2f809da2c34523d988
                 }
                 checkHistoryRoutine = StartCoroutine(CheckHistory());
             }
@@ -388,7 +377,7 @@ public class ProtocolHandler : MonoBehaviour {
         bytes[0] = 0x03;
         bytes[1] = 8;
         bytes[2] = (byte)now.Year;
-        bytes[3] = (byte)(now.Month);
+        bytes[3] = (byte)( now.Month );
         bytes[4] = (byte)now.Day;
         bytes[5] = (byte)now.Hour;
         bytes[6] = (byte)now.Minute;
@@ -425,7 +414,7 @@ public class ProtocolHandler : MonoBehaviour {
     public string GetCurrentTimeStamp() {
         DateTime now = DateTime.Now;
         string result = now.Year + "-";
-        result += (now.Month) + "-";
+        result += ( now.Month ) + "-";
         result += now.Day + " ";
         result += now.Hour + ":";
         result += now.Minute + ":";
@@ -443,9 +432,9 @@ public class ProtocolHandler : MonoBehaviour {
         string tempResult = MakeTimeStamp(now.Year, ( now.Month ),
             day_int, hour_int, min_int, sec_int);
 
-        if(TimeHandler.DateTimeStamp.isLeafYear(now.Year)) {
+        if (TimeHandler.DateTimeStamp.isLeafYear(now.Year)) {
             int[] arr = TimeHandler.DateTimeStamp.LeafYearDaysList;
-            if(day_int > arr[now.Month - 1]) {
+            if (day_int > arr[now.Month - 1]) {
                 return MakeTimeStamp(now.Year, ( now.Month - 1 ),
                           day_int, hour_int, min_int, sec_int);
             }
@@ -457,7 +446,7 @@ public class ProtocolHandler : MonoBehaviour {
             }
         }
 
-        TimeHandler.DateTimeStamp tempStamp = 
+        TimeHandler.DateTimeStamp tempStamp =
             new TimeHandler.DateTimeStamp(tempResult);
 
         if (TimeHandler.DateTimeStamp.CmpDateTimeStamp
@@ -466,13 +455,13 @@ public class ProtocolHandler : MonoBehaviour {
                           day_int, hour_int, min_int, sec_int);
         else return tempResult;
     }
-    
+
     public string MakeTimeStamp(int day, int hour, int min, int sec) {
         DateTime now = DateTime.Now;
         return MakeTimeStamp(now.Year, ( now.Month ), day, hour, min, sec);
     }
 
-    public string MakeTimeStamp(int year,int month,int day, int hour, int min, int sec) {
+    public string MakeTimeStamp(int year, int month, int day, int hour, int min, int sec) {
         return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
     }
 
