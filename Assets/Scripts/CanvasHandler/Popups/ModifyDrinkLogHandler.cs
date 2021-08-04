@@ -52,7 +52,7 @@ public class ModifyDrinkLogHandler : MonoBehaviour
         isClicked = false;
         isChanged = false;
         Scroll.value = 0;
-        Label.text = "";
+        Label.text = "0 ml";
     }
 
     public void Update() {

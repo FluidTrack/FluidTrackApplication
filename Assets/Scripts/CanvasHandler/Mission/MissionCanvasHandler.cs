@@ -185,7 +185,6 @@ public class MissionCanvasHandler : MonoBehaviour
         TotalText.text = linkCount + " 일";
         int max = -1, count = 0;
         for (int i = 0; i < TotalDateCount; i++) {
-            Debug.Log(i + " : " + waters[i]);
             if (waters[i] < Goal) { 
                 max = ( max < count ) ? count : max;
                 count = 0;

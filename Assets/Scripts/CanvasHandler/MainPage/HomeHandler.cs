@@ -177,6 +177,7 @@ public class HomeHandler : MonoBehaviour
 
     public void Start() {
         Spots = GardenSpotParents.GetComponentsInChildren<GardenSpotHandler>();
+        StartCoroutine(ProtocolHandler.Instance.ReadGardenLogsRoutine());
     }
 
     public void OnEnable() {
@@ -229,7 +230,6 @@ public class HomeHandler : MonoBehaviour
             index++;
         }
 
-        Debug.Log(index);
         DateCount = index+1;
 
         if (DataHandler.User_periode == 4) {

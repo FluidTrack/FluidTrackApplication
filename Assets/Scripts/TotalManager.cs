@@ -205,31 +205,8 @@ public class TotalManager : MonoBehaviour
         }
         if(currentCanvas != (CANVAS)targetIndex) {
             currentCanvas = ( targetIndex == 0 ) ? CANVAS.NULL : (CANVAS)targetIndex;
-            DataHandler.User_isDataLoaded = false;
-            StartCoroutine(DataHandler.ReadUsers(DataHandler.User_id));
         }
     }
-
-    //internal IEnumerator BLE_Check() {
-    //    while (!OtherCanvas[(int)CANVAS.HOME].activeSelf)
-    //        yield return 0;
-    //    yield return new WaitForSeconds(0.2f);
-
-    //    while (true) {
-    //        if (BluetoothManager.GetInstance().isConnected == false) {
-    //            if (DataHandler.User_moa_band_name != "") {
-    //                instance.targetName = DataHandler.User_moa_band_name;
-    //                BluetoothManager.GetInstance().OnConnectStart
-    //                    (DataHandler.User_moa_band_name, "", "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
-    //                                                         "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
-    //                                                         "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
-    //            }
-    //            //while(!BluetoothManager.GetInstance().isConnected)
-    //            yield return new WaitForSeconds(10f);
-    //        }
-    //        yield return new WaitForSeconds(2f);
-    //    }
-    //}
 
     internal void ResetCoroutine() {
         try {

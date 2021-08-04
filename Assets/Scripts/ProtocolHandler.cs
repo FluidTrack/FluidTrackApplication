@@ -60,20 +60,21 @@ public class ProtocolHandler : MonoBehaviour {
                 }
             }
 
-        if (DataHandler.Garden_logs != null && DataHandler.Garden_logs.GardenLogs != null && DataHandler.Garden_logs.GardenLogs.Length > 0)
+        if (DataHandler.Garden_logs != null && DataHandler.Garden_logs.GardenLogs != null && DataHandler.Garden_logs.GardenLogs.Length > 0) {
             foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
                 if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.LogCanvasTime) == 0) {
-                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) 
                         ThereAreTodos = true;
-                        break;
-                    }
-                } else if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.CurrentTime) == 0) {
-                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
-                        ThereAreTodosToday = true;
-                        break;
-                    }
                 }
             }
+
+            foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.CurrentTime) == 0) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 ))
+                        ThereAreTodosToday = true;
+                }
+            }
+        }
 
         LogCircle.SetActive(ThereAreTodosToday || ThereIsUnknown);
         FlowerCircle.SetActive(ThereAreTodos);
@@ -359,6 +360,7 @@ public class ProtocolHandler : MonoBehaviour {
         }
         GardenList.Clear();
 
+        StartCoroutine(ReadGardenLogsRoutine());
         if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {
             HomeHandler.Instance.Redrawmap2();
             MainPageHeaderHandler.Instance.DataReload();

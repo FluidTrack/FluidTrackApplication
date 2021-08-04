@@ -49,10 +49,7 @@ public class FlowerPageHandler : MonoBehaviour
     }
 
     public IEnumerator FetchUser() {
-        while (!DataHandler.User_isDataLoaded)
-            yield return 0;
-        DataHandler.User_isDataLoaded = false;
-        StartCoroutine(DataHandler.ReadGardenLogs(DataHandler.User_id));
+        yield return 0;
 
         int index = 0;
         TimeHandler.DateTimeStamp indexTime =
@@ -70,16 +67,12 @@ public class FlowerPageHandler : MonoBehaviour
     }
 
     IEnumerator writeGardenLogId(DataHandler.GardenLog log) {
-        while (!DataHandler.User_isGardenDataCreated)
             yield return 0;
-        DataHandler.User_isGardenDataCreated = false;
         log.log_id = DataHandler.User_isGardenDataCreatedId;
     }
 
     public IEnumerator FetchData() {
-        while(!DataHandler.User_isGardenDataLoaded)
             yield return 0;
-        DataHandler.User_isGardenDataLoaded = false;
 
         TargetGardenLog = null;
         for(int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i ++) {
@@ -173,31 +166,41 @@ public class FlowerPageHandler : MonoBehaviour
     }
 
     public void DragPee() {
-        EffectSpawnZone.gameObject.SetActive(true);
-        isTouchAble = false;
-        MongMong.PeeDrop();
-        StartCoroutine(TouchAbleControl(1.1f));
-        StartCoroutine(EffectSpwanZoneOff());
-        Instantiate(Ring, EffectSpawnZone);
-        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA5);
-        TargetGardenLog.item_0 = 1;
-        SpotHandler.DragPee();
+        MongMong.PeeDrop(TargetGardenLog.flower);
+
+        if(TargetGardenLog.flower <= 0) {
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
+        } else {
+            EffectSpawnZone.gameObject.SetActive(true);
+            isTouchAble = false;
+            StartCoroutine(TouchAbleControl(1.1f));
+            StartCoroutine(EffectSpwanZoneOff());
+            Instantiate(Ring, EffectSpawnZone);
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA5);
+            TargetGardenLog.item_0 = 1;
+            SpotHandler.DragPee();
+            iconCount--;
+        }
         StartCoroutine(ReDrawSpot());
-        iconCount--;
     }
 
     public void DragPoo() {
-        EffectSpawnZone.gameObject.SetActive(true);
-        isTouchAble = false;
-        MongMong.PooDrop();
-        StartCoroutine(TouchAbleControl(1.1f));
-        StartCoroutine(EffectSpwanZoneOff());
-        Instantiate(Ring, EffectSpawnZone);
-        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA5);
-        TargetGardenLog.item_1 = 1;
-        SpotHandler.DragPoo();
+        MongMong.PooDrop(TargetGardenLog.flower);
+
+        if (TargetGardenLog.flower <= 0) {
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
+        } else {
+            EffectSpawnZone.gameObject.SetActive(true);
+            isTouchAble = false;
+            StartCoroutine(TouchAbleControl(1.1f));
+            StartCoroutine(EffectSpwanZoneOff());
+            Instantiate(Ring, EffectSpawnZone);
+            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA5);
+            TargetGardenLog.item_1 = 1;
+            SpotHandler.DragPoo();
+            iconCount--;
+        }
         StartCoroutine(ReDrawSpot());
-        iconCount--;
     }
 
     public void SpawnEffect() {
@@ -217,7 +220,7 @@ public class FlowerPageHandler : MonoBehaviour
     }
 
     IEnumerator ReDrawSpot() {
-        yield return new WaitForSeconds(0.2f);
+        yield return 0;
         StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
         for (int i = 0; i < WaterIcons.Count; i++) {
             GameObject temp = WaterIcons[i];
@@ -227,7 +230,12 @@ public class FlowerPageHandler : MonoBehaviour
 
         for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++) {
             if (DataHandler.Garden_logs.GardenLogs[i].log_id == TargetGardenLog.log_id) {
-                DataHandler.Garden_logs.GardenLogs[i] = TargetGardenLog;
+                DataHandler.Garden_logs.GardenLogs[i].item_0 = TargetGardenLog.item_0;
+                DataHandler.Garden_logs.GardenLogs[i].item_1 = TargetGardenLog.item_1;
+                DataHandler.Garden_logs.GardenLogs[i].log_water = TargetGardenLog.log_water;
+                DataHandler.Garden_logs.GardenLogs[i].log_poop = TargetGardenLog.log_poop;
+                DataHandler.Garden_logs.GardenLogs[i].log_pee = TargetGardenLog.log_pee;
+                DataHandler.Garden_logs.GardenLogs[i].flower = TargetGardenLog.flower;
                 break;
             }
         }
@@ -239,6 +247,7 @@ public class FlowerPageHandler : MonoBehaviour
         int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
         WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
+
         int k = 0;
         for (k = 0; k < waterIconCount; k++) {
             GameObject go = Instantiate(WaterPrefab, WaterSlot);

@@ -97,25 +97,12 @@ public class CalendarHandler : MonoBehaviour {
     }
     private IEnumerator CheckLoadAndVisualize_1() {
         yield return 0;
-        while (!DataHandler.User_isDataLoaded) {
-            yield return 0;
-        }
-        DataHandler.User_isDataLoaded = false;
-        StartCoroutine(DataHandler.ReadWaterLogs(DataHandler.User_id));
-        StartCoroutine(DataHandler.ReadPeeLogs(DataHandler.User_id));
-        StartCoroutine(DataHandler.ReadPoopLogs(DataHandler.User_id));
         StartCoroutine(CheckLoadAndVisualize_2());
     }
 
     private IEnumerator CheckLoadAndVisualize_2() {
         isDataLoaded = true;
         yield return 0;
-        while (!DataHandler.User_isWaterDataLoaded ||
-              !DataHandler.User_isPeeDataLoaded ||
-              !DataHandler.User_isPooDataLoaded) { yield return 0; }
-        DataHandler.User_isWaterDataLoaded = false;
-        DataHandler.User_isPeeDataLoaded = false;
-        DataHandler.User_isPooDataLoaded = false;
 
         foreach (DataHandler.WaterLog log in DataHandler.Water_logs.WaterLogs) {
             string timestamp = log.timestamp.Split(' ')[0];
@@ -235,7 +222,6 @@ public class CalendarHandler : MonoBehaviour {
             } else DownButton.SetActive(false);
         }
     }
-
 
     private IEnumerator DrawCalendarAnimation() {
         TimeHandler.DateTimeStamp indexTime =

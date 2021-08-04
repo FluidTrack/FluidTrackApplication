@@ -24,6 +24,7 @@ public class AddDrinkLogHandler : MonoBehaviour
         OkayButton.interactable = false;
         isClicked = false;
         isChanged = false;
+        Label.text = "0 ml";
     }
 
     public void OnDisable() {
@@ -31,7 +32,7 @@ public class AddDrinkLogHandler : MonoBehaviour
         isClicked = false;
         isChanged = false;
         Scroll.value = 0;
-        Label.text = "";
+        Label.text = "0 ml";
     }
 
     public void Update() {

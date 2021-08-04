@@ -398,6 +398,17 @@ public class LogCanvasHandler : MonoBehaviour
         }
 
         CreateDrinkLog();
+        bool ThereAreTodos = false;
+        if (DataHandler.Garden_logs != null)
+            foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.LogCanvasTime) == 0) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
+                        ThereAreTodos = true;
+                        break;
+                    }
+                }
+            }
+        FlowerCircle.SetActive(ThereAreTodos);
         StartCoroutine(ProtocolHandler.Instance.ReadGardenLogsRoutine());
         if (currentFirstHour <= 0) {
             TimeLeftButton.transform.parent.GetComponent<Button>().interactable = false;
@@ -1407,7 +1418,6 @@ public class LogCanvasHandler : MonoBehaviour
                 }
             }
         FlowerCircle.SetActive(ThereAreTodos);
-        Debug.Log("FlowerCircle : " + FlowerCircle.ToString());
         StartCoroutine(ProtocolHandler.Instance.ReadGardenLogsRoutine());
         WaterCountText.text = count_water.ToString();
         DrinkCountText.text = count_drink.ToString();
@@ -1531,6 +1541,17 @@ public class LogCanvasHandler : MonoBehaviour
             Circle.SetActive(false);
         }
         CreateDrinkLog();
+        bool ThereAreTodos = false;
+        if (DataHandler.Garden_logs != null)
+            foreach (DataHandler.GardenLog log in DataHandler.Garden_logs.GardenLogs) {
+                if (TimeHandler.DateTimeStamp.CmpDateTimeStamp(new TimeHandler.DateTimeStamp(log.timestamp), TimeHandler.LogCanvasTime) == 0) {
+                    if (( log.log_water > 0 && log.flower < 10 ) || ( log.log_pee > 0 && log.item_0 == 0 ) || ( log.log_poop > 0 && log.item_1 == 0 )) {
+                        ThereAreTodos = true;
+                        break;
+                    }
+                }
+            }
+        FlowerCircle.SetActive(ThereAreTodos);
         StartCoroutine(ProtocolHandler.Instance.ReadGardenLogsRoutine());
         WaterCountText.text = count_water.ToString();
         DrinkCountText.text = count_drink.ToString();

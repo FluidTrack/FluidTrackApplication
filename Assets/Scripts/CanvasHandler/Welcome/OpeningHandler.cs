@@ -13,6 +13,12 @@ public class OpeningHandler : MonoBehaviour
 
     void Start() {
         ProgressLog.text = "어플리케이션 초기화 중";
+        BluetoothLEHardwareInterface.Initialize(true, false, () => {
+            BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) => {}, null);
+        }, (error) => {
+            Debug.LogError("BLE Error : " + error);
+            BluetoothLEHardwareInterface.Log("BLE Error: " + error);
+        });
         ProgressBar.sizeDelta = new Vector2(230f * 0.2f,24f);
         StartCoroutine(CheckNetwork());
     }
@@ -22,6 +28,7 @@ public class OpeningHandler : MonoBehaviour
         //SoundHandler.Instance.Play_Music(0);
         yield return new WaitForSeconds(1.7f);
         ProgressLog.text = "네트워크 연결 확인 중";
+        BluetoothLEHardwareInterface.StopScan();
         ProgressBar.sizeDelta = new Vector2(230f * 0.4f, 24f);
         UnityWebRequest request = new UnityWebRequest();
 
