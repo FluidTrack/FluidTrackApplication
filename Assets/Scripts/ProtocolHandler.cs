@@ -195,6 +195,8 @@ public class ProtocolHandler : MonoBehaviour {
                     else if (bytes[6] == 3) DataHandler.Garden_logs.GardenLogs[targetIndex].log_poop += 1;
                     StartCoroutine(DataHandler.UpdateGardenLogs(DataHandler.Garden_logs.GardenLogs[targetIndex]));
                 }
+                MainPageMongMongHandler.todayGardenLog = targetGardenLog;
+                MainPageMongMongHandler.todayLoged = true;
                 SoundHandler.Instance.Play_SFX(SoundHandler.SFX.DATA2);
                 StartCoroutine(ReadGardenLogsRoutine());
                 if (TotalManager.instance.currentCanvas == TotalManager.CANVAS.HOME) {

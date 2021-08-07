@@ -48,8 +48,20 @@ public class FlowerPageSpotHandler : MonoBehaviour
     }
 
     public void Watering() {
+        NumberAnim.speed = 1f;
         flowerCount++;
         if(isSparkling) {
+            foreach (FlowerPageSpriteHandler handler in FlowerParts)
+                handler.ChangeSprite_Up(Step);
+            FlowerParts[flowerCount - 1].Particle.SetActive(true);
+        }
+        NumberAnim.SetInteger("flowers", flowerCount);
+    }
+
+    public void Watering2(float speed) {
+        NumberAnim.speed = speed;
+        flowerCount++;
+        if (isSparkling) {
             foreach (FlowerPageSpriteHandler handler in FlowerParts)
                 handler.ChangeSprite_Up(Step);
             FlowerParts[flowerCount - 1].Particle.SetActive(true);

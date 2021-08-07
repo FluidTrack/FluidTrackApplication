@@ -1020,7 +1020,6 @@ public class DataHandler : MonoBehaviour
         url += "&start_time=" + log.start_time;
         url += "&end_time=" + log.end_time;
         url += "&second=" + log.second;
-        Debug.Log(url);
         using (request = UnityWebRequest.Get(DataHandler.ServerAddress + url)) {
             yield return request.SendWebRequest();
             if (request.isNetworkError)

@@ -32,10 +32,12 @@ public class DateCheckHandler : MonoBehaviour
             if(currentStampString != stampString) {
                 // stampString값을 현재 값으로 바꿔주고, 정원가기 페이지로 이동
                 stampString = SplitString(new TimeHandler.DateTimeStamp(DateTime.Now));
-                if(Footer.gameObject.activeSelf == true) {
+                MainPageMongMongHandler.InitComplete = false;
+                if (Footer.gameObject.activeSelf == true) {
                     for (int i = 0; i < UIObjects.Length; i++)
                         UIObjects[i].SetActive(false);
                     Footer.FooterButtonClick(0);
+
                     ProtocolHandler.Instance.ReadGardenLogs();
                     if(LogCanvas.gameObject.activeSelf)
                         Blocker.OnSideClick();
@@ -50,6 +52,7 @@ public class DateCheckHandler : MonoBehaviour
 
         // 시,분,초 중 초의 10의 자리가 달라지달 때 마다 결과가 달라짐
         //result += stamp.Hours + ":" + stamp.Minutes + ":" + ( stamp.Seconds / 10 );
+
 
         return result;
     }

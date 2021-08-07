@@ -49,6 +49,22 @@ public class FooterBarHandler : MonoBehaviour
             } catch(System.Exception e) { e.ToString(); }
         }
         screenLog = new DataHandler.ScreenLog();
+
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].activeSelf)
+            screenLog.screen_num = 0;
+
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].activeSelf)
+            screenLog.screen_num = 1;
+
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].activeSelf)
+            screenLog.screen_num = 2;
+
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].activeSelf)
+            screenLog.screen_num = 3;
+
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf)
+            screenLog.screen_num = 4;
+
         startLog_new = System.DateTime.Now;
     }
 
@@ -61,41 +77,10 @@ public class FooterBarHandler : MonoBehaviour
         DataHandler.User_isGardenDataLoaded = false;
         SoundHandler.Instance.StopMongMong();
 
-        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].activeSelf) {
-            Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].GetComponent<Animator>();
-            if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
-                !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
 
-            screenLog.screen_num = 0;
-        }
-
-        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].activeSelf) {
-            Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].GetComponent<Animator>();
-            if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
-                !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
-            screenLog.screen_num = 1;
-
-        }
-
-        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].activeSelf) {
-            Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].GetComponent<Animator>();
-            if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
-                !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
-            screenLog.screen_num = 2;
-
-        }
-
-        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].activeSelf) {
-            Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].GetComponent<Animator>();
-            if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
-                !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
-            screenLog.screen_num = 3;
-
-        }
 
         endLog = System.DateTime.Now;
         startLog_old = startLog_new;
-        startLog_new = System.DateTime.Now;
         long elapsedTicks = endLog.Ticks - startLog_old.Ticks;
         System.TimeSpan elapsedSpan = new System.TimeSpan(elapsedTicks);
         screenLog.start_time = (new TimeHandler.DateTimeStamp(startLog_old)).ToString();
@@ -137,9 +122,112 @@ public class FooterBarHandler : MonoBehaviour
         }
 
         currentPage = (FOOTER_BTN)index;
+        startLog_new = System.DateTime.Now;
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].activeSelf) {
+            Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].GetComponent<Animator>();
+            if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+                !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+
+            screenLog.screen_num = 0;
+        }
+
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].activeSelf) {
+            Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].GetComponent<Animator>();
+            if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+                !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+            screenLog.screen_num = 1;
+
+        }
+
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].activeSelf) {
+            Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].GetComponent<Animator>();
+            if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+                !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+            screenLog.screen_num = 2;
+
+        }
+
+        if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].activeSelf) {
+            Animator tempAnim = TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].GetComponent<Animator>();
+            if (!tempAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
+                !tempAnim.GetCurrentAnimatorStateInfo(0).IsName("OnEnable")) return;
+            screenLog.screen_num = 3;
+        }
+    }
+    private bool bPause = false;
+    private void OnApplicationPause(bool pause) {
+        if (pause) {
+            bPause = true;
+            // 일시정지
+            endLog = System.DateTime.Now;
+            startLog_old = startLog_new;
+            long elapsedTicks = endLog.Ticks - startLog_old.Ticks;
+            System.TimeSpan elapsedSpan = new System.TimeSpan(elapsedTicks);
+            screenLog.start_time = ( new TimeHandler.DateTimeStamp(startLog_old) ).ToString();
+            screenLog.end_time = ( new TimeHandler.DateTimeStamp(endLog) ).ToString();
+
+            screenLog.second = (uint)elapsedSpan.TotalSeconds;
+            screenLog.id = DataHandler.User_id;
+            StartCoroutine(DataHandler.CreateScreenlogs(screenLog));
+        } else {
+            if (bPause) {
+                bPause = false;
+                // 일시정지후 돌아옴
+                screenLog = new DataHandler.ScreenLog();
+
+                if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].activeSelf)
+                    screenLog.screen_num = 0;
+                if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].activeSelf)
+                    screenLog.screen_num = 1;
+                if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.TABLE].activeSelf)
+                    screenLog.screen_num = 2;
+                if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.CALENDAR].activeSelf)
+                    screenLog.screen_num = 3;
+                if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf)
+                    screenLog.screen_num = 4;
+
+                startLog_new = System.DateTime.Now;
+            }
+        }
     }
 
-    public void OnDisable() {
+
+    private bool FlowerPageFlag = false;
+    public void Update() {
+        if(!FlowerPageFlag) {
+            if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf) {
+                FlowerPageFlag = true;
+                endLog = System.DateTime.Now;
+                startLog_old = startLog_new;
+                long elapsedTicks = endLog.Ticks - startLog_old.Ticks;
+                System.TimeSpan elapsedSpan = new System.TimeSpan(elapsedTicks);
+                screenLog.start_time = ( new TimeHandler.DateTimeStamp(startLog_old) ).ToString();
+                screenLog.end_time = ( new TimeHandler.DateTimeStamp(endLog) ).ToString();
+
+                screenLog.second = (uint)elapsedSpan.TotalSeconds;
+                screenLog.id = DataHandler.User_id;
+                StartCoroutine(DataHandler.CreateScreenlogs(screenLog));
+                screenLog.screen_num = 4;
+                startLog_new = System.DateTime.Now;
+            }
+        } else if (!TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf) {
+                FlowerPageFlag = false;
+                endLog = System.DateTime.Now;
+                startLog_old = startLog_new;
+                long elapsedTicks = endLog.Ticks - startLog_old.Ticks;
+                System.TimeSpan elapsedSpan = new System.TimeSpan(elapsedTicks);
+                screenLog.start_time = ( new TimeHandler.DateTimeStamp(startLog_old) ).ToString();
+                screenLog.end_time = ( new TimeHandler.DateTimeStamp(endLog) ).ToString();
+
+                screenLog.second = (uint)elapsedSpan.TotalSeconds;
+                screenLog.id = DataHandler.User_id;
+                StartCoroutine(DataHandler.CreateScreenlogs(screenLog));
+                screenLog.screen_num = 1;
+                startLog_new = System.DateTime.Now;
+            }
+    }
+
+    public void OnApplicationQuit() {
         endLog = System.DateTime.Now;
         startLog_old = startLog_new;
         startLog_new = System.DateTime.Now;

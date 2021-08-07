@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FlowerPageHandler : MonoBehaviour
 {
     public GameObject WateringAnim;
+    public GameObject WateringAnim2;
     public static DataHandler.GardenLog CurrentLog;
     public static FlowerPageHandler Instance;
     public FlowerPageMongMongHandler MongMong;
@@ -18,6 +20,7 @@ public class FlowerPageHandler : MonoBehaviour
     public GameObject Ring;
     public List<GameObject> WaterIcons;
     public RectTransform TargetZone;
+    public Button WateringAllButton;
 
     private int iconCount = 0;
 
@@ -34,7 +37,7 @@ public class FlowerPageHandler : MonoBehaviour
         if (TimeHandler.LogCanvasTime == null)
             TimeHandler.GetCurrentTime();
         DateString = TimeHandler.LogCanvasTime.ToDateString();
-        
+        WateringAllButton.interactable = false;
         StartCoroutine(FetchUser());
     }
 
@@ -45,6 +48,8 @@ public class FlowerPageHandler : MonoBehaviour
             Destroy(temp);
         }
         WaterIcons.Clear();
+        WateringAllButton.interactable = false;
+
         EffectSpawnZone.gameObject.SetActive(false);
     }
 
@@ -104,10 +109,12 @@ public class FlowerPageHandler : MonoBehaviour
 
         SpotHandler.InitSpot(TargetGardenLog);
         int rawWaterIcon = TargetGardenLog.log_water >= 10 ? 10 : TargetGardenLog.log_water;
+
         int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower >= 10 ) ? 10 - TargetGardenLog.flower : rawWaterIcon;
         int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
         int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
+        WateringAllButton.interactable = waterIconCount > 0;
         WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
         int k = 0;
         iconCount = 0;
@@ -165,6 +172,35 @@ public class FlowerPageHandler : MonoBehaviour
         iconCount--;
     }
 
+    public void Watering_all() {
+        WateringAllButton.interactable = false;
+        StartCoroutine(Watering_all_Routine());
+    }
+
+    public IEnumerator Watering_all_Routine() {
+        int rawWaterIcon = TargetGardenLog.log_water >= 10 ? 10 : TargetGardenLog.log_water;
+        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower >= 10 ) ? 10 - TargetGardenLog.flower : rawWaterIcon;
+        int Scale = ( waterIconCount > 3 ) ? 3 : waterIconCount;
+
+        EffectSpawnZone.gameObject.SetActive(true);
+        isTouchAble = false;
+        StartCoroutine(TouchAbleControl( (( ( 1.9f ) / (float)Scale ) * waterIconCount) + 1f));
+        StartCoroutine(EffectSpwanZoneOff2(( ( ( 1.9f ) / (float)Scale ) * waterIconCount ) + 1f));
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.TADA3);
+        Instantiate(Ring, EffectSpawnZone);
+        for(int i = 0; i < waterIconCount; i++) {
+            TargetGardenLog.flower = ( TargetGardenLog.flower >= 10 ) ? 10 : TargetGardenLog.flower + 1;
+            TargetGardenLog.log_water = ( TargetGardenLog.log_water <= 0 ) ? 0 : TargetGardenLog.log_water - 1;
+            SpotHandler.Watering2((float)(Scale+2));
+            StartCoroutine(ReDrawSpot());
+            WateringAnim2.SetActive(true);
+            WateringAnim2.GetComponent<Animator>().speed = (float)Scale;
+            iconCount--;
+            yield return new WaitForSeconds(( ( 1.9f ) / (float)Scale ));
+        }
+        MongMong.WaterDrop(TargetGardenLog.flower);
+    }
+
     public void DragPee() {
         MongMong.PeeDrop(TargetGardenLog.flower);
 
@@ -214,6 +250,11 @@ public class FlowerPageHandler : MonoBehaviour
         EffectSpawnZone.gameObject.SetActive(false);
     }
 
+    public IEnumerator EffectSpwanZoneOff2(float t) {
+        yield return new WaitForSeconds(t);
+        EffectSpawnZone.gameObject.SetActive(false);
+    }
+
     public IEnumerator TouchAbleControl(float timeAmount) {
         yield return new WaitForSeconds(timeAmount);
         isTouchAble = true;
@@ -246,6 +287,7 @@ public class FlowerPageHandler : MonoBehaviour
         int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
         int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
+        WateringAllButton.interactable = waterIconCount > 0;
         WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
 
         int k = 0;
