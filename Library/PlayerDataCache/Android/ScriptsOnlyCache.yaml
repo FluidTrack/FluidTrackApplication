@@ -91,6 +91,12 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.TileDragAndDropManager
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    UnityEditor.Graphs.dll:
+    - UnityEditor.Graphs.AnimationBlendTree.Graph
+    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.Graph
+    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -478,7 +484,7 @@ ScriptsOnlyBuild:
     className: LogPageMongMongHandler
   - hash:
       serializedVersion: 2
-      Hash: f24b8fcbfc69d521cd8f8fb1e78b64d5
+      Hash: 70880fc19422a8925810f3faa52fd7f6
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FlowerPageHandler
@@ -1882,7 +1888,7 @@ ScriptsOnlyBuild:
     className: Outline
   - hash:
       serializedVersion: 2
-      Hash: f3919d2db92e635d040c79fd679888f1
+      Hash: 7cfbadefa8ed86868638e979a4a00a1d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FlowerShapeHandler
@@ -1978,7 +1984,7 @@ ScriptsOnlyBuild:
     className: Dropdown
   - hash:
       serializedVersion: 2
-      Hash: c6ddb3b6caf60a220c2cb510188c2194
+      Hash: 100824d2e3ba4e8ff4228836d9f1bf1b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FlowerPageMongMongHandler
@@ -2093,4 +2099,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/MainScene.unity
-  playerPath: C:/Users/movie/Desktop/moa_garden_1.0.7.apk
+  playerPath: C:/Users/movie/Desktop/moa_garden_1.0.8.apk
