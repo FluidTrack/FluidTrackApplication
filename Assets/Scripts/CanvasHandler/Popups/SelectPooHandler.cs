@@ -20,9 +20,8 @@ public class SelectPooHandler : MonoBehaviour
     public List<int> noneauto;
     private List<DataHandler.PoopLog> pooLogs;
     private int page = 0;
-    internal int clickedIconIndex = 0;
     private bool isClicked = false;
-    private int realClickedIconIndex = 0;
+    private List<int> realClickedIconIndex = new List<int>();
 
     public void OnEnable() {
         Instance = this;
@@ -70,7 +69,7 @@ public class SelectPooHandler : MonoBehaviour
             PooSelectIcon icon = newIcon.GetComponent<PooSelectIcon>();
             icon.Image.sprite = icon.sprites[pooLogs[i].type];
             if (isClicked) {
-                if (i == realClickedIconIndex) icon.Image.color = new Color(1, 1, 1, 1);
+                if (realClickedIconIndex.Contains(i)) icon.Image.color = new Color(1, 1, 1, 1);
                 else icon.Image.color = new Color(1, 1, 1, 0.3f);
             } else icon.Image.color = new Color(1, 1, 1, 1);
 
@@ -113,29 +112,63 @@ public class SelectPooHandler : MonoBehaviour
     }
 
     public void IconClick(int index) {
-        OkayButton.interactable = true;
-        clickedIconIndex = index;
-        realClickedIconIndex = page + index;
+
+        
+        if (realClickedIconIndex.Contains(index))
+        {
+            realClickedIconIndex.Remove(page + index);
+        }
+        else
+        {
+            realClickedIconIndex.Add(page + index);
+        }
+
+        if (realClickedIconIndex.Count > 0)
+        {
+            OkayButton.interactable = true;
+        } else
+        {
+            OkayButton.interactable = false;
+
+        }
+
         isClicked = true;
         DrawIcons();
     }
 
     public void OkayButtonClick() {
-        int realIndex = page + clickedIconIndex;
         if (isDelete) {
 
             int index = 0;
-            DataHandler.PoopLog[] array1 = new DataHandler.PoopLog[DataHandler.Poop_logs.PoopLogs.Length - 1];
+            bool contains = false;
+            DataHandler.PoopLog[] array1 = new DataHandler.PoopLog[DataHandler.Poop_logs.PoopLogs.Length - realClickedIconIndex.Count];
             for (int i = 0; i < DataHandler.Poop_logs.PoopLogs.Length; i++) {
-                if (DataHandler.Poop_logs.PoopLogs[i].log_id == pooLogs[realIndex].log_id) continue;
+
+                foreach (int realIndex in realClickedIconIndex)
+                {
+                    if (DataHandler.Poop_logs.PoopLogs[i].log_id == pooLogs[realIndex].log_id)
+                    {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (contains)
+                {
+                    contains = false;
+                    continue;
+                }
                 array1[index++] = DataHandler.Poop_logs.PoopLogs[i];
             }
-            StartCoroutine(DataHandler.DeletePoopLogs(pooLogs[realIndex].log_id));
+
+            foreach (int realIndex in realClickedIconIndex)
+            {
+                StartCoroutine(DataHandler.DeletePoopLogs(pooLogs[realIndex].log_id));
+            }
             DataHandler.Poop_logs.PoopLogs = array1;
             StartCoroutine(WaitDelete());
 
             DataHandler.GardenLog TargetGardenLog = LogCanvasHandler.Instance.TargetGardenLog;
-            if (TargetGardenLog.log_poop > 0) TargetGardenLog.log_poop--;
+            if (TargetGardenLog.log_poop > 0) TargetGardenLog.log_poop =- realClickedIconIndex.Count;
             if (TargetGardenLog.log_poop == 0) TargetGardenLog.item_1 = 0;
             DataHandler.User_isGardenDataUpdated = false;
             StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
@@ -143,7 +176,10 @@ public class SelectPooHandler : MonoBehaviour
             
             OkayButton.interactable = false;
         } else {
-            ModifyPooLogHandler.Target = pooLogs[realIndex];
+            foreach (int realIndex in realClickedIconIndex)
+            {
+                ModifyPooLogHandler.Target = pooLogs[realIndex];
+            }
             ModifyObject.SetActive(true);
             SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
             this.gameObject.SetActive(false);

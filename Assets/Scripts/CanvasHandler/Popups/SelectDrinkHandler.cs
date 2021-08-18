@@ -20,9 +20,8 @@ public class SelectDrinkHandler : MonoBehaviour
     public List<int> noneauto;
     private List<DataHandler.DrinkLog> drinkLogs;
     private int page = 0;
-    internal int clickedIconIndex = 0;
     private bool isClicked = false;
-    private int realClickedIconIndex = 0;
+    private List<int> realClickedIconIndex = new List<int>();
 
     public void OnEnable() {
         Instance = this;
@@ -69,7 +68,7 @@ public class SelectDrinkHandler : MonoBehaviour
             DrinkSelectIcon icon = newIcon.GetComponent<DrinkSelectIcon>();
             icon.Image.sprite = icon.sprites[drinkLogs[i].type];
             if (isClicked) {
-                if(i == realClickedIconIndex) icon.Image.color = new Color(1, 1, 1, 1);
+                if(realClickedIconIndex.Contains(i)) icon.Image.color = new Color(1, 1, 1, 1);
                 else icon.Image.color = new Color(1, 1, 1, 0.3f);
             } else icon.Image.color = new Color(1, 1, 1, 1);
 
@@ -114,31 +113,66 @@ public class SelectDrinkHandler : MonoBehaviour
     }
 
     public void IconClick(int index) {
-        OkayButton.interactable = true;
-        clickedIconIndex = index;
-        realClickedIconIndex = page + index;
+        if (realClickedIconIndex.Contains(index))
+        {
+            realClickedIconIndex.Remove(page + index);
+        }
+        else
+        {
+            realClickedIconIndex.Add(page + index);
+        }
+
+        if (realClickedIconIndex.Count > 0)
+        {
+            OkayButton.interactable = true;
+        }
+        else
+        {
+            OkayButton.interactable = false;
+
+        }
         isClicked = true;
         DrawIcons();
     }
 
     public void OkayButtonClick() {
-        int realIndex = page + clickedIconIndex;
+        bool contains = false;
         if(isDelete) {
-            Debug.Log("Delete DrinkLog : " + drinkLogs[realIndex].log_id);
-
+            
             int index = 0;
-            DataHandler.DrinkLog[] array1 = new DataHandler.DrinkLog[DataHandler.Drink_logs.DrinkLogs.Length - 1];
+            DataHandler.DrinkLog[] array1 = new DataHandler.DrinkLog[DataHandler.Drink_logs.DrinkLogs.Length - realClickedIconIndex.Count];
             for (int i = 0; i < DataHandler.Drink_logs.DrinkLogs.Length; i++) {
-                if (DataHandler.Drink_logs.DrinkLogs[i].log_id == drinkLogs[realIndex].log_id) continue;
+                foreach (int realIndex in realClickedIconIndex)
+                {
+                    if (DataHandler.Drink_logs.DrinkLogs[i].log_id == drinkLogs[realIndex].log_id)
+                    {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (contains)
+                {
+                    contains = false;
+                    continue;
+                }
+
+
                 array1[index++] = DataHandler.Drink_logs.DrinkLogs[i];
             }
-            StartCoroutine(DataHandler.DeleteDrinkLogs(drinkLogs[realIndex].log_id));
+
+            foreach (int realIndex in realClickedIconIndex)
+            {
+                StartCoroutine(DataHandler.DeleteDrinkLogs(drinkLogs[realIndex].log_id));
+            }
             DataHandler.Drink_logs.DrinkLogs = array1;
 
             StartCoroutine(WaitDelete());
             OkayButton.interactable = false;
         } else {
-            ModifyDrinkLogHandler.Target = drinkLogs[realIndex];
+            foreach (int realIndex in realClickedIconIndex)
+            {
+                ModifyDrinkLogHandler.Target = drinkLogs[realIndex];
+            }
             ModifyObject.SetActive(true);
             SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
             this.gameObject.SetActive(false);
