@@ -83,7 +83,9 @@ public class MainPageMongMongHandler : MonoBehaviour
         else if (currentState == 1)
             currentState = 3;
 
-        SoundHandler.Instance.MongMongSource.Stop();
+        try {
+            SoundHandler.Instance.MongMongSource.Stop();
+        } catch(System.Exception e) { e.ToString(); }
     }
 
     private int rand = 0;

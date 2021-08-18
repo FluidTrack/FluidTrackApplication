@@ -216,13 +216,13 @@ public class HomeHandler : MonoBehaviour
     }
 
     public IEnumerator CheckUserDataLoad() {
-        while (!DataHandler.User_isDataLoaded) {
-            yield return 0;
-        }
+        TimeHandler.GetCurrentTime();
+        yield return 0;
         DataHandler.User_isDataLoaded = false;
         int index = 0;
         TimeHandler.DateTimeStamp start  = new TimeHandler.DateTimeStamp(DataHandler.User_creation_date);
-        TimeHandler.DateTimeStamp target = TimeHandler.HomeCanvasTime;
+        TimeHandler.GetCurrentTime();
+        TimeHandler.DateTimeStamp target = TimeHandler.CurrentTime;
         for(int i = 0; i < DataHandler.User_periode * 7; i++) {
             if(TimeHandler.DateTimeStamp.CmpDateTimeStamp(start,target) == 0)
                 break;

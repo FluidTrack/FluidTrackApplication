@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Flower\FlowerPageSpotHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Flower\FlowerPageSpriteHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Footer\FooterBarHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Log\LogAndroidScroll.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Log\LogBlocker.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Log\LogCanvasHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Log\LogSpriteHandler.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\MainPage\ZoomedViewHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Mission\MissionCanvasHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\CalendarPageMongMongHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\MongMong\ExitAlertPageMongMongHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\FlowerAlertPageMongMongHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\FlowerPageMongMongHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\MongMong\GreetingMongMong.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ConnectingWindowHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\Disconnecting.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\DrinkSelectIcon.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\ExitAlertPageHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\GeneralScanningUI.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ModifyDrinkLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ModifyPooLogHandler.cs" />

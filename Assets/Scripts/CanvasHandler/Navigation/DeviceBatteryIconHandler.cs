@@ -6,6 +6,9 @@ public class DeviceBatteryIconHandler : MonoBehaviour
 {
     public Image Icon;
     public Text statusText;
+    public static DeviceBatteryIconHandler Instance;
+
+    public void Awake() { Instance = this; }
 
     public Sprite FullSprite;
     public Sprite goodSprite;

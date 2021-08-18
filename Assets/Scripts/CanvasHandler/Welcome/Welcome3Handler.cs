@@ -12,7 +12,7 @@ public class Welcome3Handler : MonoBehaviour
     const string EXTRA_DAYS = "android.intent.extra.alarm.DAYS";
     const string EXTRA_SKIP_UI = "android.intent.extra.alarm.SKIP_UI";
     public Text subtext;
-    public TimerHandler Morning;
+    //public TimerHandler Morning;
     public TimerHandler School;
     public TimerHandler Home;
 
@@ -44,11 +44,12 @@ public class Welcome3Handler : MonoBehaviour
     }
 
     public void OkayButton() {
-        DataHandler.User_morning_call_time = Morning.getTime();
+        //DataHandler.User_morning_call_time = Morning.getTime();
+        DataHandler.User_morning_call_time = "00:00";
         DataHandler.User_school_time = School.getTime();
         DataHandler.User_home_time = Home.getTime();
         TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.WELCOME5].SetActive(true);
-        MorningCallButtonClick();
+        //MorningCallButtonClick();
         this.gameObject.SetActive(false);
     }
 
@@ -57,13 +58,13 @@ public class Welcome3Handler : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void MorningCallButtonClick() {
-#if UNITY_EDITOR
-        Debug.Log(Morning.getTime());
-#elif UNITY_ANDROID
-        CreateAlarm("일어날시간!", Morning.Hour, Morning.Min);
-#endif
-    }
+//    public void MorningCallButtonClick() {
+//#if UNITY_EDITOR
+//        Debug.Log(Morning.getTime());
+//#elif UNITY_ANDROID
+//        CreateAlarm("일어날시간!", Morning.Hour, Morning.Min);
+//#endif
+//    }
 
 
     public void CreateAlarm(string message,int hour, int minutes ) {

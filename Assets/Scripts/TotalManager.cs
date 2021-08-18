@@ -62,7 +62,6 @@ public class TotalManager : MonoBehaviour
         instance = this;
         DataHandler.dataPath = Application.persistentDataPath;
 
-
         if (SkipOpening) {
             try {
                 FileStream fs = new FileStream(DataHandler.dataPath + "/userData", FileMode.Open);
@@ -289,7 +288,7 @@ public class TotalManager : MonoBehaviour
     private int count = 0;
     public IEnumerator checkingList() {
         if(BLECheckCoroutine != null) {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
 
             if (( ConnectingWindowHandler.Instance == null ||
                  !ConnectingWindowHandler.Instance.gameObject.activeSelf ) && isFind == false) {
@@ -330,10 +329,6 @@ public class TotalManager : MonoBehaviour
             "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
             "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
     }
-
-    public void OnApplicationQuit() {
-    }
-
 
 
     public void Connect() {

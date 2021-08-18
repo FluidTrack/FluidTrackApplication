@@ -13,7 +13,6 @@ public class BigCloudController : MonoBehaviour
     public void ChangeCloudState(int day) {
         weeks = Clouds.Length;
         this.day = day;
-        Debug.Log("DAADADADAD : " + day);
         if(day / 7 > weeks) {
             foreach (GameObject go in Clouds)
                 go.SetActive(false);

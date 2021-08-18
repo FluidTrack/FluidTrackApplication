@@ -14,6 +14,8 @@ public class FooterBarHandler : MonoBehaviour
     public Color Active;
     public Color Inactive;
     public FOOTER_BTN currentPage;
+    public GameObject Reconnect;
+    private bool isConnected = false;
 
     public enum FOOTER_BTN {
         HOME, LOG, TABLE, CALENDAR,
@@ -21,6 +23,7 @@ public class FooterBarHandler : MonoBehaviour
 
     public void Awake() {
         Instance = this;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
     DataHandler.ScreenLog screenLog;
@@ -157,6 +160,16 @@ public class FooterBarHandler : MonoBehaviour
     private bool bPause = false;
     private void OnApplicationPause(bool pause) {
         if (pause) {
+            if(Reconnect.activeSelf)
+                Reconnect.GetComponent<MoabandReconnection>().CancelButtonClick();
+
+            try {
+                try {
+                    BluetoothLEHardwareInterface.StopScan();
+                } catch (System.Exception e) { e.ToString(); }
+                BluetoothLEHardwareInterface.DisconnectAll();
+            } catch (System.Exception e) { Debug.LogError(e.ToString()); }
+
             bPause = true;
             // 일시정지
             endLog = System.DateTime.Now;
@@ -173,6 +186,9 @@ public class FooterBarHandler : MonoBehaviour
             if (bPause) {
                 bPause = false;
                 // 일시정지후 돌아옴
+                // StartCoroutine(ReconnectButtonLoop());
+                
+
                 screenLog = new DataHandler.ScreenLog();
 
                 if (TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.HOME].activeSelf)
@@ -191,6 +207,28 @@ public class FooterBarHandler : MonoBehaviour
         }
     }
 
+    IEnumerator ReconnectButtonLoop() {
+        yield return new WaitForSeconds(2f);
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.CLICKED);
+        try {
+            BluetoothLEHardwareInterface.StopScan();
+        } catch (System.Exception e) { e.ToString(); }
+
+        if (!BluetoothManager.GetInstance().isReconnectEnable) {
+            if (TotalManager.instance.BLECheckCoroutine != null)
+                StopCoroutine(TotalManager.instance.BLECheckCoroutine);
+            TotalManager.instance.BLECheckCoroutine = null;
+            isConnected = BluetoothManager.GetInstance().isConnected;
+            BluetoothManager.GetInstance().isReconnectEnable = false;
+            BluetoothManager.GetInstance().AutoConnect = false;
+            try {
+                BluetoothLEHardwareInterface.StopScan();
+            } catch (System.Exception e) { e.ToString(); }
+        }
+
+        Reconnect.SetActive(true);
+        yield return 0;
+    }
 
     private bool FlowerPageFlag = false;
     public void Update() {
@@ -230,13 +268,14 @@ public class FooterBarHandler : MonoBehaviour
     public void OnApplicationQuit() {
         endLog = System.DateTime.Now;
         startLog_old = startLog_new;
-        startLog_new = System.DateTime.Now;
         long elapsedTicks = startLog_old.Ticks - endLog.Ticks;
         System.TimeSpan elapsedSpan = new System.TimeSpan(elapsedTicks);
         screenLog.start_time = ( new TimeHandler.DateTimeStamp(startLog_old) ).ToString();
         screenLog.end_time = ( new TimeHandler.DateTimeStamp(endLog) ).ToString();
         screenLog.second = (uint)elapsedSpan.TotalSeconds;
+        Debug.Log(screenLog.second);
         screenLog.id = DataHandler.User_id;
-        StartCoroutine(DataHandler.CreateScreenlogs(screenLog));
+        //StartCoroutine(DataHandler.CreateScreenlogs(screenLog));
+        startLog_new = System.DateTime.Now;
     }
 }

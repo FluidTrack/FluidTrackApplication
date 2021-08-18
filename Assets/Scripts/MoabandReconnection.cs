@@ -17,6 +17,7 @@ public class MoabandReconnection : MonoBehaviour
     public bool isScanning = false;
 
     public void OnEnable() {
+        ScrollView.sizeDelta = new Vector2(377.22f, 0);
         DeviceList = new List<GameObject>();
         CancelButton.interactable = true;
         if (DataHandler.User_moa_band_name == null) {
@@ -55,15 +56,13 @@ public class MoabandReconnection : MonoBehaviour
     IEnumerator checkingName() {
         while(true) {
             if(isFindDevice) {
-                yield return new WaitForSeconds(0.5f);
-                try {
-                    BluetoothLEHardwareInterface.StopScan();
-                } catch (System.Exception e) { e.ToString(); }
+                BluetoothLEHardwareInterface.StopScan();
 
                 isFindDevice = false;
                 CancelButton.interactable = false;
                 TotalManager.instance.targetName = DataHandler.User_moa_band_name;
                 BT = GameObject.Find("[SYSTEM] Total Manager").GetComponent<BluetoothManager>();
+                yield return new WaitForSeconds(2f);
                 BT.OnConnectStart(DataHandler.User_moa_band_name, address_,
                     "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
                     "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
@@ -83,18 +82,23 @@ public class MoabandReconnection : MonoBehaviour
     IEnumerator checkingConnect() {
         yield return new WaitForSeconds(10f);
         if(!BluetoothManager.GetInstance().isConnected) {
-            ConnectError.SetActive(true);
-            BluetoothManager.GetInstance().isReconnectEnable = true;
-            CancelButtonClick();
+            yield return new WaitForSeconds(10f);
+            BT.OnConnectStart(DataHandler.User_moa_band_name, address_,
+                    "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
+                    "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
+                    "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
+            if (!BluetoothManager.GetInstance().isConnected) {
+                ConnectError.SetActive(true);
+                BluetoothManager.GetInstance().isReconnectEnable = true;
+                CancelButtonClick();
+            }
         }
     }
 
     IEnumerator checkingList() {
         yield return new WaitForSeconds(1.5f);
         if(DeviceList.Count == 0) {
-            try {
-                BluetoothLEHardwareInterface.StopScan();
-            } catch (System.Exception e) { e.ToString(); }
+            BluetoothLEHardwareInterface.StopScan();
             isScanning = true;
             yield return new WaitForSeconds(0.2f);
             StartCoroutine(checkingList());
@@ -126,9 +130,7 @@ public class MoabandReconnection : MonoBehaviour
 
 
     public void ScanBand() {
-        try {
-            BluetoothLEHardwareInterface.StopScan();
-        } catch (System.Exception e) { e.ToString(); }
+        BluetoothLEHardwareInterface.StopScan();
 
         isScanning = true;
         checkName = StartCoroutine(checkingName());

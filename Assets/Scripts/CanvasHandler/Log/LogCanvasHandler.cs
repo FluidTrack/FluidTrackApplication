@@ -1005,7 +1005,7 @@ public class LogCanvasHandler : MonoBehaviour
         if (log == null) return;
 
         string timestamp = log.timestamp.Split(' ')[0] + " " +
-                           ( currentFirstHour + index ) + ":59:59";
+                           ( currentFirstHour + index ) + ":00:00";
         log.timestamp = timestamp;
         DataHandler.User_isWaterDataUpdated = false;
         StartCoroutine(DataHandler.UpdateWaterLogs(log));
@@ -1023,7 +1023,7 @@ public class LogCanvasHandler : MonoBehaviour
         if (log == null) return;
 
         string timestamp = log.timestamp.Split(' ')[0] + " " +
-                           ( currentFirstHour + index ) + ":59:59";
+                           ( currentFirstHour + index ) + ":00:00";
         log.timestamp = timestamp;
         DataHandler.User_isDrinkDataUpdated = false;
         StartCoroutine(DataHandler.UpdateDrinkLogs(log));
@@ -1041,7 +1041,7 @@ public class LogCanvasHandler : MonoBehaviour
         if (log == null) return;
 
         string timestamp = log.timestamp.Split(' ')[0] + " " +
-                           ( currentFirstHour + index ) + ":59:59";
+                           ( currentFirstHour + index ) + ":00:00";
         log.timestamp = timestamp;
         DataHandler.User_isPeeDataUpdated = false;
         StartCoroutine(DataHandler.UpdatePeeLogs(log));
@@ -1059,7 +1059,7 @@ public class LogCanvasHandler : MonoBehaviour
         if (log == null) return;
 
         string timestamp = log.timestamp.Split(' ')[0] + " " +
-                           ( currentFirstHour + index ) + ":59:59";
+                           ( currentFirstHour + index ) + ":00:00";
         log.timestamp = timestamp;
         DataHandler.User_isPooDataUpdated = false;
         StartCoroutine(DataHandler.UpdatePoopLogs(log));
@@ -1078,7 +1078,7 @@ public class LogCanvasHandler : MonoBehaviour
 
     public void TimeBarClick_AddWater(int index) {
         string timestamp = TargetGardenLog.timestamp.Split(' ')[0] + " " +
-                           ( currentFirstHour + index ) + ":59:59";
+                           ( currentFirstHour + index ) + ":00:00";
         DataHandler.WaterLog newLog = new DataHandler.WaterLog();
         newLog.auto = 0;
         newLog.timestamp = timestamp;
@@ -1171,7 +1171,7 @@ public class LogCanvasHandler : MonoBehaviour
 
     public void TimeBarClick_AddDrink(int index,int type, int volume) {
         string timestamp = TargetGardenLog.timestamp.Split(' ')[0] + " " +
-                           ( currentFirstHour + index ) + ":59:59";
+                           ( currentFirstHour + index ) + ":00:00";
         DataHandler.DrinkLog newLog = new DataHandler.DrinkLog();
         newLog.auto = 0;
         newLog.timestamp = timestamp;
@@ -1191,7 +1191,7 @@ public class LogCanvasHandler : MonoBehaviour
 
     public void TimeBarClick_AddPee(int index) {
         string timestamp = TargetGardenLog.timestamp.Split(' ')[0] + " " +
-                           ( currentFirstHour + index ) + ":59:59";
+                           ( currentFirstHour + index ) + ":00:00";
         DataHandler.PeeLog newLog = new DataHandler.PeeLog();
         newLog.auto = 0;
         newLog.timestamp = timestamp;
@@ -1260,7 +1260,7 @@ public class LogCanvasHandler : MonoBehaviour
 
     public void TimeBarClick_AddPoo(int index,int type) {
         string timestamp = TargetGardenLog.timestamp.Split(' ')[0] + " " +
-                           ( currentFirstHour + index ) + ":59:59";
+                           ( currentFirstHour + index ) + ":00:00";
         DataHandler.PoopLog newLog = new DataHandler.PoopLog();
         newLog.auto = 0;
         newLog.timestamp = timestamp;
