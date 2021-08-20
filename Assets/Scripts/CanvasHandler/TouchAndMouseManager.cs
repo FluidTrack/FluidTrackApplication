@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TouchAndMouseManager : MonoBehaviour {
+    public GameObject UI_Setting;
+    public GameObject UI_Scanning;
+    public GameObject UI_Connecting;
+    public GameObject UI_ConnectError;
+    public GameObject UI_GreetingMongMong;
+    public GameObject UI_SendingServer;
+    public GameObject UI_ExitMongMong;
+    public GameObject UI_ErrorLog;
+
     public GameObject TouchRing1;
     public GameObject TouchRing2;
     public GameObject TouchRing3;
@@ -54,6 +63,7 @@ public class TouchAndMouseManager : MonoBehaviour {
     private Vector2 ClickedAnchor;
     private Vector2 OriginClickedPosition;
     private bool isClicked = false;
+    private GameObject[] UI;
     internal bool zoomFlag = false;
 
 #if UNITY_ANDROID
@@ -61,6 +71,9 @@ public class TouchAndMouseManager : MonoBehaviour {
 #endif
 
     public void Start() {
+        UI = new GameObject[] { UI_Setting, UI_Scanning, UI_Connecting, UI_ConnectError,
+                                UI_SendingServer,UI_ExitMongMong,UI_GreetingMongMong,UI_ErrorLog};
+
         homeHandler = HomeHandler.Instance;
         manager = TotalManager.instance;
         WorldMapOriginPivot = new Vector2(0f,1f);
@@ -95,6 +108,10 @@ public class TouchAndMouseManager : MonoBehaviour {
 
     public void Update() {
         if (manager.currentCanvas != TotalManager.CANVAS.HOME) return;
+
+        for(int i = 0; i < UI.Length; i ++)
+            if (UI[i].activeSelf) return;
+
         if (!isTouchEnable) return;
         #region Zoom-In/Out
 #if UNITY_EDITOR

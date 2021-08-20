@@ -43,6 +43,8 @@ public class SelectPooHandler : MonoBehaviour
                     break;
                 }
         page = 0;
+        isClicked = false;
+        realClickedIconIndex = new List<int>();
         LeftButton.interactable = false;
         RightButton.interactable = ( pooLogs.Count > 4 );
 
@@ -71,7 +73,7 @@ public class SelectPooHandler : MonoBehaviour
             if (isClicked) {
                 if (realClickedIconIndex.Contains(i)) icon.Image.color = new Color(1, 1, 1, 1);
                 else icon.Image.color = new Color(1, 1, 1, 0.3f);
-            } else icon.Image.color = new Color(1, 1, 1, 1);
+            } else icon.Image.color = new Color(1, 1, 1, 0.3f);
 
             icon.OtherText.SetActive(pooLogs[i].type == 0 || pooLogs[i].type == 8);
             string str = "\n" + icon.strings[pooLogs[i].type] + "\n";
@@ -112,24 +114,20 @@ public class SelectPooHandler : MonoBehaviour
     }
 
     public void IconClick(int index) {
+        if (isDelete) {
+            if (realClickedIconIndex.Contains(index)) {
+                realClickedIconIndex.Remove(page + index);
+            } else {
+                realClickedIconIndex.Add(page + index);
+            }
 
-        
-        if (realClickedIconIndex.Contains(index))
-        {
-            realClickedIconIndex.Remove(page + index);
-        }
-        else
-        {
-            realClickedIconIndex.Add(page + index);
-        }
-
-        if (realClickedIconIndex.Count > 0)
-        {
-            OkayButton.interactable = true;
-        } else
-        {
-            OkayButton.interactable = false;
-
+            if (realClickedIconIndex.Count > 0) {
+                OkayButton.interactable = true;
+            } else {
+                OkayButton.interactable = false;
+            }
+        } else {
+            // TO-DO
         }
 
         isClicked = true;
@@ -140,9 +138,9 @@ public class SelectPooHandler : MonoBehaviour
         if (isDelete) {
 
             int index = 0;
-            bool contains = false;
             DataHandler.PoopLog[] array1 = new DataHandler.PoopLog[DataHandler.Poop_logs.PoopLogs.Length - realClickedIconIndex.Count];
             for (int i = 0; i < DataHandler.Poop_logs.PoopLogs.Length; i++) {
+                bool contains = false;
 
                 foreach (int realIndex in realClickedIconIndex)
                 {
@@ -187,15 +185,16 @@ public class SelectPooHandler : MonoBehaviour
     }
 
     IEnumerator WaitDelete() {
-        yield return 0;
+        OkayButton.interactable = false;
+        yield return new WaitForSeconds(0.3f);
         LogCanvasHandler.Instance.Fetching();
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
         this.gameObject.SetActive(false);
     }
 
     IEnumerator WaitDelete2() {
-        while (!DataHandler.User_isGardenDataUpdated)
-            yield return 0;
+        OkayButton.interactable = false;
+        yield return new WaitForSeconds(0.5f);
         DataHandler.User_isGardenDataUpdated = false;
         LogCanvasHandler.Instance.Fetching();
     }

@@ -113,6 +113,8 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\AddPooLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\CheckBoxButton.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ConnectingWindowHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\DeletePeeHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\DeleteWaterHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\Disconnecting.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\DrinkSelectIcon.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ExitAlertPageHandler.cs" />

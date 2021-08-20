@@ -1791,7 +1791,7 @@ ScriptsOnlyBuild:
     className: MoabandReconnection
   - hash:
       serializedVersion: 2
-      Hash: 1e4933f1eac38c1c6895526f83dbdc5d
+      Hash: 0597f9ac179fd3a429e183e149f64a25
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TouchAndMouseManager
@@ -1899,7 +1899,7 @@ ScriptsOnlyBuild:
     className: BaseInput
   - hash:
       serializedVersion: 2
-      Hash: b3b36e0424ecf8fe083c7d0a66381224
+      Hash: 705122c5e2aa55758873f0ae43b555f9
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogAndroidScroll

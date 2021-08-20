@@ -25,6 +25,8 @@ public class SelectDrinkHandler : MonoBehaviour
 
     public void OnEnable() {
         Instance = this;
+        isClicked = false;
+        realClickedIconIndex = new List<int>();
         spwan = new List<GameObject>();
         drinkLogs = new List<DataHandler.DrinkLog>();
 
@@ -70,7 +72,7 @@ public class SelectDrinkHandler : MonoBehaviour
             if (isClicked) {
                 if(realClickedIconIndex.Contains(i)) icon.Image.color = new Color(1, 1, 1, 1);
                 else icon.Image.color = new Color(1, 1, 1, 0.3f);
-            } else icon.Image.color = new Color(1, 1, 1, 1);
+            } else icon.Image.color = new Color(1, 1, 1, 0.3f);
 
             icon.OtherText.SetActive(drinkLogs[i].type == 0);
             string str = drinkLogs[i].volume + "ml\n";
@@ -113,36 +115,40 @@ public class SelectDrinkHandler : MonoBehaviour
     }
 
     public void IconClick(int index) {
-        if (realClickedIconIndex.Contains(index))
-        {
-            realClickedIconIndex.Remove(page + index);
-        }
-        else
-        {
-            realClickedIconIndex.Add(page + index);
-        }
+        if(isDelete) {
+            if (realClickedIconIndex.Contains(index))
+            {
+                realClickedIconIndex.Remove(page + index);
+            }
+            else
+            {
+                realClickedIconIndex.Add(page + index);
+            }
 
-        if (realClickedIconIndex.Count > 0)
-        {
-            OkayButton.interactable = true;
-        }
-        else
-        {
-            OkayButton.interactable = false;
+            if (realClickedIconIndex.Count > 0)
+            {
+                OkayButton.interactable = true;
+            }
+            else
+            {
+                OkayButton.interactable = false;
 
+            }
+        } else {
+            // TO-DO
         }
         isClicked = true;
         DrawIcons();
     }
 
     public void OkayButtonClick() {
-        bool contains = false;
         if(isDelete) {
+        bool contains = false;
             
             int index = 0;
             DataHandler.DrinkLog[] array1 = new DataHandler.DrinkLog[DataHandler.Drink_logs.DrinkLogs.Length - realClickedIconIndex.Count];
             for (int i = 0; i < DataHandler.Drink_logs.DrinkLogs.Length; i++) {
-                foreach (int realIndex in realClickedIconIndex)
+                foreach (int realIndex in realClickedIconIndex) 
                 {
                     if (DataHandler.Drink_logs.DrinkLogs[i].log_id == drinkLogs[realIndex].log_id)
                     {
@@ -180,7 +186,9 @@ public class SelectDrinkHandler : MonoBehaviour
     }
 
     IEnumerator WaitDelete() {
-        yield return 0;
+        OkayButton.interactable = false;
+
+        yield return new WaitForSeconds(0.3f);
         LogCanvasHandler.Instance.Fetching();
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
         this.gameObject.SetActive(false);
