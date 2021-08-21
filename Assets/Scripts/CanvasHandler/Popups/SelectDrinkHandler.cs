@@ -135,7 +135,17 @@ public class SelectDrinkHandler : MonoBehaviour
 
             }
         } else {
-            // TO-DO
+            if (realClickedIconIndex.Count > 0)
+            {
+                realClickedIconIndex.RemoveAt(0);
+                realClickedIconIndex.Add(page + index);
+            }
+            else
+            {
+                realClickedIconIndex.Add(page + index);
+            }
+
+            OkayButton.interactable = true;
         }
         isClicked = true;
         DrawIcons();
@@ -161,7 +171,6 @@ public class SelectDrinkHandler : MonoBehaviour
                     contains = false;
                     continue;
                 }
-
 
                 array1[index++] = DataHandler.Drink_logs.DrinkLogs[i];
             }
