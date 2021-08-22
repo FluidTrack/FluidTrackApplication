@@ -1641,12 +1641,12 @@ public class LogCanvasHandler : MonoBehaviour
             DeleteWaterUI.SetActive(true);
             DeleteWaterUI.GetComponent<DeleteWaterHandler>().auto = autoLogId;
             DeleteWaterUI.GetComponent<DeleteWaterHandler>().noneauto = noneAutoLogId;
-            DeleteWaterUI.GetComponent<DeleteWaterHandler>().Init(TargetGardenLog);
+            DeleteWaterUI.GetComponent<DeleteWaterHandler>().Init();
         } else if (PressLogType == LOG_TYPE.PEE) {
             DeletePeeUI.SetActive(true);
             DeletePeeUI.GetComponent<DeletePeeHandler>().auto = autoLogId;
             DeletePeeUI.GetComponent<DeletePeeHandler>().noneauto = noneAutoLogId;
-            DeletePeeUI.GetComponent<DeletePeeHandler>().Init(TargetGardenLog);
+            DeletePeeUI.GetComponent<DeletePeeHandler>().Init();
         }
         LogBlocker.Instance.BlockOff();
     }

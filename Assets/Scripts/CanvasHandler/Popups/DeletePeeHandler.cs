@@ -19,18 +19,15 @@ public class DeletePeeHandler : MonoBehaviour
 
     private int currentNum = 1;
     private int totalNum = 1;
-    private DataHandler.GardenLog gardenLog;
 
     public void Awake() {
         Instance = this;
     }
 
-    public void Init(DataHandler.GardenLog gardenLog) {
-        this.gardenLog = gardenLog;
+    public void Init() {
         OkayButton.interactable = true;
         CancelButton.interactable = true;
         currentNum = 1; totalNum = 1;
-        slider.value = 0;
         PeeLogs = new List<DataHandler.PeeLog>();
 
         for (int i = 0; i < noneauto.Count; i++)
@@ -48,6 +45,7 @@ public class DeletePeeHandler : MonoBehaviour
                 }
         totalNum = auto.Count + noneauto.Count;
 
+        slider.value = (float)1 / (float)totalNum;
         MinusButton.interactable = false;
         if (totalNum == 1) { PlusButton.interactable = false; slider.interactable = false; }
         else { PlusButton.interactable = true; slider.interactable = true; }
@@ -113,19 +111,13 @@ public class DeletePeeHandler : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < currentNum; i++) {
-            if (gardenLog.log_water > 0) gardenLog.log_water--;
-            else if (gardenLog.flower > 0) gardenLog.flower--;
-        }
 
-        index = 0;
-        for (int i = 0; i < DataHandler.Garden_logs.GardenLogs.Length; i++) {
-            if (DataHandler.Garden_logs.GardenLogs[i].log_id == gardenLog.log_id) {
-                index = i;
-                break;
-            }
+        DataHandler.GardenLog TargetGardenLog = LogCanvasHandler.Instance.TargetGardenLog;
+        for (int i = 0; i < currentNum; i++) {
+            if (TargetGardenLog.log_pee > 0) TargetGardenLog.log_pee--;
+            if (TargetGardenLog.log_pee == 0) TargetGardenLog.item_0 = 0;
         }
-        StartCoroutine(DataHandler.UpdateGardenLogs(DataHandler.Garden_logs.GardenLogs[index]));
+        StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
         DataHandler.Pee_logs.PeeLogs = array;
         StartCoroutine(DeleteLogs());
     }
@@ -138,15 +130,18 @@ public class DeletePeeHandler : MonoBehaviour
     }
 
     public void SetSliderValue(int value) {
-        int max = totalNum - 1;
-        float new_value = ( value / totalNum );
+        float new_value = ( (float)value / (float)totalNum );
         slider.value = new_value;
     }
 
     public void OnSliderValueChange() {
-        int max = totalNum - 1;
+        int max = totalNum;
         int new_currentNum = Mathf.RoundToInt(max * slider.value);
-        currentNum = new_currentNum + 1;
+        currentNum = new_currentNum;
+        if(new_currentNum == 0) {
+            currentNum = 1;
+            slider.value = (float)1 / (float)totalNum;
+        }
         CountText.text = currentNum.ToString();
 
         MinusButton.interactable = ( currentNum != 1 );

@@ -168,7 +168,6 @@ public class SelectPooHandler : MonoBehaviour
             DataHandler.GardenLog TargetGardenLog = LogCanvasHandler.Instance.TargetGardenLog;
             if (TargetGardenLog.log_poop > 0) TargetGardenLog.log_poop =- realClickedIconIndex.Count;
             if (TargetGardenLog.log_poop == 0) TargetGardenLog.item_1 = 0;
-            DataHandler.User_isGardenDataUpdated = false;
             StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
             StartCoroutine(WaitDelete2());
             
