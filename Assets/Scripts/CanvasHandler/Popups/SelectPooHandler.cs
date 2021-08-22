@@ -127,7 +127,17 @@ public class SelectPooHandler : MonoBehaviour
                 OkayButton.interactable = false;
             }
         } else {
-            // TO-DO
+            if (realClickedIconIndex.Count > 0)
+            {
+                realClickedIconIndex.RemoveAt(0);
+                realClickedIconIndex.Add(page + index);
+            }
+            else
+            {
+                realClickedIconIndex.Add(page + index);
+            }
+
+            OkayButton.interactable = true;
         }
 
         isClicked = true;
