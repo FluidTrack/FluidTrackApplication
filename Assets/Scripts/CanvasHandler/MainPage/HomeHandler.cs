@@ -49,7 +49,7 @@ public class HomeHandler : MonoBehaviour
         1116, 1261, 1129, 400, 1167, 1048, 1174,
         407, 470, -404, -385, -385, -1762, -1059,
         -1246, -1146, -170, -486, -1748, -1755, -464,
-        -249,- 698, 65, 947, 911, 690, 1630
+        -249, 698, 65, 947, 911, 690, 1630
     };
     internal bool[] Week4MongMong_isRight = {
         true , true , true , false, false, false, true ,

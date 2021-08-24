@@ -84,6 +84,7 @@ public class DataHandler : MonoBehaviour
     internal static string User_birthday;
     internal static string User_gender;
     internal static int User_periode;
+    internal static string User_password;
     internal static GardenLogsJson Garden_logs;
     internal static WaterLogsJson  Water_logs;
     internal static DrinkLogsJson  Drink_logs;
@@ -293,7 +294,7 @@ public class DataHandler : MonoBehaviour
         string url = "create_users";
         url += "?name=" + User_name;
         url += "&moa_band_name=" + User_moa_band_name;
-        url += "&item_0=0&item_1=0&item_2=0&item_3=0&item_4=0";
+        url += "&item_0=0&item_1=0&item_2=0&item_3=0&item_4=" + User_item_4;
         url += "&morning_call_time=" + User_morning_call_time + ":00";
         url += "&breakfast_time=" + User_breakfast_time + ":00";
         url += "&lunch_time=" + User_lunch_time + ":00";

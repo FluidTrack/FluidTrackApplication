@@ -15,6 +15,8 @@ ScriptsOnlyBuild:
     - ConnectingWindowHandler
     - DataHandler
     - DateCheckHandler
+    - DeletePeeHandler
+    - DeleteWaterHandler
     - DeviceBatteryIconHandler
     - DeviceListHandler
     - DeviceLog2
@@ -39,6 +41,7 @@ ScriptsOnlyBuild:
     - FlowerSpritesGroup
     - FlowerSpritesSet
     - FooterBarHandler
+    - GardenEvaluateUIHandler
     - GardenSpotHandler
     - GreetingMongMong
     - HomeHandler
@@ -59,6 +62,7 @@ ScriptsOnlyBuild:
     - NavigationHandler
     - NoBandConfirmUI
     - OpeningHandler
+    - PasswordUIHandler
     - PlayOneShotAnimation
     - PooSelectIcon
     - PopUpHandler
@@ -97,10 +101,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -187,153 +189,161 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11630}
     - Class: 114
-      Script: {instanceID: 11718}
+      Script: {instanceID: 11666}
     - Class: 114
-      Script: {instanceID: 11746}
+      Script: {instanceID: 11690}
     - Class: 114
-      Script: {instanceID: 11776}
+      Script: {instanceID: 11722}
     - Class: 114
-      Script: {instanceID: 11840}
+      Script: {instanceID: 11750}
     - Class: 114
-      Script: {instanceID: 12006}
+      Script: {instanceID: 11780}
     - Class: 114
-      Script: {instanceID: 12092}
+      Script: {instanceID: 11844}
     - Class: 114
-      Script: {instanceID: 12108}
+      Script: {instanceID: 12010}
     - Class: 114
-      Script: {instanceID: 12136}
+      Script: {instanceID: 12096}
     - Class: 114
-      Script: {instanceID: 12158}
+      Script: {instanceID: 12112}
     - Class: 114
-      Script: {instanceID: 12200}
+      Script: {instanceID: 12140}
     - Class: 114
-      Script: {instanceID: 12370}
+      Script: {instanceID: 12162}
     - Class: 114
-      Script: {instanceID: 12380}
+      Script: {instanceID: 12204}
     - Class: 114
-      Script: {instanceID: 12404}
+      Script: {instanceID: 12374}
     - Class: 114
-      Script: {instanceID: 12416}
+      Script: {instanceID: 12384}
     - Class: 114
-      Script: {instanceID: 12436}
+      Script: {instanceID: 12408}
     - Class: 114
-      Script: {instanceID: 12564}
+      Script: {instanceID: 12420}
     - Class: 114
-      Script: {instanceID: 12604}
+      Script: {instanceID: 12440}
     - Class: 114
-      Script: {instanceID: 12662}
+      Script: {instanceID: 12568}
     - Class: 114
-      Script: {instanceID: 12748}
+      Script: {instanceID: 12608}
     - Class: 114
-      Script: {instanceID: 12774}
+      Script: {instanceID: 12660}
     - Class: 114
-      Script: {instanceID: 12800}
+      Script: {instanceID: 12668}
+    - Class: 114
+      Script: {instanceID: 12754}
+    - Class: 114
+      Script: {instanceID: 12780}
     - Class: 114
       Script: {instanceID: 12806}
     - Class: 114
-      Script: {instanceID: 12814}
+      Script: {instanceID: 12812}
     - Class: 114
-      Script: {instanceID: 12816}
+      Script: {instanceID: 12820}
     - Class: 114
-      Script: {instanceID: 12864}
+      Script: {instanceID: 12822}
     - Class: 114
-      Script: {instanceID: 12908}
+      Script: {instanceID: 12834}
     - Class: 114
-      Script: {instanceID: 12940}
+      Script: {instanceID: 12872}
     - Class: 114
-      Script: {instanceID: 12958}
+      Script: {instanceID: 12916}
     - Class: 114
-      Script: {instanceID: 12984}
+      Script: {instanceID: 12948}
     - Class: 114
-      Script: {instanceID: 13016}
+      Script: {instanceID: 12966}
     - Class: 114
-      Script: {instanceID: 13026}
+      Script: {instanceID: 12992}
     - Class: 114
-      Script: {instanceID: 13196}
+      Script: {instanceID: 13024}
     - Class: 114
-      Script: {instanceID: 13270}
+      Script: {instanceID: 13034}
     - Class: 114
-      Script: {instanceID: 13518}
+      Script: {instanceID: 13204}
     - Class: 114
-      Script: {instanceID: 13554}
+      Script: {instanceID: 13278}
     - Class: 114
-      Script: {instanceID: 13564}
+      Script: {instanceID: 13526}
     - Class: 114
-      Script: {instanceID: 13704}
+      Script: {instanceID: 13562}
     - Class: 114
-      Script: {instanceID: 13948}
+      Script: {instanceID: 13572}
     - Class: 114
-      Script: {instanceID: 13968}
+      Script: {instanceID: 13712}
     - Class: 114
-      Script: {instanceID: 13990}
+      Script: {instanceID: 13956}
     - Class: 114
-      Script: {instanceID: 14030}
+      Script: {instanceID: 13976}
     - Class: 114
-      Script: {instanceID: 14066}
+      Script: {instanceID: 13998}
     - Class: 114
-      Script: {instanceID: 14098}
+      Script: {instanceID: 14038}
     - Class: 114
-      Script: {instanceID: 14196}
+      Script: {instanceID: 14074}
     - Class: 114
-      Script: {instanceID: 14262}
+      Script: {instanceID: 14106}
     - Class: 114
-      Script: {instanceID: 14298}
+      Script: {instanceID: 14204}
+    - Class: 114
+      Script: {instanceID: 14270}
     - Class: 114
       Script: {instanceID: 14306}
     - Class: 114
-      Script: {instanceID: 14336}
+      Script: {instanceID: 14314}
     - Class: 114
-      Script: {instanceID: 14380}
+      Script: {instanceID: 14344}
     - Class: 114
-      Script: {instanceID: 14392}
+      Script: {instanceID: 14388}
     - Class: 114
-      Script: {instanceID: 14396}
+      Script: {instanceID: 14400}
     - Class: 114
-      Script: {instanceID: 14398}
+      Script: {instanceID: 14404}
     - Class: 114
-      Script: {instanceID: 14418}
+      Script: {instanceID: 14406}
     - Class: 114
-      Script: {instanceID: 14464}
+      Script: {instanceID: 14426}
     - Class: 114
-      Script: {instanceID: 14626}
+      Script: {instanceID: 14472}
     - Class: 114
-      Script: {instanceID: 14642}
+      Script: {instanceID: 14634}
     - Class: 114
-      Script: {instanceID: 14668}
+      Script: {instanceID: 14650}
     - Class: 114
-      Script: {instanceID: 14684}
+      Script: {instanceID: 14676}
     - Class: 114
-      Script: {instanceID: 14706}
+      Script: {instanceID: 14692}
     - Class: 114
-      Script: {instanceID: 14722}
+      Script: {instanceID: 14714}
     - Class: 114
-      Script: {instanceID: 14758}
+      Script: {instanceID: 14730}
     - Class: 114
-      Script: {instanceID: 14768}
+      Script: {instanceID: 14766}
     - Class: 114
-      Script: {instanceID: 14774}
+      Script: {instanceID: 14776}
     - Class: 114
-      Script: {instanceID: 14780}
+      Script: {instanceID: 14782}
     - Class: 114
-      Script: {instanceID: 14798}
+      Script: {instanceID: 14788}
     - Class: 114
       Script: {instanceID: 14806}
     - Class: 114
-      Script: {instanceID: 14836}
+      Script: {instanceID: 14814}
     - Class: 114
-      Script: {instanceID: 14848}
+      Script: {instanceID: 14844}
     - Class: 114
-      Script: {instanceID: 14864}
+      Script: {instanceID: 14856}
     - Class: 114
-      Script: {instanceID: 14866}
+      Script: {instanceID: 14872}
     - Class: 114
-      Script: {instanceID: 14892}
+      Script: {instanceID: 14874}
     - Class: 114
-      Script: {instanceID: 14904}
+      Script: {instanceID: 14900}
     - Class: 114
-      Script: {instanceID: 14910}
+      Script: {instanceID: 14912}
     - Class: 114
-      Script: {instanceID: 14946}
+      Script: {instanceID: 14918}
+    - Class: 114
+      Script: {instanceID: 14954}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -627,10 +637,22 @@ ScriptsOnlyBuild:
     className: ReorderableListElement
   - hash:
       serializedVersion: 2
+      Hash: e51b2f77e2f8145a356f08e40c2b733d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PasswordUIHandler
+  - hash:
+      serializedVersion: 2
       Hash: 896f4ddc5cbd3f6fa8a70c332cddb47a
     assemblyName: Unity.2D.SpriteShape.Runtime.dll
     namespaceName: UnityEngine.U2D
     className: SpriteShapeController
+  - hash:
+      serializedVersion: 2
+      Hash: 750e39fd75f54582594e1a3fa5ecc314
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GardenEvaluateUIHandler
   - hash:
       serializedVersion: 2
       Hash: 234235b9fb07320d11497e08a726cc56
@@ -849,7 +871,7 @@ ScriptsOnlyBuild:
     className: UI_ScrollRectOcclusion
   - hash:
       serializedVersion: 2
-      Hash: 72492e69a2e1aa423d5e45cac02d8b6c
+      Hash: 550f2732c4f6aa1c5fe8cf4f2bba8c22
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogCanvasHandler
@@ -1065,6 +1087,12 @@ ScriptsOnlyBuild:
     className: Welcome4Handler
   - hash:
       serializedVersion: 2
+      Hash: 4267cff68bb972def91e62ed0e5889b1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DeleteWaterHandler
+  - hash:
+      serializedVersion: 2
       Hash: 2cb04d43ba07aa828b17dd427668a79b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -1129,6 +1157,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: ScrollRect
+  - hash:
+      serializedVersion: 2
+      Hash: 4267cff68bb972def91e62ed0e5889b1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DeletePeeHandler
   - hash:
       serializedVersion: 2
       Hash: b2094546ca2b3f38f928fd55bea1b188
@@ -1899,7 +1933,7 @@ ScriptsOnlyBuild:
     className: BaseInput
   - hash:
       serializedVersion: 2
-      Hash: 705122c5e2aa55758873f0ae43b555f9
+      Hash: 67f9e36a5f9fc9dccdc1cbec71a05c9d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogAndroidScroll
@@ -2013,7 +2047,7 @@ ScriptsOnlyBuild:
     className: Dropdown
   - hash:
       serializedVersion: 2
-      Hash: 100824d2e3ba4e8ff4228836d9f1bf1b
+      Hash: 6fdbde00c14ad10b8e987c464f1d59a3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FlowerPageMongMongHandler

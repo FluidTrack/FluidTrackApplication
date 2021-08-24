@@ -1009,6 +1009,9 @@ public class LogCanvasHandler : MonoBehaviour
         string timestamp = log.timestamp.Split(' ')[0] + " " +
                            ( currentFirstHour + index ) + ":00:00";
         log.timestamp = timestamp;
+        if (log.auto == 0) log.auto = 2;
+        else if (log.auto == 1) log.auto = 3;
+
         DataHandler.User_isWaterDataUpdated = false;
         StartCoroutine(DataHandler.UpdateWaterLogs(log));
         StartCoroutine(ModifyingTimeLineUpdate());
@@ -1027,6 +1030,8 @@ public class LogCanvasHandler : MonoBehaviour
         string timestamp = log.timestamp.Split(' ')[0] + " " +
                            ( currentFirstHour + index ) + ":00:00";
         log.timestamp = timestamp;
+        if (log.auto == 0) log.auto = 2;
+        else if (log.auto == 1) log.auto = 3;
         DataHandler.User_isDrinkDataUpdated = false;
         StartCoroutine(DataHandler.UpdateDrinkLogs(log));
         StartCoroutine(ModifyingTimeLineUpdate());
@@ -1045,6 +1050,8 @@ public class LogCanvasHandler : MonoBehaviour
         string timestamp = log.timestamp.Split(' ')[0] + " " +
                            ( currentFirstHour + index ) + ":00:00";
         log.timestamp = timestamp;
+        if (log.auto == 0) log.auto = 2;
+        else if (log.auto == 1) log.auto = 3;
         DataHandler.User_isPeeDataUpdated = false;
         StartCoroutine(DataHandler.UpdatePeeLogs(log));
         StartCoroutine(ModifyingTimeLineUpdate());
@@ -1063,6 +1070,8 @@ public class LogCanvasHandler : MonoBehaviour
         string timestamp = log.timestamp.Split(' ')[0] + " " +
                            ( currentFirstHour + index ) + ":00:00";
         log.timestamp = timestamp;
+        if (log.auto == 0) log.auto = 2;
+        else if (log.auto == 1) log.auto = 3;
         DataHandler.User_isPooDataUpdated = false;
         StartCoroutine(DataHandler.UpdatePoopLogs(log));
         StartCoroutine(ModifyingTimeLineUpdate());

@@ -13,11 +13,13 @@ public class FlowerPageMongMongHandler : MonoBehaviour
     public Text QuoteText;
 
     public string[] WaterQuotes;
+    public string[] Water2Quotes;
     public string[] PeeQuotes;
     public string[] PooQuotes;
     public string[] FlowerCheckQuotes;
 
     public AudioClip[] WaterVoices;
+    public AudioClip[] Water2Voices;
     public AudioClip[] PeeVoices;
     public AudioClip[] PooVoices;
     public AudioClip[] FlowerCheckVoices;
@@ -57,16 +59,23 @@ public class FlowerPageMongMongHandler : MonoBehaviour
         foreach (GameObject go in QuotesObjects)
             go.SetActive(true);
         InitMong();
-        if (waterCount != 10)
+        if (waterCount != 10) {
             ComplimentMongMong.SetActive(true);
-        else CongratulationMongMong[Random.Range(0, 2)].SetActive(true);
-       
-        int rand = Random.Range(0, WaterVoices.Length);
-        QuoteText.text = WaterQuotes[rand];
-        yield return new WaitForSeconds(0.2f);
-        SoundHandler.Instance.MongMongSource.Stop();
-        SoundHandler.Instance.MongMongSource2.Stop();
-        SoundHandler.Instance.MongMongSource.PlayOneShot(WaterVoices[rand]);
+            int rand = Random.Range(0, WaterVoices.Length);
+            QuoteText.text = WaterQuotes[rand];
+            yield return new WaitForSeconds(0.2f);
+            SoundHandler.Instance.MongMongSource.Stop();
+            SoundHandler.Instance.MongMongSource2.Stop();
+            SoundHandler.Instance.MongMongSource.PlayOneShot(WaterVoices[rand]);
+        } else {
+            CongratulationMongMong[Random.Range(0, 2)].SetActive(true);
+            int rand = Random.Range(0, Water2Voices.Length);
+            QuoteText.text = Water2Quotes[rand];
+            yield return new WaitForSeconds(0.2f);
+            SoundHandler.Instance.MongMongSource.Stop();
+            SoundHandler.Instance.MongMongSource2.Stop();
+            SoundHandler.Instance.MongMongSource.PlayOneShot(Water2Voices[rand]);
+        }
     }
 
     public IEnumerator PeeDrop2(int flowerCount) {

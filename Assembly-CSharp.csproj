@@ -118,9 +118,11 @@
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\Disconnecting.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\DrinkSelectIcon.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ExitAlertPageHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\GardenEvaluateUIHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\GeneralScanningUI.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ModifyDrinkLogHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ModifyPooLogHandler.cs" />
+    <Compile Include="Assets\Scripts\CanvasHandler\Popups\PasswordUIHandler.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\PooSelectIcon.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ScrollbarProgress.cs" />
     <Compile Include="Assets\Scripts\CanvasHandler\Popups\ScrollbarSound.cs" />

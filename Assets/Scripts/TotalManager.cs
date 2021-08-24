@@ -31,7 +31,7 @@ public class TotalManager : MonoBehaviour
     public enum CANVAS {
         NULL, NAVI_BAR, FOOTER_BAR,
         WELCOME, WELCOME2, WELCOME3, WELCOME4, WELCOME5,
-        HOME, LOG, FLOWER, TABLE, CALENDAR, BLIND_CON,
+        HOME, LOG, FLOWER, TABLE, CALENDAR, BLIND_CON, WELCOME6, WELCOME7,
     }
 
     void OnEnable() {

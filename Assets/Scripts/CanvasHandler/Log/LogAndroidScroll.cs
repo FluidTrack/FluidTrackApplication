@@ -20,7 +20,11 @@ public class LogAndroidScroll : MonoBehaviour
     public GameObject UI_SelectPooLog;
     public GameObject UI_DeletePeeLog;
     public GameObject UI_DeleteWaterLog;
-    //public GameObject UI_ScoreBoard;
+    public GameObject UI_PassError;
+    public GameObject UI_PassInput;
+    public GameObject UI_GardenCheck;
+    public GameObject UI_EvaluateGardenLog;
+    public GameObject UI_ThanksUI;
     public GameObject UI_SendingServer;
     public GameObject UI_ExitMongMong;
     public GameObject UI_LogMongMong;
@@ -37,7 +41,8 @@ public class LogAndroidScroll : MonoBehaviour
     void Update()
     {
         //To check if the right canvas are on
-        if (!TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf &&
+        if (Input.touchCount == 1 &&
+            !TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.FLOWER].activeSelf &&
             TotalManager.instance.OtherCanvas[(int)TotalManager.CANVAS.LOG].activeSelf &&
             !UI_Setting.activeSelf &&
             !UI_Scanning.activeSelf &&
@@ -53,9 +58,13 @@ public class LogAndroidScroll : MonoBehaviour
             !UI_ExitMongMong.activeSelf &&
             !UI_LogMongMong.activeSelf &&
             !UI_ErrorLog.activeSelf &&
+            !UI_PassError.activeSelf &&
+            !UI_PassInput.activeSelf &&
+            !UI_GardenCheck.activeSelf &&
+            !UI_EvaluateGardenLog.activeSelf &&
+            !UI_ThanksUI.activeSelf &&
             !UI_DeletePeeLog.activeSelf &&
-            !UI_DeleteWaterLog.activeSelf &&
-            Input.touchCount == 1) {
+            !UI_DeleteWaterLog.activeSelf) {
             //Threshold 5
             if (Input.GetTouch(0).deltaPosition.x < -5)
             {
