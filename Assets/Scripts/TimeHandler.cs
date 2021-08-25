@@ -118,12 +118,12 @@ public class TimeHandler : MonoBehaviour {
         }
 
         override public string ToString() {
-            return Years + "-" + Months + "-" + Days + " " +
-                    Hours + ":" + Minutes + ":" + Seconds;
+            return Years + "-" + (Months/10) + (Months%10) + "-" + (Days/10) + (Days%10) + " " +
+                    (Hours/10) + (Hours%10) + ":" + (Minutes/10) + (Minutes%10) + ":" + (Seconds/10) + ( Seconds % 10 );
         }
 
         public string ToDateString() {
-            return Years + "-" + Months + "-" + Days;
+            return Years + "-" + ( Months / 10 ) + ( Months % 10 ) + "-" + ( Days / 10 ) + ( Days % 10 );
         }
 
         public static int CmpDateTimeStamp(DateTimeStamp a, DateTimeStamp b) {

@@ -17,7 +17,7 @@ public class CalendarPageMongMongHandler : MonoBehaviour
         Objects[1].SetActive(false);
         Objects[Random.Range(0, Objects.Length)].SetActive(true);
         int rand = Random.Range(0, Voices.Length);
-        SoundHandler.Instance.MongMongSource.PlayOneShot(Voices[rand]);
+        SoundHandler.Instance.MongMongSource2.PlayOneShot(Voices[rand]);
         MongMongQuote.text = Quotes[rand];
     }
 }
