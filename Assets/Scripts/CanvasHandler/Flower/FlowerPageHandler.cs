@@ -23,6 +23,10 @@ public class FlowerPageHandler : MonoBehaviour
     public Button WateringAllButton;
 
     private int iconCount = 0;
+    private int FlowerCount = 0;
+    private int waterIconCount = 0;
+    private int peeIconCount = 0;
+    private int pooIconCount = 0;
 
     public string DateString;
     public static DataHandler.GardenLog TargetGardenLog;
@@ -49,7 +53,7 @@ public class FlowerPageHandler : MonoBehaviour
         }
         WaterIcons.Clear();
         WateringAllButton.interactable = false;
-
+        wateringAllButtonClicked = true;
         EffectSpawnZone.gameObject.SetActive(false);
     }
 
@@ -109,10 +113,10 @@ public class FlowerPageHandler : MonoBehaviour
 
         SpotHandler.InitSpot(TargetGardenLog);
         int rawWaterIcon = TargetGardenLog.log_water >= 10 ? 10 : TargetGardenLog.log_water;
-
-        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower >= 10 ) ? 10 - TargetGardenLog.flower : rawWaterIcon;
-        int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
-        int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
+        FlowerCount = TargetGardenLog.flower;
+        waterIconCount = ( rawWaterIcon + TargetGardenLog.flower >= 10 ) ? 10 - TargetGardenLog.flower : rawWaterIcon;
+        peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
+        pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
         WateringAllButton.interactable = waterIconCount > 0;
         WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
@@ -142,14 +146,16 @@ public class FlowerPageHandler : MonoBehaviour
         }
     }
 
-    public void BackButtonClicked() {
-        if (!isTouchAble) return;
-        if (iconCount == 0) BackButtonRealActive();
-        else {
-            AlertWindow.SetActive(true);
-            SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
-        }
+public void BackButtonClicked() {
+    if (!isTouchAble) return;
+    if (iconCount == 0 || 
+        ( waterIconCount == 0 && FlowerCount == 0 && (pooIconCount + peeIconCount > 0) ) ) 
+        BackButtonRealActive();
+    else {
+        AlertWindow.SetActive(true);
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.ERROR);
     }
+}
 
     public void BackButtonRealActive() {
         LogCanvasHandler.Instance.Fetching();
@@ -172,8 +178,11 @@ public class FlowerPageHandler : MonoBehaviour
         iconCount--;
     }
 
+    private bool wateringAllButtonClicked = false;
+
     public void Watering_all() {
         WateringAllButton.interactable = false;
+        wateringAllButtonClicked = true;
         StartCoroutine(Watering_all_Routine());
     }
 
@@ -198,6 +207,7 @@ public class FlowerPageHandler : MonoBehaviour
             iconCount--;
             yield return new WaitForSeconds(( ( 1.9f ) / (float)Scale ));
         }
+        wateringAllButtonClicked = false;
         MongMong.WaterDrop(TargetGardenLog.flower);
     }
 
@@ -283,11 +293,13 @@ public class FlowerPageHandler : MonoBehaviour
 
         WaterIcons.Clear();
         int rawWaterIcon = TargetGardenLog.log_water >= 10 ? 10 : TargetGardenLog.log_water;
-        int waterIconCount = ( rawWaterIcon + TargetGardenLog.flower >= 10 ) ? 10 - TargetGardenLog.flower : rawWaterIcon;
-        int peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
-        int pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
+        FlowerCount = TargetGardenLog.flower;
+        waterIconCount = ( rawWaterIcon + TargetGardenLog.flower >= 10 ) ? 10 - TargetGardenLog.flower : rawWaterIcon;
+        peeIconCount = ( TargetGardenLog.item_0 == 0 && TargetGardenLog.log_pee > 0 ) ? 1 : 0;
+        pooIconCount = ( TargetGardenLog.item_1 == 0 && TargetGardenLog.log_poop > 0 ) ? 1 : 0;
         int totalIconCount = waterIconCount + peeIconCount + pooIconCount;
-        WateringAllButton.interactable = waterIconCount > 0;
+        if(!wateringAllButtonClicked)
+            WateringAllButton.interactable = waterIconCount > 0;
         WaterSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(( totalIconCount * 90f ) + ( totalIconCount - 1 ) * 40, 131f);
 
         int k = 0;

@@ -59,7 +59,7 @@ public class BluetoothManager : MonoBehaviour {
 
 		}, (error) => {
 			//AlertHandler.GetInstance().Pop_Error("BT Init실패");
-			BluetoothLEHardwareInterface.Log("Error: " + error);
+			//BluetoothLEHardwareInterface.Log("Error: " + error);
 			SetState(States.Scan, 0f);
             if(Welcome5Handler.GetInstance() != null &&
                 Welcome5Handler.GetInstance().gameObject.activeSelf)

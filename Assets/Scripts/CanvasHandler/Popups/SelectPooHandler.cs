@@ -176,7 +176,8 @@ public class SelectPooHandler : MonoBehaviour
             StartCoroutine(WaitDelete());
 
             DataHandler.GardenLog TargetGardenLog = LogCanvasHandler.Instance.TargetGardenLog;
-            if (TargetGardenLog.log_poop > 0) TargetGardenLog.log_poop =- realClickedIconIndex.Count;
+            if (TargetGardenLog.log_poop > 0) TargetGardenLog.log_poop -= realClickedIconIndex.Count;
+            if (TargetGardenLog.log_poop < 0) TargetGardenLog.log_poop = 0;
             if (TargetGardenLog.log_poop == 0) TargetGardenLog.item_1 = 0;
             StartCoroutine(DataHandler.UpdateGardenLogs(TargetGardenLog));
             StartCoroutine(WaitDelete2());
@@ -210,6 +211,7 @@ public class SelectPooHandler : MonoBehaviour
 
     public void CancelButtonClick() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
+        LogCanvasHandler.Instance.ResetButtonImage();
         this.gameObject.SetActive(false);
     }
 

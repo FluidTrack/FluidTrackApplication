@@ -205,6 +205,7 @@ public class SelectDrinkHandler : MonoBehaviour
 
     public void CancelButtonClick() {
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
+        LogCanvasHandler.Instance.ResetButtonImage();
         this.gameObject.SetActive(false);
     }
 

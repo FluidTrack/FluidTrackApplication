@@ -20,7 +20,6 @@ public class ExitAlertPageHandler : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #else
             UnityEngine.Application.Quit();
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
 #endif
     }
 

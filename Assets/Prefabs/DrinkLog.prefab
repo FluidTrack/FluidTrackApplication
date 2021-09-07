@@ -168,3 +168,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTop: 0
   Number: {fileID: 364899286166507833}
+  PressThreshold: 45
+  ClickThreshold: 5

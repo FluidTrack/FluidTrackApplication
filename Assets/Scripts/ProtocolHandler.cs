@@ -220,6 +220,7 @@ public class ProtocolHandler : MonoBehaviour {
             //==============================================================================
             // History
             //==============================================================================
+            string stamp = GetCurrentTimeStamp();
             if (!TotalManager.instance.isRegisterMode) {
                 int Length = 0;
                 if ((int)bytes[1] == 15) Length = 3;
@@ -428,16 +429,16 @@ public class ProtocolHandler : MonoBehaviour {
         return bytes;
     }
 
-    public string GetCurrentTimeStamp() {
-        DateTime now = DateTime.Now;
-        string result = now.Year + "-";
-        result += ( now.Month ) + "-";
-        result += now.Day + " ";
-        result += now.Hour + ":";
-        result += now.Minute + ":";
-        result += now.Second + "";
-        return result;
-    }
+public string GetCurrentTimeStamp() {
+    DateTime now = DateTime.Now;
+    string result = now.Year + "-";
+    result += "" + ( now.Month / 10 ) + ( now.Month % 10 ) + "-";
+    result += "" + ( now.Day / 10 ) + ( now.Day % 10 ) + " ";
+    result += "" + ( now.Hour / 10 ) + ( now.Hour % 10) + ":";
+    result += "" + ( now.Minute / 10 ) + ( now.Minute % 10 ) + ":";
+    result += "" + ( now.Second / 10 ) + ( now.Second % 10 ) + "";
+    return result;
+}
 
     public string MakeTimeStamp(byte day, byte hour, byte min, byte sec) {
         int day_int = ( day / 16 ) * 10 + day % 16;
@@ -479,7 +480,8 @@ public class ProtocolHandler : MonoBehaviour {
     }
 
     public string MakeTimeStamp(int year, int month, int day, int hour, int min, int sec) {
-        return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+        return year + "-" + (month/10) + (month%10) + "-" + (day/10) + (day%10) + " " + 
+               (hour/10) + (hour%10) + ":" + (min/10) + (min%10) + ":" + (sec/10) + (sec%10);
     }
 
     static public byte[] GetHistory() {

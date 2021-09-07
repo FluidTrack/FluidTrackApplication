@@ -28,7 +28,6 @@ public class LogBlocker : MonoBehaviour
     private Vector2 PeeShieldOrigin;
 
     private bool isPressLog = false;
-
     public void OnSideClick() {
         if (isPressLog) {
             SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
@@ -49,11 +48,14 @@ public class LogBlocker : MonoBehaviour
             log.DrinkButtonClicked = false;
             log.PooButtonClicked = false;
             log.PeeButtonClicked = false;
-
             log.UpShield.SetActive(false);
             log.DownShield.SetActive(false);
 
         }
+        LogCanvasHandler.Instance.PressLogType = LogCanvasHandler.LOG_TYPE.NONE;
+        if (LogCanvasHandler.Instance != null &&
+            LogCanvasHandler.Instance.gameObject.activeSelf)
+            LogCanvasHandler.Instance.ResetButtonImage();
         BlockOff();
     }
 
@@ -112,6 +114,7 @@ public class LogBlocker : MonoBehaviour
         DownLeft.sizeDelta = new Vector2(0, 280f);
         DownRight.sizeDelta = new Vector2(0, 280f);
 
+        isPressLog = false;
 
         UpLeft.gameObject.SetActive(false);
         UpRight.gameObject.SetActive(false);
@@ -160,12 +163,17 @@ public class LogBlocker : MonoBehaviour
     }
 
     public void BlockOnDetailUp(int index, bool isControlable, bool isModifyable) {
+        BlockOnDetailUp(index, isControlable, isModifyable, true);
+    }
+
+    public void BlockOnDetailUp(int index, bool isControlable, bool isModifyable, bool isRemovable) {
         foreach (GameObject go in Borders)
             go.SetActive(true);
         if (!isControlable)
             for (int i = 4; i < 7; i++)
                 Borders[i].SetActive(false);
-        DeleteButton.SetActive(!isControlable);
+        if(isRemovable)
+            DeleteButton.SetActive(!isControlable);
         ModifyeButton.SetActive(isModifyable);
         isPressLog = !isControlable;
 
@@ -184,12 +192,17 @@ public class LogBlocker : MonoBehaviour
     }
 
     public void BlockOnDetailDown(int index, bool isControlable, bool isModifyable) {
+        BlockOnDetailDown(index, isControlable, isModifyable, true);
+    }
+
+    public void BlockOnDetailDown(int index, bool isControlable, bool isModifyable, bool isRemovable) {
         foreach (GameObject go in Borders)
             go.SetActive(true);
         if (!isControlable)
             for (int i = 4; i < 7; i++)
                 Borders[i].SetActive(false);
-        DeleteButton.SetActive(!isControlable);
+        if(isRemovable)
+            DeleteButton.SetActive(!isControlable);
         ModifyeButton.SetActive(isModifyable);
         isPressLog = !isControlable;
 
@@ -233,6 +246,7 @@ public class LogBlocker : MonoBehaviour
     }
 
     public void BlockOnDetailWater(int index) {
+        if (isPressLog) return;
         BlockOnDetailUp(index, false, true);
         RectTransform targetTransform = Up_WaterShield;
         targetTransform.gameObject.SetActive(true);
@@ -251,6 +265,7 @@ public class LogBlocker : MonoBehaviour
     }
 
     public void BlockOnDetailPee(int index) {
+        if (isPressLog) return;
         BlockOnDetailDown(index, false, true);
         RectTransform targetTransform = Down_PeeShield;
         targetTransform.gameObject.SetActive(true);
@@ -269,6 +284,7 @@ public class LogBlocker : MonoBehaviour
     }
 
     public void BlockOnDetailPoo(int index) {
+        if (isPressLog) return;
         BlockOnDetailDown(index, false, true);
         RectTransform targetTransform = Down_PooShield;
         targetTransform.gameObject.SetActive(true);
@@ -287,6 +303,7 @@ public class LogBlocker : MonoBehaviour
     }
 
     public void BlockOnDetailDrink(int index) {
+        if (isPressLog) return;
         BlockOnDetailUp(index, false, true);
         RectTransform targetTransform = Up_DrinkShield;
         targetTransform.gameObject.SetActive(true);
@@ -303,5 +320,85 @@ public class LogBlocker : MonoBehaviour
             new Vector2(ButtonOffset.x - 87.5f, ButtonOffset.y);
         ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
             new Vector2(ButtonOffset.x + 87.5f, ButtonOffset.y);
+    }
+
+    public void BlockOnDetailDrink2(int index) {
+        if (isPressLog) return;
+        BlockOnDetailUp(index, false, true, false);
+
+        RectTransform targetTransform = Up_DrinkShield;
+        targetTransform.gameObject.SetActive(true);
+        targetTransform.anchoredPosition =
+            new Vector2(DrinkShieldOrigin.x + ( 130f * index ),
+                        DrinkShieldOrigin.y);
+
+        Vector2 ButtonOffset = new Vector2(
+            targetTransform.anchoredPosition.x + targetTransform.sizeDelta.x / 2,
+            targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
+        );
+        
+        ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x, ButtonOffset.y);
+        LogCanvasHandler.Instance.ModifyLog();
+    }
+
+    public void BlockOnDetailWater2(int index) {
+        if (isPressLog) return;
+        BlockOnDetailUp(index, false, true, false);
+
+        RectTransform targetTransform = Up_WaterShield;
+        targetTransform.gameObject.SetActive(true);
+        targetTransform.anchoredPosition =
+            new Vector2(WaterShieldOrigin.x + ( 130f * index ),
+                        WaterShieldOrigin.y);
+
+        Vector2 ButtonOffset = new Vector2(
+            targetTransform.anchoredPosition.x + targetTransform.sizeDelta.x / 2,
+            targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
+        );
+
+        ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x, ButtonOffset.y);
+        LogCanvasHandler.Instance.ModifyLog();
+    }
+
+    public void BlockOnDetailPoo2(int index) {
+        if (isPressLog) return;
+        BlockOnDetailDown(index, false, true, false);
+
+        RectTransform targetTransform = Down_PooShield;
+        targetTransform.gameObject.SetActive(true);
+        targetTransform.anchoredPosition =
+            new Vector2(PooShieldOrigin.x + ( 130f * index ),
+                        PooShieldOrigin.y);
+
+        Vector2 ButtonOffset = new Vector2(
+            targetTransform.anchoredPosition.x + targetTransform.sizeDelta.x / 2,
+            targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
+        );
+
+        ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x, ButtonOffset.y);
+        LogCanvasHandler.Instance.ModifyLog();
+    }
+
+    public void BlockOnDetailPee2(int index) {
+        if (isPressLog) return;
+        BlockOnDetailDown(index, false, true, false);
+
+        RectTransform targetTransform = Down_PeeShield;
+        targetTransform.gameObject.SetActive(true);
+        targetTransform.anchoredPosition =
+            new Vector2(PeeShieldOrigin.x + ( 130f * index ),
+                        PeeShieldOrigin.y);
+
+        Vector2 ButtonOffset = new Vector2(
+            targetTransform.anchoredPosition.x + targetTransform.sizeDelta.x / 2,
+            targetTransform.anchoredPosition.y - targetTransform.sizeDelta.y / 2
+        );
+
+        ModifyeButton.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(ButtonOffset.x, ButtonOffset.y);
+        LogCanvasHandler.Instance.ModifyLog();
     }
 }

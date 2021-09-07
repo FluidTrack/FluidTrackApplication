@@ -40,7 +40,9 @@ public class ModifyDrinkLogHandler : MonoBehaviour
     public void OnEnable() {
         OkayButton.interactable = false;
         if(Target != null) {
-            Scroll.value = ((float)1f/(float)7f) * ( ( Target.volume ) / 50 );
+            if (Target.volume != 300)
+                Scroll.value = ( (float)1f / (float)6f ) * ( ( Target.volume ) / 50 );
+            else Scroll.value = 1;
             Label.text = Target.volume + " ml";
             TimeHandler.DateTimeStamp targetTime = new TimeHandler.DateTimeStamp(Target.timestamp);
             LogCanvasHandler.Instance.InitDrinkModify(Target.type,targetTime.Hours);

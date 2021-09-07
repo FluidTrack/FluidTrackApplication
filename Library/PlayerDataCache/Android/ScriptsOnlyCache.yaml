@@ -101,10 +101,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -873,7 +871,7 @@ ScriptsOnlyBuild:
     className: UI_ScrollRectOcclusion
   - hash:
       serializedVersion: 2
-      Hash: 550f2732c4f6aa1c5fe8cf4f2bba8c22
+      Hash: d5dd32d4c9c362d83a1e7853cac18e92
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogCanvasHandler
@@ -1269,7 +1267,7 @@ ScriptsOnlyBuild:
     className: ScrollSnap
   - hash:
       serializedVersion: 2
-      Hash: c9e10637c99d27e6bf6884c5006170b8
+      Hash: 447291216c8aa7087a7877e3a402bc78
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LogSpriteHandler
@@ -1965,7 +1963,7 @@ ScriptsOnlyBuild:
     className: VRCursor
   - hash:
       serializedVersion: 2
-      Hash: 160c6d71870c1bfa83daed645985dcfc
+      Hash: 9cff9a626ac044a4b254dbd14379a3c6
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: OpeningHandler
@@ -2164,4 +2162,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/MainScene.unity
-  playerPath: C:/Users/movie/Desktop/moa_garden_1.0.10.apk
+  playerPath: C:/Users/movie/Desktop/moa_garden_1.0.17.apk

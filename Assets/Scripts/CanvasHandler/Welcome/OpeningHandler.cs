@@ -7,16 +7,21 @@ using UnityEngine.UI;
 
 public class OpeningHandler : MonoBehaviour
 {
+    public string Version;
+    public Text VersionText;
     public RectTransform ProgressBar;
     public Text ProgressLog;
     public Animator NetworkError;
+    public Animator VersionError;
+    public Button PassButton;
+    public Button UpdateButton;
 
     void Start() {
+        VersionText.text = "MOA_GARDEN " + Version + " V";
         ProgressLog.text = "어플리케이션 초기화 중";
         BluetoothLEHardwareInterface.Initialize(true, false, () => {
             BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) => {}, null);
         }, (error) => {
-            Debug.LogError("BLE Error : " + error);
             BluetoothLEHardwareInterface.Log("BLE Error: " + error);
         });
         ProgressBar.sizeDelta = new Vector2(230f * 0.2f,24f);
@@ -32,20 +37,54 @@ public class OpeningHandler : MonoBehaviour
         ProgressBar.sizeDelta = new Vector2(230f * 0.4f, 24f);
         UnityWebRequest request = new UnityWebRequest();
 
-        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + "read_users")) {
+        using (request = UnityWebRequest.Get(DataHandler.ServerAddress + "version")) {
             yield return request.SendWebRequest();
 
             if (request.isNetworkError) {
                 yield return new WaitForSeconds(2f);
                 NetworkError.SetTrigger("active");
             } else {
-                //Debug.Log(request.downloadHandler.text);
-                yield return new WaitForSeconds(0.9f);
-                ProgressLog.text = "이전 데이터 확인 중";
-                ProgressBar.sizeDelta = new Vector2(230f * 0.7f, 24f);
-                StartCoroutine(CheckUser());
+                Debug.Log(request.downloadHandler.text.Trim());
+                Debug.Log(Version);
+                Debug.Log(Version != request.downloadHandler.text.Trim());
+                if (Version != request.downloadHandler.text.Trim()) {
+                    yield return new WaitForSeconds(0.9f);
+                    ProgressLog.text = "업데이트 확인 중";
+                    VersionError.SetTrigger("active");
+                } else {
+                    yield return new WaitForSeconds(0.9f);
+                    ProgressLog.text = "이전 데이터 확인 중";
+                    ProgressBar.sizeDelta = new Vector2(230f * 0.7f, 24f);
+                    StartCoroutine(CheckUser());
+                }
+
             }
         }
+    }
+
+    public void PassButtonClick() {
+        VersionError.SetTrigger("inactive");
+        PassButton.interactable = false;
+        StartCoroutine(PassButtonClick2());
+    }
+
+    public void UpdateButtonClick() {
+        UpdateButton.interactable = false;
+        StartCoroutine(UpdateButtonClick2());
+    }
+
+    public IEnumerator PassButtonClick2() {
+        yield return new WaitForSeconds(0.9f);
+        PassButton.interactable = true;
+        ProgressLog.text = "이전 데이터 확인 중";
+        ProgressBar.sizeDelta = new Vector2(230f * 0.7f, 24f);
+        StartCoroutine(CheckUser());
+    }
+
+    public IEnumerator UpdateButtonClick2() {
+        yield return new WaitForSeconds(0.4f);
+        UpdateButton.interactable = true;
+        Application.OpenURL("https://github.com/FluidTrack/MOA_garden/releases");
     }
 
     public void QuitApplication() {

@@ -108,6 +108,16 @@ public class LogCanvasHandler : MonoBehaviour
     private int lastLogIndex = -1;
     private LOG_TYPE lastLogType = LOG_TYPE.NONE;
     private bool makeMeal = false;
+
+    public Sprite ButtonSpirte_Water;
+    public Sprite ButtonSpirte_Drink;
+    public Sprite ButtonSpirte_Poo;
+    public Sprite ButtonSpirte_Pee;
+    public Sprite ButtonSpirte_Water_Cancel;
+    public Sprite ButtonSpirte_Drink_Cancel;
+    public Sprite ButtonSpirte_Poo_Cancel;
+    public Sprite ButtonSpirte_Pee_Cancel;
+
     public class Log {
         public TimeHandler.DateTimeStamp Time;
         public int LogId;
@@ -614,19 +624,20 @@ public class LogCanvasHandler : MonoBehaviour
             DrinkButton2.interactable = false;
             PeeButton2.interactable = false;
             PooButton2.interactable = false;
+            WaterButton.GetComponent<Image>().sprite = ButtonSpirte_Water_Cancel;
+            DrinkButton.GetComponent<Image>().sprite = ButtonSpirte_Drink;
+            PeeButton.GetComponent<Image>().sprite = ButtonSpirte_Pee;
+            PooButton.GetComponent<Image>().sprite = ButtonSpirte_Poo;
+            WaterButton2.GetComponent<Image>().sprite = ButtonSpirte_Water_Cancel;
+            DrinkButton2.GetComponent<Image>().sprite = ButtonSpirte_Drink;
+            PeeButton2.GetComponent<Image>().sprite = ButtonSpirte_Pee;
+            PooButton2.GetComponent<Image>().sprite = ButtonSpirte_Poo;
             WaterButtonClicked = true;
             UpShield.SetActive(true);
             LogBlocker.Instance.BlockOn(true);
         } else {
-            DrinkButton.GetComponent<Button>().enabled = true;
-            PeeButton.GetComponent<Button>().enabled = true;
-            PooButton.GetComponent<Button>().enabled = true;
-            DrinkButton2.interactable = true;
-            PeeButton2.interactable = true;
-            PooButton2.interactable = true;
+            ResetButtonImage();
             WaterButtonClicked = false;
-            UpShield.SetActive(false);
-            LogBlocker.Instance.BlockOff();
         }
     }
 
@@ -635,6 +646,14 @@ public class LogCanvasHandler : MonoBehaviour
             WaterButton.GetComponent<Button>().enabled = false;
             PeeButton.GetComponent<Button>().enabled = false;
             PooButton.GetComponent<Button>().enabled = false;
+            WaterButton.GetComponent<Image>().sprite = ButtonSpirte_Water;
+            DrinkButton.GetComponent<Image>().sprite = ButtonSpirte_Drink_Cancel;
+            PeeButton.GetComponent<Image>().sprite = ButtonSpirte_Pee;
+            PooButton.GetComponent<Image>().sprite = ButtonSpirte_Poo;
+            WaterButton2.GetComponent<Image>().sprite = ButtonSpirte_Water;
+            DrinkButton2.GetComponent<Image>().sprite = ButtonSpirte_Drink_Cancel;
+            PeeButton2.GetComponent<Image>().sprite = ButtonSpirte_Pee;
+            PooButton2.GetComponent<Image>().sprite = ButtonSpirte_Poo;
             WaterButton2.interactable = false;
             PeeButton2.interactable = false;
             PooButton2.interactable = false;
@@ -642,15 +661,8 @@ public class LogCanvasHandler : MonoBehaviour
             UpShield.SetActive(true);
             LogBlocker.Instance.BlockOn(true);
         } else {
-            WaterButton.GetComponent<Button>().enabled = true;
-            PeeButton.GetComponent<Button>().enabled = true;
-            PooButton.GetComponent<Button>().enabled = true;
-            WaterButton2.interactable = true;
-            PeeButton2.interactable = true;
-            PooButton2.interactable = true;
+            ResetButtonImage();
             DrinkButtonClicked = false;
-            UpShield.SetActive(false);
-            LogBlocker.Instance.BlockOff();
         }
     }
 
@@ -659,6 +671,14 @@ public class LogCanvasHandler : MonoBehaviour
             WaterButton.GetComponent<Button>().enabled = false;
             DrinkButton.GetComponent<Button>().enabled = false;
             PooButton.GetComponent<Button>().enabled = false;
+            WaterButton.GetComponent<Image>().sprite = ButtonSpirte_Water;
+            DrinkButton.GetComponent<Image>().sprite = ButtonSpirte_Drink;
+            PeeButton.GetComponent<Image>().sprite = ButtonSpirte_Pee_Cancel;
+            PooButton.GetComponent<Image>().sprite = ButtonSpirte_Poo;
+            WaterButton2.GetComponent<Image>().sprite = ButtonSpirte_Water;
+            DrinkButton2.GetComponent<Image>().sprite = ButtonSpirte_Drink;
+            PeeButton2.GetComponent<Image>().sprite = ButtonSpirte_Pee_Cancel;
+            PooButton2.GetComponent<Image>().sprite = ButtonSpirte_Poo;
             WaterButton2.interactable = false;
             DrinkButton2.interactable = false;
             PooButton2.interactable = false;
@@ -666,15 +686,8 @@ public class LogCanvasHandler : MonoBehaviour
             DownShield.SetActive(true);
             LogBlocker.Instance.BlockOn(false);
         } else {
-            WaterButton.GetComponent<Button>().enabled = true;
-            DrinkButton.GetComponent<Button>().enabled = true;
-            PooButton.GetComponent<Button>().enabled = true;
-            WaterButton2.interactable = true;
-            DrinkButton2.interactable = true;
-            PooButton2.interactable = true;
+            ResetButtonImage();
             PeeButtonClicked = false;
-            DownShield.SetActive(false);
-            LogBlocker.Instance.BlockOff();
         }
     }
 
@@ -683,6 +696,14 @@ public class LogCanvasHandler : MonoBehaviour
             WaterButton.GetComponent<Button>().enabled = false;
             DrinkButton.GetComponent<Button>().enabled = false;
             PeeButton.GetComponent<Button>().enabled = false;
+            WaterButton.GetComponent<Image>().sprite = ButtonSpirte_Water;
+            DrinkButton.GetComponent<Image>().sprite = ButtonSpirte_Drink;
+            PeeButton.GetComponent<Image>().sprite = ButtonSpirte_Pee;
+            PooButton.GetComponent<Image>().sprite = ButtonSpirte_Poo_Cancel;
+            WaterButton2.GetComponent<Image>().sprite = ButtonSpirte_Water;
+            DrinkButton2.GetComponent<Image>().sprite = ButtonSpirte_Drink;
+            PeeButton2.GetComponent<Image>().sprite = ButtonSpirte_Pee;
+            PooButton2.GetComponent<Image>().sprite = ButtonSpirte_Poo_Cancel;
             WaterButton2.interactable = false;
             DrinkButton2.interactable = false;
             PeeButton2.interactable = false;
@@ -690,15 +711,8 @@ public class LogCanvasHandler : MonoBehaviour
             DownShield.SetActive(true);
             LogBlocker.Instance.BlockOn(false);
         } else {
-            WaterButton.GetComponent<Button>().enabled = true;
-            DrinkButton.GetComponent<Button>().enabled = true;
-            PeeButton.GetComponent<Button>().enabled = true;
-            WaterButton2.interactable = true;
-            DrinkButton2.interactable = true;
-            PeeButton2.interactable = true;
+            ResetButtonImage();
             PooButtonClicked = false;
-            DownShield.SetActive(false);
-            LogBlocker.Instance.BlockOff();
         }
     }
 
@@ -716,19 +730,8 @@ public class LogCanvasHandler : MonoBehaviour
         LogBlocker.Instance.BlockOff();
         TimeLeftButton2.gameObject.SetActive(false);
         TimeRightButton2.gameObject.SetActive(false);
-        isModifying = false;
-        isModifyingWater = false;
-        isModifyingDrink = false;
-        isModifyingPoo = false;
-        isModifyingPee = false;
-        WaterButton.GetComponent<Button>().enabled = true;
-        PeeButton.GetComponent<Button>().enabled = true;
-        PooButton.GetComponent<Button>().enabled = true;
-        DrinkButton.GetComponent<Button>().enabled = true;
-        WaterButton2.interactable = true;
-        PeeButton2.interactable = true;
-        PooButton2.interactable = true;
-        DrinkButton2.interactable = true;
+        
+        ResetButtonImage();
     }
 
     public void TimeLineModifyInit(bool isUp) {
@@ -1438,6 +1441,10 @@ public class LogCanvasHandler : MonoBehaviour
         PeeCountText2.text = count_pee.ToString();
         PooCountText2.text = count_poo.ToString();
 
+        ResetButtonImage();
+    }
+
+    public void ResetButtonImage() {
         WaterButton.GetComponent<Button>().enabled = true;
         DrinkButton.GetComponent<Button>().enabled = true;
         PeeButton.GetComponent<Button>().enabled = true;
@@ -1446,10 +1453,23 @@ public class LogCanvasHandler : MonoBehaviour
         DrinkButton2.interactable = true;
         PeeButton2.interactable = true;
         PooButton2.interactable = true;
+        WaterButton.GetComponent<Image>().sprite = ButtonSpirte_Water;
+        DrinkButton.GetComponent<Image>().sprite = ButtonSpirte_Drink;
+        PeeButton.GetComponent<Image>().sprite = ButtonSpirte_Pee;
+        PooButton.GetComponent<Image>().sprite = ButtonSpirte_Poo;
+        WaterButton2.GetComponent<Image>().sprite = ButtonSpirte_Water;
+        DrinkButton2.GetComponent<Image>().sprite = ButtonSpirte_Drink;
+        PeeButton2.GetComponent<Image>().sprite = ButtonSpirte_Pee;
+        PooButton2.GetComponent<Image>().sprite = ButtonSpirte_Poo;
         WaterButtonClicked = false;
         DrinkButtonClicked = false;
         PeeButtonClicked = false;
         PooButtonClicked = false;
+        isModifying = false;
+        isModifyingWater = false;
+        isModifyingDrink = false;
+        isModifyingPoo = false;
+        isModifyingPee = false;
         DownShield.SetActive(false);
         UpShield.SetActive(false);
         LogBlocker.Instance.BlockOff();
@@ -1572,21 +1592,7 @@ public class LogCanvasHandler : MonoBehaviour
         PeeCountText2.text = count_pee.ToString();
         PooCountText2.text = count_poo.ToString();
 
-        WaterButton.GetComponent<Button>().enabled = true;
-        DrinkButton.GetComponent<Button>().enabled = true;
-        PeeButton.GetComponent<Button>().enabled = true;
-        PooButton.GetComponent<Button>().enabled = true;
-        WaterButton2.interactable = true;
-        DrinkButton2.interactable = true;
-        PeeButton2.interactable = true;
-        PooButton2.interactable = true;
-        WaterButtonClicked = false;
-        DrinkButtonClicked = false;
-        PeeButtonClicked = false;
-        PooButtonClicked = false;
-        DownShield.SetActive(false);
-        UpShield.SetActive(false);
-        LogBlocker.Instance.BlockOff();
+        ResetButtonImage();
     }
 
     public List<int> autoLogId;
@@ -1785,20 +1791,8 @@ public class LogCanvasHandler : MonoBehaviour
     }
 
     public void DrinkModifyWidowClose() {
-        isModifying = false;
-        isModifyingWater = false;
-        isModifyingDrink = false;
-        isModifyingPoo = false;
-        isModifyingPee = false;
-        WaterButton.GetComponent<Button>().enabled = true;
-        PeeButton.GetComponent<Button>().enabled = true;
-        PooButton.GetComponent<Button>().enabled = true;
-        DrinkButton.GetComponent<Button>().enabled = true;
-        WaterButton2.interactable = true;
-        PeeButton2.interactable = true;
-        PooButton2.interactable = true;
-        DrinkButton2.interactable = true;
         SoundHandler.Instance.Play_SFX(SoundHandler.SFX.BACK);
+        ResetButtonImage();
         DrinkModifyWindow.SetActive(false);
     }
 

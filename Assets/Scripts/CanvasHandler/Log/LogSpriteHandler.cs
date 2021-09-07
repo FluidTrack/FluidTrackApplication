@@ -9,6 +9,8 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private LogCanvasHandler handler;
     public bool isTop = false;
     public Text Number;
+    public int PressThreshold = 30;
+    public int ClickThreshold = 5;
 
     public class LogScript {
         public LOG LogType = LOG.WATER;
@@ -64,7 +66,7 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void Update() {
         if (isPress) {
             count++;
-            if(count >= 30) {
+            if(count >= PressThreshold) {
                 PressLog();
                 isPress = false;
                 count = 0;
@@ -78,8 +80,11 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerUp(PointerEventData eventData) {
         if (isPress) {
-            if (count >= 25)
+            if (count >= PressThreshold)
                 PressLog();
+            else if(count >= ClickThreshold) {
+                DeleteLog();
+            }
             isPress = false;
             count = 0;
         }
@@ -102,5 +107,25 @@ public class LogSpriteHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             case LOG.PEE: LogCanvasHandler.Instance.PressLogType = LogCanvasHandler.LOG_TYPE.PEE; break;
             case LOG.POO: LogCanvasHandler.Instance.PressLogType = LogCanvasHandler.LOG_TYPE.POOP; break;
         }
+    }
+
+    public void DeleteLog() {
+        int index = log.TimeStamp.Hours - LogCanvasHandler.Instance.currentFirstHour;
+        SoundHandler.Instance.Play_SFX(SoundHandler.SFX.POPED2);
+        //if (log.LogType == LOG.POO)
+        //    LogBlocker.Instance.BlockOnDetailPoo2(index);
+        //else if (log.LogType == LOG.PEE)
+        //    LogBlocker.Instance.BlockOnDetailPee2(index);
+        //else if (log.LogType == LOG.DRINK)
+        //    LogBlocker.Instance.BlockOnDetailDrink2(index);
+        //else LogBlocker.Instance.BlockOnDetailWater2(index);
+        LogCanvasHandler.Instance.PressLogIndex = index;
+        switch (log.LogType) {
+            case LOG.WATER: LogCanvasHandler.Instance.PressLogType = LogCanvasHandler.LOG_TYPE.WATER; break;
+            case LOG.DRINK: LogCanvasHandler.Instance.PressLogType = LogCanvasHandler.LOG_TYPE.DRINK; break;
+            case LOG.PEE: LogCanvasHandler.Instance.PressLogType = LogCanvasHandler.LOG_TYPE.PEE; break;
+            case LOG.POO: LogCanvasHandler.Instance.PressLogType = LogCanvasHandler.LOG_TYPE.POOP; break;
+        }
+        LogCanvasHandler.Instance.ModifyLog();
     }
 }
