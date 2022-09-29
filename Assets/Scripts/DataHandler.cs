@@ -6,7 +6,7 @@ using System.IO;
 
 public class DataHandler : MonoBehaviour
 {
-    internal static string ServerAddress = "http://fluidtrack.site/";
+    internal static string ServerAddress = "http://165.132.106.186:80/";
     internal static string tempText = "";
 
     internal static TimeHandler.DateTimeStamp lastJoin;
